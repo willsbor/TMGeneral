@@ -1,0 +1,539 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		AB4D7B251658B0F300B5A2C3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB4D7B241658B0F300B5A2C3 /* Foundation.framework */; };
+		AB4D7B2A1658B0F300B5A2C3 /* TMGeneral.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AB4D7B291658B0F300B5A2C3 /* TMGeneral.h */; };
+		AB4D7B2C1658B0F300B5A2C3 /* TMGeneral.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B2B1658B0F300B5A2C3 /* TMGeneral.m */; };
+		AB4D7B371658B13200B5A2C3 /* TMApiData.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B341658B13200B5A2C3 /* TMApiData.m */; };
+		AB4D7B381658B13200B5A2C3 /* TMImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B361658B13200B5A2C3 /* TMImageCache.m */; };
+		AB4D7B501658B3B700B5A2C3 /* TMAPIDownloadModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B3A1658B3B700B5A2C3 /* TMAPIDownloadModel.m */; };
+		AB4D7B511658B3B700B5A2C3 /* TMAPIModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B3C1658B3B700B5A2C3 /* TMAPIModel.m */; };
+		AB4D7B521658B3B700B5A2C3 /* TMAPIWebModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B3E1658B3B700B5A2C3 /* TMAPIWebModel.m */; };
+		AB4D7B531658B3B700B5A2C3 /* TMDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B401658B3B700B5A2C3 /* TMDataManager.m */; };
+		AB4D7B551658B3B700B5A2C3 /* TMGlobalModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B451658B3B700B5A2C3 /* TMGlobalModel.m */; };
+		AB4D7B561658B3B700B5A2C3 /* TMImageCacheControl.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B471658B3B700B5A2C3 /* TMImageCacheControl.m */; };
+		AB4D7B571658B3B700B5A2C3 /* TMKeyboardController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B491658B3B700B5A2C3 /* TMKeyboardController.m */; };
+		AB4D7B581658B3B700B5A2C3 /* TMTools.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B4B1658B3B700B5A2C3 /* TMTools.m */; };
+		AB4D7B591658B3B700B5A2C3 /* TMUITools.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B4D1658B3B700B5A2C3 /* TMUITools.m */; };
+		AB4D7B5A1658B3B700B5A2C3 /* TMViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B4F1658B3B700B5A2C3 /* TMViewController.m */; };
+		AB4D7B5E1658B5C700B5A2C3 /* TMGlobalModel.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AB4D7B441658B3B700B5A2C3 /* TMGlobalModel.h */; };
+		AB4D7B5F1658B5C700B5A2C3 /* TMKeyboardController.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AB4D7B481658B3B700B5A2C3 /* TMKeyboardController.h */; };
+		AB4D7B601658B5C700B5A2C3 /* TMTools.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AB4D7B4A1658B3B700B5A2C3 /* TMTools.h */; };
+		AB4D7B611658B5C700B5A2C3 /* TMUITools.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AB4D7B4C1658B3B700B5A2C3 /* TMUITools.h */; };
+		AB4D7B621658B5C700B5A2C3 /* TMAPIDownloadModel.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AB4D7B391658B3B700B5A2C3 /* TMAPIDownloadModel.h */; };
+		AB4D7B631658B5C700B5A2C3 /* TMAPIModel.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AB4D7B3B1658B3B700B5A2C3 /* TMAPIModel.h */; };
+		AB4D7B641658B5C700B5A2C3 /* TMAPIWebModel.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AB4D7B3D1658B3B700B5A2C3 /* TMAPIWebModel.h */; };
+		AB4D7B651658B5C700B5A2C3 /* TMDataManager.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AB4D7B3F1658B3B700B5A2C3 /* TMDataManager.h */; };
+		AB4D7B661658B5C700B5A2C3 /* TMImageCacheControl.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AB4D7B461658B3B700B5A2C3 /* TMImageCacheControl.h */; };
+		AB4D7B671658B5C700B5A2C3 /* TMViewController.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AB4D7B4E1658B3B700B5A2C3 /* TMViewController.h */; };
+		AB4D7B8A1658C8B700B5A2C3 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB4D7B891658C8B700B5A2C3 /* CoreFoundation.framework */; };
+		AB4D7B901658C8B700B5A2C3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AB4D7B8E1658C8B700B5A2C3 /* InfoPlist.strings */; };
+		AB4D7B961658C8C700B5A2C3 /* TMGeneralDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B421658B3B700B5A2C3 /* TMGeneralDataModel.xcdatamodeld */; };
+		DFEBE1BC33864832B06FE090 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E02939F10EC6492BB21EECC9 /* libPods.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		AB4D7B1F1658B0F300B5A2C3 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/${PRODUCT_NAME}";
+			dstSubfolderSpec = 16;
+			files = (
+				AB4D7B5E1658B5C700B5A2C3 /* TMGlobalModel.h in CopyFiles */,
+				AB4D7B5F1658B5C700B5A2C3 /* TMKeyboardController.h in CopyFiles */,
+				AB4D7B601658B5C700B5A2C3 /* TMTools.h in CopyFiles */,
+				AB4D7B611658B5C700B5A2C3 /* TMUITools.h in CopyFiles */,
+				AB4D7B621658B5C700B5A2C3 /* TMAPIDownloadModel.h in CopyFiles */,
+				AB4D7B631658B5C700B5A2C3 /* TMAPIModel.h in CopyFiles */,
+				AB4D7B641658B5C700B5A2C3 /* TMAPIWebModel.h in CopyFiles */,
+				AB4D7B651658B5C700B5A2C3 /* TMDataManager.h in CopyFiles */,
+				AB4D7B661658B5C700B5A2C3 /* TMImageCacheControl.h in CopyFiles */,
+				AB4D7B671658B5C700B5A2C3 /* TMViewController.h in CopyFiles */,
+				AB4D7B2A1658B0F300B5A2C3 /* TMGeneral.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		03C3F9113300433EA35678A0 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
+		AB4D7B211658B0F300B5A2C3 /* libTMGeneral.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libTMGeneral.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB4D7B241658B0F300B5A2C3 /* Foundation.framework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		AB4D7B281658B0F300B5A2C3 /* TMGeneral-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TMGeneral-Prefix.pch"; sourceTree = "<group>"; };
+		AB4D7B291658B0F300B5A2C3 /* TMGeneral.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TMGeneral.h; sourceTree = "<group>"; };
+		AB4D7B2B1658B0F300B5A2C3 /* TMGeneral.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TMGeneral.m; sourceTree = "<group>"; };
+		AB4D7B331658B13200B5A2C3 /* TMApiData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMApiData.h; sourceTree = "<group>"; };
+		AB4D7B341658B13200B5A2C3 /* TMApiData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMApiData.m; sourceTree = "<group>"; };
+		AB4D7B351658B13200B5A2C3 /* TMImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMImageCache.h; sourceTree = "<group>"; };
+		AB4D7B361658B13200B5A2C3 /* TMImageCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMImageCache.m; sourceTree = "<group>"; };
+		AB4D7B391658B3B700B5A2C3 /* TMAPIDownloadModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMAPIDownloadModel.h; sourceTree = "<group>"; };
+		AB4D7B3A1658B3B700B5A2C3 /* TMAPIDownloadModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMAPIDownloadModel.m; sourceTree = "<group>"; };
+		AB4D7B3B1658B3B700B5A2C3 /* TMAPIModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMAPIModel.h; sourceTree = "<group>"; };
+		AB4D7B3C1658B3B700B5A2C3 /* TMAPIModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMAPIModel.m; sourceTree = "<group>"; };
+		AB4D7B3D1658B3B700B5A2C3 /* TMAPIWebModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMAPIWebModel.h; sourceTree = "<group>"; };
+		AB4D7B3E1658B3B700B5A2C3 /* TMAPIWebModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMAPIWebModel.m; sourceTree = "<group>"; };
+		AB4D7B3F1658B3B700B5A2C3 /* TMDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMDataManager.h; sourceTree = "<group>"; };
+		AB4D7B401658B3B700B5A2C3 /* TMDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMDataManager.m; sourceTree = "<group>"; };
+		AB4D7B431658B3B700B5A2C3 /* TMGeneralDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TMGeneralDataModel.xcdatamodel; sourceTree = "<group>"; };
+		AB4D7B441658B3B700B5A2C3 /* TMGlobalModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMGlobalModel.h; sourceTree = "<group>"; };
+		AB4D7B451658B3B700B5A2C3 /* TMGlobalModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMGlobalModel.m; sourceTree = "<group>"; };
+		AB4D7B461658B3B700B5A2C3 /* TMImageCacheControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMImageCacheControl.h; sourceTree = "<group>"; };
+		AB4D7B471658B3B700B5A2C3 /* TMImageCacheControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMImageCacheControl.m; sourceTree = "<group>"; };
+		AB4D7B481658B3B700B5A2C3 /* TMKeyboardController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMKeyboardController.h; sourceTree = "<group>"; };
+		AB4D7B491658B3B700B5A2C3 /* TMKeyboardController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMKeyboardController.m; sourceTree = "<group>"; };
+		AB4D7B4A1658B3B700B5A2C3 /* TMTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMTools.h; sourceTree = "<group>"; };
+		AB4D7B4B1658B3B700B5A2C3 /* TMTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMTools.m; sourceTree = "<group>"; };
+		AB4D7B4C1658B3B700B5A2C3 /* TMUITools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMUITools.h; sourceTree = "<group>"; };
+		AB4D7B4D1658B3B700B5A2C3 /* TMUITools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMUITools.m; sourceTree = "<group>"; };
+		AB4D7B4E1658B3B700B5A2C3 /* TMViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMViewController.h; sourceTree = "<group>"; };
+		AB4D7B4F1658B3B700B5A2C3 /* TMViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMViewController.m; sourceTree = "<group>"; };
+		AB4D7B881658C8B700B5A2C3 /* TMGeneralResource.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TMGeneralResource.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB4D7B891658C8B700B5A2C3 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		AB4D7B8D1658C8B700B5A2C3 /* TMGeneralResource-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TMGeneralResource-Info.plist"; sourceTree = "<group>"; };
+		AB4D7B8F1658C8B700B5A2C3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		AB4D7B911658C8B700B5A2C3 /* TMGeneralResource-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TMGeneralResource-Prefix.pch"; sourceTree = "<group>"; };
+		E02939F10EC6492BB21EECC9 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		AB4D7B1E1658B0F300B5A2C3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AB4D7B251658B0F300B5A2C3 /* Foundation.framework in Frameworks */,
+				DFEBE1BC33864832B06FE090 /* libPods.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AB4D7B851658C8B700B5A2C3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AB4D7B8A1658C8B700B5A2C3 /* CoreFoundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		AB4D7B161658B0F300B5A2C3 = {
+			isa = PBXGroup;
+			children = (
+				AB4D7B261658B0F300B5A2C3 /* TMGeneral */,
+				AB4D7B8B1658C8B700B5A2C3 /* TMGeneralResource */,
+				AB4D7B231658B0F300B5A2C3 /* Frameworks */,
+				AB4D7B221658B0F300B5A2C3 /* Products */,
+				03C3F9113300433EA35678A0 /* Pods.xcconfig */,
+			);
+			sourceTree = "<group>";
+		};
+		AB4D7B221658B0F300B5A2C3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AB4D7B211658B0F300B5A2C3 /* libTMGeneral.a */,
+				AB4D7B881658C8B700B5A2C3 /* TMGeneralResource.bundle */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AB4D7B231658B0F300B5A2C3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				AB4D7B241658B0F300B5A2C3 /* Foundation.framework */,
+				E02939F10EC6492BB21EECC9 /* libPods.a */,
+				AB4D7B891658C8B700B5A2C3 /* CoreFoundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		AB4D7B261658B0F300B5A2C3 /* TMGeneral */ = {
+			isa = PBXGroup;
+			children = (
+				AB4D7B5D1658B48C00B5A2C3 /* Global */,
+				AB4D7B5C1658B3E600B5A2C3 /* Tool */,
+				AB4D7B5B1658B3DE00B5A2C3 /* ApiModel */,
+				AB4D7B321658B13200B5A2C3 /* Model */,
+				AB4D7B291658B0F300B5A2C3 /* TMGeneral.h */,
+				AB4D7B2B1658B0F300B5A2C3 /* TMGeneral.m */,
+				AB4D7B3F1658B3B700B5A2C3 /* TMDataManager.h */,
+				AB4D7B401658B3B700B5A2C3 /* TMDataManager.m */,
+				AB4D7B421658B3B700B5A2C3 /* TMGeneralDataModel.xcdatamodeld */,
+				AB4D7B461658B3B700B5A2C3 /* TMImageCacheControl.h */,
+				AB4D7B471658B3B700B5A2C3 /* TMImageCacheControl.m */,
+				AB4D7B4E1658B3B700B5A2C3 /* TMViewController.h */,
+				AB4D7B4F1658B3B700B5A2C3 /* TMViewController.m */,
+				AB4D7B271658B0F300B5A2C3 /* Supporting Files */,
+			);
+			path = TMGeneral;
+			sourceTree = "<group>";
+		};
+		AB4D7B271658B0F300B5A2C3 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				AB4D7B281658B0F300B5A2C3 /* TMGeneral-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		AB4D7B321658B13200B5A2C3 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				AB4D7B331658B13200B5A2C3 /* TMApiData.h */,
+				AB4D7B341658B13200B5A2C3 /* TMApiData.m */,
+				AB4D7B351658B13200B5A2C3 /* TMImageCache.h */,
+				AB4D7B361658B13200B5A2C3 /* TMImageCache.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		AB4D7B5B1658B3DE00B5A2C3 /* ApiModel */ = {
+			isa = PBXGroup;
+			children = (
+				AB4D7B391658B3B700B5A2C3 /* TMAPIDownloadModel.h */,
+				AB4D7B3A1658B3B700B5A2C3 /* TMAPIDownloadModel.m */,
+				AB4D7B3B1658B3B700B5A2C3 /* TMAPIModel.h */,
+				AB4D7B3C1658B3B700B5A2C3 /* TMAPIModel.m */,
+				AB4D7B3D1658B3B700B5A2C3 /* TMAPIWebModel.h */,
+				AB4D7B3E1658B3B700B5A2C3 /* TMAPIWebModel.m */,
+			);
+			name = ApiModel;
+			sourceTree = "<group>";
+		};
+		AB4D7B5C1658B3E600B5A2C3 /* Tool */ = {
+			isa = PBXGroup;
+			children = (
+				AB4D7B481658B3B700B5A2C3 /* TMKeyboardController.h */,
+				AB4D7B491658B3B700B5A2C3 /* TMKeyboardController.m */,
+				AB4D7B4A1658B3B700B5A2C3 /* TMTools.h */,
+				AB4D7B4B1658B3B700B5A2C3 /* TMTools.m */,
+				AB4D7B4C1658B3B700B5A2C3 /* TMUITools.h */,
+				AB4D7B4D1658B3B700B5A2C3 /* TMUITools.m */,
+			);
+			name = Tool;
+			sourceTree = "<group>";
+		};
+		AB4D7B5D1658B48C00B5A2C3 /* Global */ = {
+			isa = PBXGroup;
+			children = (
+				AB4D7B441658B3B700B5A2C3 /* TMGlobalModel.h */,
+				AB4D7B451658B3B700B5A2C3 /* TMGlobalModel.m */,
+			);
+			name = Global;
+			sourceTree = "<group>";
+		};
+		AB4D7B8B1658C8B700B5A2C3 /* TMGeneralResource */ = {
+			isa = PBXGroup;
+			children = (
+				AB4D7B8C1658C8B700B5A2C3 /* Supporting Files */,
+			);
+			path = TMGeneralResource;
+			sourceTree = "<group>";
+		};
+		AB4D7B8C1658C8B700B5A2C3 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				AB4D7B8D1658C8B700B5A2C3 /* TMGeneralResource-Info.plist */,
+				AB4D7B8E1658C8B700B5A2C3 /* InfoPlist.strings */,
+				AB4D7B911658C8B700B5A2C3 /* TMGeneralResource-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		AB4D7B201658B0F300B5A2C3 /* TMGeneral */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AB4D7B2F1658B0F300B5A2C3 /* Build configuration list for PBXNativeTarget "TMGeneral" */;
+			buildPhases = (
+				AB4D7B1D1658B0F300B5A2C3 /* Sources */,
+				AB4D7B1E1658B0F300B5A2C3 /* Frameworks */,
+				AB4D7B1F1658B0F300B5A2C3 /* CopyFiles */,
+				A24C067BD78349BB935CD0E7 /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TMGeneral;
+			productName = TMGeneral;
+			productReference = AB4D7B211658B0F300B5A2C3 /* libTMGeneral.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		AB4D7B871658C8B700B5A2C3 /* TMGeneralResource */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AB4D7B941658C8B700B5A2C3 /* Build configuration list for PBXNativeTarget "TMGeneralResource" */;
+			buildPhases = (
+				AB4D7B841658C8B700B5A2C3 /* Sources */,
+				AB4D7B851658C8B700B5A2C3 /* Frameworks */,
+				AB4D7B861658C8B700B5A2C3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TMGeneralResource;
+			productName = TMGeneralResource;
+			productReference = AB4D7B881658C8B700B5A2C3 /* TMGeneralResource.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		AB4D7B181658B0F300B5A2C3 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0450;
+				ORGANIZATIONNAME = thinkermobile;
+			};
+			buildConfigurationList = AB4D7B1B1658B0F300B5A2C3 /* Build configuration list for PBXProject "TMGeneral" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = AB4D7B161658B0F300B5A2C3;
+			productRefGroup = AB4D7B221658B0F300B5A2C3 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				AB4D7B201658B0F300B5A2C3 /* TMGeneral */,
+				AB4D7B871658C8B700B5A2C3 /* TMGeneralResource */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		AB4D7B861658C8B700B5A2C3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AB4D7B901658C8B700B5A2C3 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		A24C067BD78349BB935CD0E7 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		AB4D7B1D1658B0F300B5A2C3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AB4D7B2C1658B0F300B5A2C3 /* TMGeneral.m in Sources */,
+				AB4D7B371658B13200B5A2C3 /* TMApiData.m in Sources */,
+				AB4D7B381658B13200B5A2C3 /* TMImageCache.m in Sources */,
+				AB4D7B501658B3B700B5A2C3 /* TMAPIDownloadModel.m in Sources */,
+				AB4D7B511658B3B700B5A2C3 /* TMAPIModel.m in Sources */,
+				AB4D7B521658B3B700B5A2C3 /* TMAPIWebModel.m in Sources */,
+				AB4D7B531658B3B700B5A2C3 /* TMDataManager.m in Sources */,
+				AB4D7B551658B3B700B5A2C3 /* TMGlobalModel.m in Sources */,
+				AB4D7B561658B3B700B5A2C3 /* TMImageCacheControl.m in Sources */,
+				AB4D7B571658B3B700B5A2C3 /* TMKeyboardController.m in Sources */,
+				AB4D7B581658B3B700B5A2C3 /* TMTools.m in Sources */,
+				AB4D7B591658B3B700B5A2C3 /* TMUITools.m in Sources */,
+				AB4D7B5A1658B3B700B5A2C3 /* TMViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AB4D7B841658C8B700B5A2C3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AB4D7B961658C8C700B5A2C3 /* TMGeneralDataModel.xcdatamodeld in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		AB4D7B8E1658C8B700B5A2C3 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AB4D7B8F1658C8B700B5A2C3 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		AB4D7B2D1658B0F300B5A2C3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		AB4D7B2E1658B0F300B5A2C3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		AB4D7B301658B0F300B5A2C3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 03C3F9113300433EA35678A0 /* Pods.xcconfig */;
+			buildSettings = {
+				DSTROOT = /tmp/TMGeneral.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "TMGeneral/TMGeneral-Prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		AB4D7B311658B0F300B5A2C3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 03C3F9113300433EA35678A0 /* Pods.xcconfig */;
+			buildSettings = {
+				DSTROOT = /tmp/TMGeneral.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "TMGeneral/TMGeneral-Prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		AB4D7B921658C8B700B5A2C3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "TMGeneralResource/TMGeneralResource-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "TMGeneralResource/TMGeneralResource-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		AB4D7B931658C8B700B5A2C3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "TMGeneralResource/TMGeneralResource-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "TMGeneralResource/TMGeneralResource-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		AB4D7B1B1658B0F300B5A2C3 /* Build configuration list for PBXProject "TMGeneral" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AB4D7B2D1658B0F300B5A2C3 /* Debug */,
+				AB4D7B2E1658B0F300B5A2C3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AB4D7B2F1658B0F300B5A2C3 /* Build configuration list for PBXNativeTarget "TMGeneral" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AB4D7B301658B0F300B5A2C3 /* Debug */,
+				AB4D7B311658B0F300B5A2C3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AB4D7B941658C8B700B5A2C3 /* Build configuration list for PBXNativeTarget "TMGeneralResource" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AB4D7B921658C8B700B5A2C3 /* Debug */,
+				AB4D7B931658C8B700B5A2C3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		AB4D7B421658B3B700B5A2C3 /* TMGeneralDataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				AB4D7B431658B3B700B5A2C3 /* TMGeneralDataModel.xcdatamodel */,
+			);
+			currentVersion = AB4D7B431658B3B700B5A2C3 /* TMGeneralDataModel.xcdatamodel */;
+			path = TMGeneralDataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = AB4D7B181658B0F300B5A2C3 /* Project object */;
+}

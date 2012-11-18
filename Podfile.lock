@@ -1,0 +1,17 @@
+
+COCOAPODS: 0.15.2
+
+SPEC CHECKSUMS: 
+  AFNetworking: df1042246c17373b96f12f04bf5c6e1c25992cd4
+  AFDownloadRequestOperation: 91065f9470dba47f582e225e82d50dd08965b427
+  JSONKit: a01a22c75f27eae76b4badd55a91c20fe6e86477
+
+DEPENDENCIES: 
+- AFDownloadRequestOperation (= 0.0.1)
+- AFNetworking (= 0.10.1)
+- JSONKit (~> 1.4)
+
+PODS: 
+- AFDownloadRequestOperation (0.0.1)
+- AFNetworking (0.10.1)
+- JSONKit (1.5pre)
