@@ -13,12 +13,13 @@ Pod::Spec.new do |s|
     LICENSE
   }
   s.author       = { "KangKang" => "kang@thinkermobile.com" }
-  s.source       = { :git => "https://willsborKang@bitbucket.org/willsborKang/tmgeneral.git", :tag => '0.0.2' }
+  s.source       = { :git => "git@bitbucket.org:thinkermobile/tmgeneral.git", :tag => '0.0.2' }
+  s.resources    = 'TMGeneral/TMGeneralDataModel.xcdatamodeld'
   s.platform     = :ios
   s.ios.deployment_target = '4.3'
   s.source_files = 'TMGeneral', 'TMGeneralResource', 'TMGeneral/model'
   s.framework  = 'CoreData'
   s.dependency 'JSONKit',       '1.4'
   s.dependency 'AFNetworking',  '0.10.1'
-  s.dependency 'AFDownloadRequestOperation',   '0.0.1'
+  s.dependency 'AFDownloadRequestOperation_kang',   '0.0.1'
 end
