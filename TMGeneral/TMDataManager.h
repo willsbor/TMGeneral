@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
+extern NSString * const DataManagerDidSaveFailedTag;
+
 extern NSString * const DataManagerDidSaveNotification;
 extern NSString * const DataManagerDidSaveFailedNotification;
 
@@ -21,7 +23,10 @@ extern NSString * const DataManagerDidSaveFailedNotification;
 
 + (void) setDefaultProjectModel:(NSString *)aProjectModel;
 + (TMDataManager *) defaultProjectDB;
-+ (TMDataManager *)sharedInstance;
++ (TMDataManager *) sharedInstance;
+
+- (void) errorHandlerTarget:(void (^)(TMDataManager *dataManager, NSString *errorTag, NSError *error)) errorBlock;
+
 - (BOOL)save;
 - (NSManagedObjectContext*)managedObjectContext;  ///< 先不要用這個
 
