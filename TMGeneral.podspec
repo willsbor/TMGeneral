@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "TMGeneral"
-  s.version      = "0.0.2"
+  s.version      = "0.0.3"
   s.summary      = "Thinker Mobile for Project General Tools."
   s.homepage     = "http://www.thinkermobile.com/"
   s.license      = {
@@ -13,7 +13,7 @@ Pod::Spec.new do |s|
     LICENSE
   }
   s.author       = { "KangKang" => "kang@thinkermobile.com" }
-  s.source       = { :git => "git@bitbucket.org:thinkermobile/tmgeneral.git", :tag => '0.0.2' }
+  s.source       = { :git => "git@bitbucket.org:thinkermobile/tmgeneral.git", :tag => '0.0.3' }
   s.resources    = 'TMGeneral/TMGeneralDataModel.xcdatamodeld'
   s.platform     = :ios
   s.ios.deployment_target = '4.3'
