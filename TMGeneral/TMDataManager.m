@@ -8,7 +8,7 @@
 
 #import "TMDataManager.h"
 
-typedef void (^TMDataManagerErrorBlock)(TMDataManager *dataManager, NSString *errorTag, NSError *error);
+typedef void (^TMDataManagerErrorBlock)(NSString *errorTag, NSError *error);
 
 NSString * const DataManagerDidSaveFailedTag = @"DataManagerDidSaveFailedTag";
 NSString * const DataManagerCreateDirectoryFailedTag = @"DataManagerCreateDirectoryFailedTag";
@@ -78,7 +78,7 @@ static NSString *g_defaultProjectName = nil;
 	return sharedInstance;
 }
 
-- (void) errorHandlerTarget:(void (^)(TMDataManager *dataManager, NSString *errorTag, NSError *error)) errorBlock
+- (void) errorHandlerTarget:(void (^)(NSString *errorTag, NSError *error)) errorBlock
 {
     [_errorBlock release];
     _errorBlock = [errorBlock retain];
@@ -165,7 +165,7 @@ static NSString *g_defaultProjectName = nil;
                                                          options:options
                                                            error:&error]) {
         if (_errorBlock) {
-            _errorBlock(self, DataManagerFatalErrorCreatePersistentStoreTag, error);
+            _errorBlock(DataManagerFatalErrorCreatePersistentStoreTag, error);
         }
         
 		NSLog(@"Fatal error while creating persistent store: %@", error);
@@ -203,7 +203,7 @@ static NSString *g_defaultProjectName = nil;
 		[[NSNotificationCenter defaultCenter] postNotificationName:DataManagerDidSaveFailedNotification
                                                             object:error];
         
-        if (_errorBlock) _errorBlock(self, DataManagerDidSaveFailedTag, error);
+        if (_errorBlock) _errorBlock(DataManagerDidSaveFailedTag, error);
 		return NO;
 	}
     
@@ -233,7 +233,7 @@ static NSString *g_defaultProjectName = nil;
                                  error:&error];
 		if (error) {
 			NSLog(@"Error creating directory path: %@", [error localizedDescription]);
-            if (_errorBlock) _errorBlock(self, DataManagerCreateDirectoryFailedTag, error);
+            if (_errorBlock) _errorBlock(DataManagerCreateDirectoryFailedTag, error);
         }
 	}
     
