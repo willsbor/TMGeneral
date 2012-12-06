@@ -21,8 +21,8 @@ UIImage *tmImageResizeAndCutCenter(UIImage *aOriImage, CGSize aTargetSize)
     float tempImageX = 0;
     float tempImageY = 0;
     
-    float tempImageWidth = imageWidth;
-    float tempImageHeight  = imageHeight;
+    float tempImageWidth = 0;
+    float tempImageHeight  = 0;
     
     // Calc clip rectangle
     /// Kang modify
@@ -244,7 +244,7 @@ UIView *tmViewCreateByDatas(NSArray *aDatas, float aWidth, float aLH, NSDictiona
                     lineCount += 1;
                     if (isFirstLine) {
                         TextIndent = _TextIndent;
-                        isFirstLine = NO;
+                        //isFirstLine = NO;
                     }
                     
                     markPositionX = TextIndent;

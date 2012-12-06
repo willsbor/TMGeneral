@@ -218,6 +218,7 @@ static NSString *g_defaultProjectName = nil;
     
 	// Compose a path to the <Library>/Database directory
 	NSString *libraryPath = [[NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0] retain];
+    [libraryPath release];
 	SharedDocumentsPath = [[libraryPath stringByAppendingPathComponent:@"Database"] retain];
     
 	// Ensure the database directory exists
