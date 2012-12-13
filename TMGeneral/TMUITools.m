@@ -306,7 +306,7 @@ extern UIImage *tmUIViewsToImage(UIView *view)
      // On iOS prior to 4, fall back to use UIGraphicsBeginImageContext
      //
      //  CGSize imageSize = [[UIScreen mainScreen] bounds].size;
-     CGSize imageSize = CGSizeMake( (CGFloat)480.0, (CGFloat)640.0 );        // camera image size
+     CGSize imageSize = view.frame.size;        // camera image size
      
      if (NULL != UIGraphicsBeginImageContextWithOptions)
      UIGraphicsBeginImageContextWithOptions(imageSize, NO, 0);
