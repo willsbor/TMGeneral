@@ -19,6 +19,8 @@ extern UIImage *tmImageRotateByOwnOrientationFrom(UIImage *aOriImage);
 
 extern UIImage *tmUIViewToImage(UIView *view);
 
+extern UIImage *tmUIViewsToImage(UIView *view);
+
 extern UIImage *tmResizeImage(UIImage *aOriImage, CGSize aTargetSize);
 
 extern CGAffineTransform tmAspectFit(CGRect innerRect, CGRect outerRect);

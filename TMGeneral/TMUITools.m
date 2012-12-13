@@ -299,53 +299,57 @@ void tmBringUIViewBehindAtX(UIView *aSecond, UIView *aRefView, float aOffset)
     aSecond.frame = newFrame;
 }
 
+extern UIImage *tmUIViewsToImage(UIView *view)
+{
+     // Create a graphics context with the target size
+     // On iOS 4 and later, use UIGraphicsBeginImageContextWithOptions to take the scale into consideration
+     // On iOS prior to 4, fall back to use UIGraphicsBeginImageContext
+     //
+     //  CGSize imageSize = [[UIScreen mainScreen] bounds].size;
+     CGSize imageSize = CGSizeMake( (CGFloat)480.0, (CGFloat)640.0 );        // camera image size
+     
+     if (NULL != UIGraphicsBeginImageContextWithOptions)
+     UIGraphicsBeginImageContextWithOptions(imageSize, NO, 0);
+     else
+     UIGraphicsBeginImageContext(imageSize);
+     
+     CGContextRef context = UIGraphicsGetCurrentContext();
+     
+     // Start with the view...
+     //
+     CGContextSaveGState(context);
+     CGContextTranslateCTM(context, [view center].x, [view center].y);
+     CGContextConcatCTM(context, [view transform]);
+     CGContextTranslateCTM(context,-[view bounds].size.width * [[view layer] anchorPoint].x,-[view bounds].size.height * [[view layer] anchorPoint].y);
+     [[view layer] renderInContext:context];
+     CGContextRestoreGState(context);
+     
+     // ...then repeat for every subview from back to front
+     //
+     for (UIView *subView in [view subviews])
+     {
+     if ( [subView respondsToSelector:@selector(screen)] )
+     if ( [(UIWindow *)subView screen] == [UIScreen mainScreen] )
+     continue;
+     
+     CGContextSaveGState(context);
+     CGContextTranslateCTM(context, [subView center].x, [subView center].y);
+     CGContextConcatCTM(context, [subView transform]);
+     CGContextTranslateCTM(context,-[subView bounds].size.width * [[subView layer] anchorPoint].x,-[subView bounds].size.height * [[subView layer] anchorPoint].y);
+     [[subView layer] renderInContext:context];
+     CGContextRestoreGState(context);
+     }
+     
+     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();   // autoreleased image
+     
+     UIGraphicsEndImageContext();
+     
+     return image;
+}
+
 UIImage *tmUIViewToImage(UIView *view)
 {
-    /*
-    // Create a graphics context with the target size
-    // On iOS 4 and later, use UIGraphicsBeginImageContextWithOptions to take the scale into consideration
-    // On iOS prior to 4, fall back to use UIGraphicsBeginImageContext
-    //
-    //  CGSize imageSize = [[UIScreen mainScreen] bounds].size;
-    CGSize imageSize = CGSizeMake( (CGFloat)480.0, (CGFloat)640.0 );        // camera image size
     
-    if (NULL != UIGraphicsBeginImageContextWithOptions)
-        UIGraphicsBeginImageContextWithOptions(imageSize, NO, 0);
-        else
-            UIGraphicsBeginImageContext(imageSize);
-            
-            CGContextRef context = UIGraphicsGetCurrentContext();
-            
-            // Start with the view...
-            //
-            CGContextSaveGState(context);
-            CGContextTranslateCTM(context, [view center].x, [view center].y);
-            CGContextConcatCTM(context, [view transform]);
-            CGContextTranslateCTM(context,-[view bounds].size.width * [[view layer] anchorPoint].x,-[view bounds].size.height * [[view layer] anchorPoint].y);
-            [[view layer] renderInContext:context];
-    CGContextRestoreGState(context);
-    
-    // ...then repeat for every subview from back to front
-    //
-    for (UIView *subView in [view subviews])
-    {
-        if ( [subView respondsToSelector:@selector(screen)] )
-            if ( [(UIWindow *)subView screen] == [UIScreen mainScreen] )
-                continue;
-        
-        CGContextSaveGState(context);
-        CGContextTranslateCTM(context, [subView center].x, [subView center].y);
-        CGContextConcatCTM(context, [subView transform]);
-        CGContextTranslateCTM(context,-[subView bounds].size.width * [[subView layer] anchorPoint].x,-[subView bounds].size.height * [[subView layer] anchorPoint].y);
-        [[subView layer] renderInContext:context];
-        CGContextRestoreGState(context);
-    }
-    
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();   // autoreleased image
-    
-    UIGraphicsEndImageContext();
-    
-    return image;*/
     
     UIGraphicsBeginImageContextWithOptions(view.bounds.size, NO, 0.0);
     CGContextRef context=UIGraphicsGetCurrentContext();
