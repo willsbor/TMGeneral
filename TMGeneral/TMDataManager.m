@@ -23,6 +23,8 @@ NSString * const DataManagerDidSaveFailedNotification = @"DataManagerDidSaveFail
 
 - (NSString*)sharedDocumentsPath;
 
+@property (nonatomic, readonly, strong) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+@property (nonatomic, readonly, strong) NSManagedObjectModel *objectModel;
 @property (nonatomic, strong) NSString *kDataManagerBundleName;
 @property (nonatomic, strong) NSString *kDataManagerModelName;
 @property (nonatomic, strong) NSString *kDataManagerSQLiteName;
