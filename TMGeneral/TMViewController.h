@@ -12,8 +12,8 @@
 
 @interface TMViewController : UIViewController
 
-@property (nonatomic, retain) NSMutableDictionary *activeAPIs;
-@property (nonatomic, retain) NSArray *touchHiddenKeyBoardsByViews;
+@property (nonatomic, strong) NSMutableDictionary *activeAPIs;
+@property (nonatomic, strong) NSArray *touchHiddenKeyBoardsByViews;
 
 //// view
 - (id) initWithUniversal;

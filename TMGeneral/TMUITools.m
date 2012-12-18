@@ -72,7 +72,7 @@ UIImage *tmImageResizeAndCutCenter(UIImage *aOriImage, CGSize aTargetSize)
     imgThumb = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
 
-    return [[imgThumb retain] autorelease];
+    return imgThumb;
 }
 
 UIImage *tmImageRotateByOwnOrientationFrom(UIImage *aOriImage)
@@ -204,7 +204,6 @@ UIView *tmViewCreateByDatas(NSArray *aDatas, float aWidth, float aLH, NSDictiona
                         [paper addSubview:tmpL];
                         tmpL.frame = CGRectMake(offset.x + markPositionX, offset.y + (aLH * (lineCount)) - _r_size.height, _r_size.width, _r_size.height);
                         markPositionX += _r_size.width;
-                        [tmpL release];
                         
                         iMark += i;
                         if (iMark >= [label.text length]) {
@@ -271,7 +270,7 @@ UIView *tmViewCreateByDatas(NSArray *aDatas, float aWidth, float aLH, NSDictiona
     _frame.size.height = (lineCount - 1) * aLH;  ///< 理論上會多加一行  所以扣掉
     paper.frame = _frame;
     
-    return [paper autorelease];
+    return paper;
 
 }
 

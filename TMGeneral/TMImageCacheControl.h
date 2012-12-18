@@ -36,7 +36,7 @@ typedef enum
 
 @interface TMImageCacheControl : NSObject
 
-@property (nonatomic, retain) NSDictionary *defaultOptions;
+@property (nonatomic, strong) NSDictionary *defaultOptions;
 
 + (TMImageCacheControl *) defaultTMImageCacheControl;
 

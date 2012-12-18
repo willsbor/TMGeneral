@@ -38,12 +38,5 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [_appversion release];
-    [_apiVersion release];
-    [_mapKey release];
-    [super dealloc];
-}
 
 @end

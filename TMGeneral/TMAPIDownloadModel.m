@@ -67,7 +67,7 @@ typedef enum
     
     NSString *tempfile = [self.inputParam objectForKey:TMAPI_DOWNLOAD_TARGET_PATH];
     
-    [_operation release]; _operation = nil;
+     _operation = nil;
     _operation = [[AFDownloadRequestOperation alloc] initWithRequest:request targetPath:tempfile shouldResume:YES];
 
     
@@ -75,15 +75,17 @@ typedef enum
     
     _downloadRatio = 0.0;
     downloadState = TMAPI_ResumeDownload_State_Downloading;
+    
+    __unsafe_unretained TMAPIDownloadModel *selfItem = self;
     [_operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"TMAPIDownloadModel Successfully downloaded file to ");
         downloadState = TMAPI_ResumeDownload_State_Downloaded;
         
         //NSLog(@"[responseObject class] = %@", [responseObject class]);
         
-        [self webSuccess:operation response:responseObject];
+        [selfItem webSuccess:operation response:responseObject];
         
-        [self final];
+        [selfItem final];
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"TMAPIDownloadModel Error: %@", error);
@@ -102,13 +104,13 @@ typedef enum
             }
         }
         
-        [self webFailed:operation error:error];
+        [selfItem webFailed:operation error:error];
         
         
-        if ([self checkRetry]) {
-            [self retry];
+        if ([selfItem checkRetry]) {
+            [selfItem retry];
         } else
-            [self final];
+            [selfItem final];
     }];
     
     
@@ -123,8 +125,8 @@ typedef enum
         //dtmp /= totalBytesExpectedToReadForFile;
         
         //NSLog(@"%2.2f = %lld / %lld", dtmp, totalBytesReadForFile, totalBytesExpectedToReadForFile);
-        if (self.progressiveDownloadProgress) {
-            self.progressiveDownloadProgress(bytesRead, totalBytesRead, totalBytesExpected,totalBytesReadForFile, totalBytesExpectedToReadForFile);
+        if (selfItem.progressiveDownloadProgress) {
+            selfItem.progressiveDownloadProgress(bytesRead, totalBytesRead, totalBytesExpected,totalBytesReadForFile, totalBytesExpectedToReadForFile);
         }
     }];
     
@@ -153,7 +155,7 @@ typedef enum
 
 - (void) final
 {
-    [_operation release]; _operation = nil;
+     _operation = nil;
     [super final];
 }
 
@@ -176,7 +178,7 @@ typedef enum
 {
     
     [_operation cancel];
-    [_operation release]; _operation = nil;
+     _operation = nil;
     [super cancel];
 }
 
@@ -192,9 +194,5 @@ typedef enum
 }
 
 
-- (void)dealloc
-{
-    [super dealloc];
-}
 
 @end

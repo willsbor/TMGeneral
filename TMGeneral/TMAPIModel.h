@@ -81,9 +81,9 @@ typedef enum
  */
 @property (nonatomic, readonly) NSDictionary *inputParam;  
 @property (nonatomic, copy)     NSMutableDictionary *outputParam;
-@property (nonatomic, assign)   id<TMAPIModelProtocol> delegate;
+@property (nonatomic, unsafe_unretained)   id<TMAPIModelProtocol> delegate;
 @property (nonatomic)           int errcode;
-@property (nonatomic, retain)   NSString *key;
+@property (nonatomic, strong)   NSString *key;
 @property (nonatomic          ) TMAPI_Thread_Type thread;   
 
 //// Data

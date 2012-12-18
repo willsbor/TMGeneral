@@ -150,7 +150,7 @@
     } else {
         [_keyboardWatchList addObject:key];
         
-        item = [[[TMKeyboardItem alloc] init] autorelease];
+        item = [[TMKeyboardItem alloc] init];
         item.targetTextField = aTargetTextField;
         
         [[TMKeyboardController defaultTMKeyboardController] addKeyboardItem:item
@@ -186,7 +186,7 @@
     } else {
         [_keyboardWatchList addObject:key];
         
-        item = [[[TMKeyboardItem alloc] init] autorelease];
+        item = [[TMKeyboardItem alloc] init];
         item.tartgetTextView = aTargetTextView;
         item.textViewDelegate = self;
         
@@ -293,10 +293,8 @@
 
 - (void)dealloc
 {
-    [_activeAPIs release]; _activeAPIs = nil;
-    [_loadingImageViews release]; _loadingImageViews = nil;
-    [_keyboardWatchList release]; _keyboardWatchList = nil;
-    [super dealloc];
+     _loadingImageViews = nil;
+     _keyboardWatchList = nil;
 }
 
 - (void)viewDidLoad
@@ -311,7 +309,7 @@
     // Dispose of any resources that can be recreated.
     
     //// 清除掉已經結束的api
-    NSMutableArray *removeObjs = [[[NSMutableArray alloc] init] autorelease];
+    NSMutableArray *removeObjs = [[NSMutableArray alloc] init];
     for (TMAPIModel *object in [_activeAPIs allValues]) {
         if (object.state == TMAPI_State_Finished
             || (object.cacheType == TMAPI_Cache_Type_None && object.state == TMAPI_State_Failed)) {

@@ -9,6 +9,7 @@
 #import "TMAPIWebModel.h"
 #import "AFHTTPClient.h"
 #import "TMApiData.h"
+#import "AFHTTPRequestOperation.h"
 
 @interface TMAPIWebModel ()
 {
@@ -42,19 +43,20 @@
     
     NSLog(@"url = %@", request.URL.absoluteString);
     
-    _operation = [[_httpClient HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        [self webSuccess:operation response:responseObject];
+    __unsafe_unretained TMAPIWebModel *selfItem = self;
+    _operation = [_httpClient HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [selfItem webSuccess:operation response:responseObject];
         
-        [self final];
+        [selfItem final];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [self webFailed:operation error:error];
+        [selfItem webFailed:operation error:error];
         
-        if ([self checkRetry]) {
-            [self retry];
+        if ([selfItem checkRetry]) {
+            [selfItem retry];
         } else
-            [self final];
+            [selfItem final];
         
-    } ] retain];
+    } ];
     
     [_operation start];
     
@@ -73,14 +75,14 @@
 
 - (void) final
 {    
-    [_operation release]; _operation = nil;
+    _operation = nil;
     [super final];
 }
 
 - (void) cancel
 {
     [_operation cancel];
-    [_operation release]; _operation = nil;
+    _operation = nil;
     [super cancel];
 }
 
@@ -95,10 +97,5 @@
 }
 
 
-- (void)dealloc
-{
-    [_httpClient release]; 
-    [super dealloc];
-}
 
 @end

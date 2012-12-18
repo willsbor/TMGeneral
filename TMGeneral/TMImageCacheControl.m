@@ -16,18 +16,12 @@
 #define _PRELOAD_TAG   @"2uh4u3h42@#$2"
 
 @interface _TMICCPreloadItem : NSObject
-@property (nonatomic, retain) NSString *url;
-@property (nonatomic, retain) NSString *tag;
+@property (nonatomic, strong) NSString *url;
+@property (nonatomic, strong) NSString *tag;
 @property (nonatomic, assign) TMImageControl_Type type;
 @end
 
 @implementation _TMICCPreloadItem
-- (void)dealloc
-{
-    [_url release];
-    [_tag release];
-    [super dealloc];
-}
 @end
 
 @interface TMImageCacheControl ()
@@ -130,7 +124,7 @@
         NSMutableArray *imageviews = [_activeList objectForKey:aTagMD5];
         
         if (imageviews == nil) {
-            imageviews = [[[NSMutableArray alloc] init] autorelease];
+            imageviews = [[NSMutableArray alloc] init];
             [_activeList setObject:imageviews forKey:aTagMD5];
         }
         
@@ -148,9 +142,8 @@
         [request setHTTPShouldUsePipelining:YES];
         [request addValue:@"image/*" forHTTPHeaderField:@"Accept"];
         
-        [cacheItem retain];
-        
-        AFHTTPRequestOperation *operation = [[[AFHTTPRequestOperation alloc] initWithRequest:request] autorelease];
+        __unsafe_unretained TMImageCacheControl *selfItem = self;
+        AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
         [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
             NSLog(@"ImageCache Success : %@", object.url);
             
@@ -160,16 +153,14 @@
             
             [[TMDataManager sharedInstance] save];
             
-            [self finishAndUpdateImage:cacheItem.data WithTagMD5:cacheItem.tag];
+            [selfItem finishAndUpdateImage:cacheItem.data WithTagMD5:cacheItem.tag];
             
-            [cacheItem release];
             
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             NSLog(@"ImageCache Error %@ : %@", object.url, error);
             
-            [self finishAndUpdateImage:nil WithTagMD5:cacheItem.tag];
+            [selfItem finishAndUpdateImage:nil WithTagMD5:cacheItem.tag];
             
-            [cacheItem release];
         }];
         
         [operation start];
@@ -191,7 +182,7 @@
     NSAssert([aTag length] > 0, @"[aTag length] == 0");
     //NSAssert(aURL != nil, @"aURL is nil");  ///tag 跟 url 不能同時為空  URL 為空表示不用網路下載
     
-    _TMICCPreloadItem *item = [[[_TMICCPreloadItem alloc] init] autorelease];
+    _TMICCPreloadItem *item = [[_TMICCPreloadItem alloc] init];
     item.url = aURL;
     item.tag = aTag;
     item.type = aType;
@@ -276,7 +267,7 @@
     //NSAssert(aURL != nil, @"aURL is nil");  ///tag 跟 url 不能同時為空  URL 為空表示不用網路下載 
     
     /// 結合default options
-    NSMutableDictionary *options = [[[NSMutableDictionary alloc] initWithDictionary:_defaultOptions] autorelease];
+    NSMutableDictionary *options = [[NSMutableDictionary alloc] initWithDictionary:_defaultOptions];
     [options addEntriesFromDictionary:aOptions];
     
     NSString *aTagMD5 = tmStringFromMD5(aTag);
@@ -299,7 +290,7 @@
     [_imageViewList setObject:aTagMD5 forKey:imgKey];
     NSMutableArray *imageviews = [_activeList objectForKey:aTagMD5];
     if (imageviews == nil) {
-        imageviews = [[[NSMutableArray alloc] init] autorelease];
+        imageviews = [[NSMutableArray alloc] init];
         [_activeList setObject:imageviews forKey:aTagMD5];
     }
     [imageviews addObject:aImageView];
@@ -408,10 +399,8 @@
     [request setHTTPShouldUsePipelining:YES];
     [request addValue:@"image/*" forHTTPHeaderField:@"Accept"];
     
-    AFHTTPRequestOperation *operation = [[[AFHTTPRequestOperation alloc] initWithRequest:request] autorelease];
-    
-    [aItem retain];
-    
+    __unsafe_unretained TMImageCacheControl *selfItem = self;
+    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"ImageCache Success : %@", aUrl);
         
@@ -421,16 +410,14 @@
         
         [[TMDataManager sharedInstance] save];
         
-        [self finishAndUpdateImage:aItem.data WithTagMD5:aItem.tag];
+        [selfItem finishAndUpdateImage:aItem.data WithTagMD5:aItem.tag];
         
-        [aItem release];
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"ImageCache Error %@ : %@", aUrl, error);
         
-        [self finishAndUpdateImage:nil WithTagMD5:aItem.tag];
+        [selfItem finishAndUpdateImage:nil WithTagMD5:aItem.tag];
         
-        [aItem release];
     }];
     
     [operation start];
@@ -447,7 +434,6 @@
     
     
     NSArray *resultArray = [manaedObjectContext executeFetchRequest:fetchReq error:nil];
-    [fetchReq release];
     
     if ([resultArray count] == 1) {
         TMImageCache *item = [resultArray objectAtIndex:0];
@@ -488,14 +474,5 @@
 }
 
 
-- (void)dealloc
-{
-    [_preloadArray release];
-    [_defaultOptions release];
-    [_activeList release];
-    [_imageViewList release];
-    [_lock release];
-    [super dealloc];
-}
 
 @end

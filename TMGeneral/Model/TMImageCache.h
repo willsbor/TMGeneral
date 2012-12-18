@@ -12,10 +12,10 @@
 
 @interface TMImageCache : NSManagedObject
 
-@property (nonatomic, retain) NSData * data;
-@property (nonatomic, retain) NSString * identify;
-@property (nonatomic, retain) NSDate * lastDate;
-@property (nonatomic, retain) NSString * tag;
-@property (nonatomic, retain) NSNumber * type;
+@property (nonatomic, strong) NSData * data;
+@property (nonatomic, strong) NSString * identify;
+@property (nonatomic, strong) NSDate * lastDate;
+@property (nonatomic, strong) NSString * tag;
+@property (nonatomic, strong) NSNumber * type;
 
 @end

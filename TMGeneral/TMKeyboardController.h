@@ -20,11 +20,11 @@
 
 @property (nonatomic) float movingDist; ///< 上移距離
 @property (nonatomic) BOOL modifiedBySelectedBar; ///< 是否要針對 5.0 up 中文鍵盤上方選擇欄位做調整
-@property (nonatomic, assign) id<UITextViewDelegate> textViewDelegate;  ///< 如果監控的是textView 要轉發的delegate
+@property (nonatomic, unsafe_unretained) id<UITextViewDelegate> textViewDelegate;  ///< 如果監控的是textView 要轉發的delegate
 
-@property (nonatomic, retain) UITextField *targetTextField;
-@property (nonatomic, retain) NSArray *movingViews;
-@property (nonatomic, retain) UITextView *tartgetTextView;
+@property (nonatomic, strong) UITextField *targetTextField;
+@property (nonatomic, strong) NSArray *movingViews;
+@property (nonatomic, strong) UITextView *tartgetTextView;
 
 @end
 

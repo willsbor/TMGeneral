@@ -28,17 +28,17 @@ NSString *tmStringFromMD5(NSString *aString)
         [outputString appendFormat:@"%02x",outputBuffer[count]];
     }
     
-    return [outputString autorelease];
+    return outputString;
 }
 
 NSString *tmStringNSDate(NSDate *aDate, NSString *aFormat)
 {
-    NSDateFormatter *formatter = [[[NSDateFormatter alloc] init] autorelease];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     if (aFormat == nil) {
         [formatter setDateFormat:@"yyyy.MM.dd HH:mm"];
     } else
         [formatter setDateFormat:aFormat];
-    return  [[[formatter stringFromDate:aDate] retain] autorelease];
+    return  [formatter stringFromDate:aDate];
 }
 
 NSString *tmStringRemindTimeWithNSDate(NSDate *aDate)
@@ -58,7 +58,6 @@ NSString *tmStringRemindTimeWithNSDate(NSDate *aDate)
     NSDateComponents *breakdownInfo = [sysCalendar components:unitFlags fromDate:aDate  toDate:date1  options:0];
     
     //HiiirLog(@"Break down: %dmin %dhours %ddays %dmoths",[breakdownInfo minute], [breakdownInfo hour], [breakdownInfo day], [breakdownInfo month]);
-    [date1 release];
     
     if ([breakdownInfo year] != 0) {
         return tmStringNSDate(aDate, @"yyyy.MM.dd HH:mm");
@@ -67,16 +66,16 @@ NSString *tmStringRemindTimeWithNSDate(NSDate *aDate)
         return tmStringNSDate(aDate, @"yyyy.MM.dd HH:mm");
     }
     else if ([breakdownInfo day] != 0) {
-        return [[[NSString stringWithFormat:@"%d 天前", [breakdownInfo day]] retain] autorelease];
+        return [NSString stringWithFormat:@"%d 天前", [breakdownInfo day]];
     }
     else if ([breakdownInfo hour] != 0) {
-        return [[[NSString stringWithFormat:@"%d 小時前", [breakdownInfo hour]] retain] autorelease];
+        return [NSString stringWithFormat:@"%d 小時前", [breakdownInfo hour]];
     }
     else if ([breakdownInfo minute] != 0) {
-        return [[[NSString stringWithFormat:@"%d 分鐘前", [breakdownInfo minute]] retain] autorelease];
+        return [NSString stringWithFormat:@"%d 分鐘前", [breakdownInfo minute]];
     }
     else if ([breakdownInfo second] != 0) {
-        return [[[NSString stringWithFormat:@"%d 秒前", [breakdownInfo second]] retain] autorelease];
+        return [NSString stringWithFormat:@"%d 秒前", [breakdownInfo second]];
     }
     else
         return tmStringNSDate(aDate, @"yyyy.MM.dd HH:mm");

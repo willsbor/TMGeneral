@@ -23,9 +23,9 @@ NSString * const DataManagerDidSaveFailedNotification = @"DataManagerDidSaveFail
 
 - (NSString*)sharedDocumentsPath;
 
-@property (nonatomic, retain) NSString *kDataManagerBundleName;
-@property (nonatomic, retain) NSString *kDataManagerModelName;
-@property (nonatomic, retain) NSString *kDataManagerSQLiteName;
+@property (nonatomic, strong) NSString *kDataManagerBundleName;
+@property (nonatomic, strong) NSString *kDataManagerModelName;
+@property (nonatomic, strong) NSString *kDataManagerSQLiteName;
 
 @end
 
@@ -55,8 +55,7 @@ NSString * const DataManagerDidSaveFailedNotification = @"DataManagerDidSaveFail
 static NSString *g_defaultProjectName = nil;
 + (void) setDefaultProjectModel:(NSString *)aProjectModel
 {
-    [g_defaultProjectName release];
-    g_defaultProjectName = [aProjectModel retain];
+    g_defaultProjectName = aProjectModel;
 }
 
 + (TMDataManager *) defaultProjectDB
@@ -69,7 +68,7 @@ static NSString *g_defaultProjectName = nil;
         sharedInstance.kDataManagerBundleName = nil;
         
         if (g_defaultProjectName == nil) {
-            g_defaultProjectName = [[NSString stringWithFormat:@"TMDataProject"] retain];
+            g_defaultProjectName = [NSString stringWithFormat:@"TMDataProject"];
         }
         
         sharedInstance.kDataManagerModelName = g_defaultProjectName;
@@ -80,8 +79,7 @@ static NSString *g_defaultProjectName = nil;
 
 - (void) errorHandlerTarget:(void (^)(NSString *errorTag, NSError *error)) errorBlock
 {
-    [_errorBlock release];
-    _errorBlock = [errorBlock retain];
+    _errorBlock = errorBlock;
 }
 
 - (id)init
@@ -96,12 +94,7 @@ static NSString *g_defaultProjectName = nil;
 - (void)dealloc {
 	[self save];
     
-    [_errorBlock release];
-	[_persistentStoreCoordinator release];
-	[_mainObjectContext release];
-	[_objectModel release];
     
-	[super dealloc];
 }
 
 - (NSData *) dataFromNSData:(id)aObject
@@ -110,21 +103,18 @@ static NSString *g_defaultProjectName = nil;
     NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:inputData];
     [archiver encodeObject:aObject forKey:@"inputParam"];
     [archiver finishEncoding];
-    [archiver release];
     
-    return [inputData autorelease];
+    return inputData;
 }
 
 - (id) objectFormNSData:(NSData *)aData
 {
     NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:aData];
     NSObject *object = [unarchiver decodeObjectForKey:@"inputParam"];
-    [object retain];
 
     [unarchiver finishDecoding];
-    [unarchiver release];
     
-    return [object autorelease];
+    return object;
 }
 
 - (NSManagedObjectModel*)objectModel {
@@ -217,9 +207,8 @@ static NSString *g_defaultProjectName = nil;
 		return SharedDocumentsPath;
     
 	// Compose a path to the <Library>/Database directory
-	NSString *libraryPath = [[NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0] retain];
-    [libraryPath release];
-	SharedDocumentsPath = [[libraryPath stringByAppendingPathComponent:@"Database"] retain];
+	NSString *libraryPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+	SharedDocumentsPath = [libraryPath stringByAppendingPathComponent:@"Database"];
     
 	// Ensure the database directory exists
 	NSFileManager *manager = [NSFileManager defaultManager];
@@ -242,7 +231,7 @@ static NSString *g_defaultProjectName = nil;
 }
 
 - (NSManagedObjectContext*)managedObjectContext {
-	NSManagedObjectContext *ctx = [[[NSManagedObjectContext alloc] init] autorelease];
+	NSManagedObjectContext *ctx = [[NSManagedObjectContext alloc] init];
 	[ctx setPersistentStoreCoordinator:self.persistentStoreCoordinator];
     
 	return ctx;

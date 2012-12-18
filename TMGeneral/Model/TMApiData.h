@@ -12,16 +12,16 @@
 
 @interface TMApiData : NSManagedObject
 
-@property (nonatomic, retain) NSNumber * cacheType;
-@property (nonatomic, retain) NSData * content;
-@property (nonatomic, retain) NSDate * createTime;
-@property (nonatomic, retain) NSString * identify;
-@property (nonatomic, retain) NSDate * lastActionTime;
-@property (nonatomic, retain) NSString * objectName;
-@property (nonatomic, retain) NSNumber * type;
-@property (nonatomic, retain) NSNumber * state;
-@property (nonatomic, retain) NSNumber * mode;
-@property (nonatomic, retain) NSNumber * retryTimes;
-@property (nonatomic, retain) NSNumber * retryDelayTime;
+@property (nonatomic, strong) NSNumber * cacheType;
+@property (nonatomic, strong) NSData * content;
+@property (nonatomic, strong) NSDate * createTime;
+@property (nonatomic, strong) NSString * identify;
+@property (nonatomic, strong) NSDate * lastActionTime;
+@property (nonatomic, strong) NSString * objectName;
+@property (nonatomic, strong) NSNumber * type;
+@property (nonatomic, strong) NSNumber * state;
+@property (nonatomic, strong) NSNumber * mode;
+@property (nonatomic, strong) NSNumber * retryTimes;
+@property (nonatomic, strong) NSNumber * retryDelayTime;
 
 @end

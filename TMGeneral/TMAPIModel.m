@@ -66,7 +66,6 @@ static NSTimer *g_checkCacheAPITimer = nil;
                             TMAPI_State_Pending]];
      
     NSArray *resultArray = [manaedObjectContext executeFetchRequest:fetchReq error:nil];
-    [fetchReq release];
     
     for (TMApiData *object in resultArray)
     {
@@ -97,7 +96,6 @@ static NSTimer *g_checkCacheAPITimer = nil;
                             TMAPI_State_Doing]];
     
     NSArray *resultArray = [manaedObjectContext executeFetchRequest:fetchReq error:nil];
-    [fetchReq release];
     
     for (TMApiData *object in resultArray)
     {
@@ -117,7 +115,6 @@ static NSTimer *g_checkCacheAPITimer = nil;
                             TMAPI_State_Stop]];
     
     NSArray *resultArray = [manaedObjectContext executeFetchRequest:fetchReq error:nil];
-    [fetchReq release];
     
     for (TMApiData *object in resultArray)
     {
@@ -142,13 +139,12 @@ static NSTimer *g_checkCacheAPITimer = nil;
                             TMAPI_State_Failed]];
      
     NSArray *resultArray = [manaedObjectContext executeFetchRequest:fetchReq error:nil];
-    [fetchReq release];
     
     for (TMApiData *object in resultArray) {
         /// 設後不理
         ////  這裡一直執行可能會有行為上的問題  就是假設一直送不成功 ... 系統可能會很忙 or 煩
         id apiClass = NSClassFromString(object.objectName);
-        id apiModel = [[[apiClass alloc] initFromAction:object] autorelease];
+        id apiModel = [[apiClass alloc] initFromAction:object];
         ((TMAPIModel *)apiModel).thread = TMAPI_Thread_Type_SubThread;  ///< 如果做保證執行的動作 則讓他在sub thread 做
         [apiModel startWithDelegate:nil];
     }
@@ -332,10 +328,8 @@ static NSTimer *g_checkCacheAPITimer = nil;
     /// 存入DB
     [[TMDataManager sharedInstance] save];
     
-    [self retain];
     [g_tempList removeObject:self];
     [myLock unlock];
-    [self release];
 }
 
 - (void) cancel
@@ -358,10 +352,8 @@ static NSTimer *g_checkCacheAPITimer = nil;
     /// 修改DB暫存物件的狀態
     [[TMDataManager sharedInstance] save];
     
-    [self retain];
     [g_tempList removeObject:self];
     [myLock unlock];
-    [self release];
 }
 
 #pragma mark - apis
@@ -373,7 +365,7 @@ static NSTimer *g_checkCacheAPITimer = nil;
         return _inputParam;
     }
     
-    _inputParam = [[[TMDataManager sharedInstance] objectFormNSData:_actionItem.content] retain];
+    _inputParam = [[TMDataManager sharedInstance] objectFormNSData:_actionItem.content];
     return _inputParam;
 }
 
@@ -449,8 +441,8 @@ static NSTimer *g_checkCacheAPITimer = nil;
         
         /// 創造一個新的資料物件
         NSManagedObjectContext *manaedObjectContext = [[TMDataManager sharedInstance] mainObjectContext];
-        _actionItem = [[NSEntityDescription insertNewObjectForEntityForName:@"TMApiData"
-                                                         inManagedObjectContext:manaedObjectContext] retain];
+        _actionItem = [NSEntityDescription insertNewObjectForEntityForName:@"TMApiData"
+                                                         inManagedObjectContext:manaedObjectContext];
         
         _actionItem.type = [NSNumber numberWithInt:TMAPI_Type_General];
         _actionItem.content = [[TMDataManager sharedInstance] dataFromNSData:aInput];
@@ -481,7 +473,7 @@ static NSTimer *g_checkCacheAPITimer = nil;
         _thread = TMAPI_Thread_Type_Main;
         
         /// 因為是從 Action init 所以就直接設定
-        _actionItem = [aAction retain];
+        _actionItem = aAction;
         
         _actionItem.lastActionTime = [NSDate date];
         
@@ -500,18 +492,5 @@ static NSTimer *g_checkCacheAPITimer = nil;
     return self;
 }
 
-- (void)dealloc
-{
-    
-    [_inputParam release];
-    [_outputParam release];
-    [myLock release];
-    
-    [_key release];
-    [_actionItem release];
-    _actionItem = nil;
-    
-    [super dealloc];
-}
 
 @end

@@ -18,8 +18,8 @@
 
 @property (nonatomic, readonly) NSMutableDictionary* mapKey;
 
-@property (nonatomic, retain) NSString *appversion;
-@property (nonatomic, retain) NSString *apiVersion;
+@property (nonatomic, strong) NSString *appversion;
+@property (nonatomic, strong) NSString *apiVersion;
 
 - (void) updateDatas:(NSDictionary *) aJSONDic;
 

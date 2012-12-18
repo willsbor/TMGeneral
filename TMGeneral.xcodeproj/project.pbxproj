@@ -430,6 +430,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 03C3F9113300433EA35678A0 /* Pods.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				DSTROOT = /tmp/TMGeneral.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TMGeneral/TMGeneral-Prefix.pch";
@@ -444,6 +445,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 03C3F9113300433EA35678A0 /* Pods.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				DSTROOT = /tmp/TMGeneral.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TMGeneral/TMGeneral-Prefix.pch";
@@ -519,6 +521,7 @@
 				AB4D7B931658C8B700B5A2C3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

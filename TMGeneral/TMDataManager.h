@@ -19,9 +19,9 @@ extern NSString * const DataManagerDidSaveFailedNotification;
 @interface TMDataManager : NSObject {
 }
 
-@property (nonatomic, readonly, retain) NSManagedObjectModel *objectModel;
-@property (nonatomic, readonly, retain) NSManagedObjectContext *mainObjectContext;
-@property (nonatomic, readonly, retain) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+@property (nonatomic, readonly, strong) NSManagedObjectModel *objectModel;
+@property (nonatomic, readonly, strong) NSManagedObjectContext *mainObjectContext;
+@property (nonatomic, readonly, strong) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
 + (void) setDefaultProjectModel:(NSString *)aProjectModel;
 + (TMDataManager *) defaultProjectDB;

@@ -23,13 +23,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [_targetTextField release];
-    [_tartgetTextView release];
-    [_movingViews release];
-    [super dealloc];
-}
 
 @end
 
@@ -482,12 +475,11 @@
         [self unregister:object];
     }
     
-    [g_KBMs release]; g_KBMs = nil;
-    [g_RecordY release]; g_KBMs = nil;
+     g_KBMs = nil;
+     g_KBMs = nil;
 
     
     
-    [super dealloc];
 }
 
 
