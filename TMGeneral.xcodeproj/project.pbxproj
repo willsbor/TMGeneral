@@ -7,6 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AB0928FA1681C1FB0039704D /* TMDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AB0928F71681C1FB0039704D /* TMDataManager.m */; };
+		AB0929011681C4E30039704D /* TMGeneralDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AB0928FE1681C4E30039704D /* TMGeneralDataManager.m */; };
+		AB0929021681C4E30039704D /* TMGeneralDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AB0928FF1681C4E30039704D /* TMGeneralDataModel.xcdatamodeld */; };
+		AB0929031681C4E60039704D /* TMGeneralDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AB0928FF1681C4E30039704D /* TMGeneralDataModel.xcdatamodeld */; };
+		AB09290B1681C52E0039704D /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB09290A1681C52E0039704D /* SenTestingKit.framework */; };
+		AB09290D1681C52E0039704D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB09290C1681C52E0039704D /* UIKit.framework */; };
+		AB09290E1681C52E0039704D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB4D7B241658B0F300B5A2C3 /* Foundation.framework */; };
+		AB0929141681C52E0039704D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AB0929121681C52E0039704D /* InfoPlist.strings */; };
+		AB0929171681C52E0039704D /* TMGeneralUnitTest.m in Sources */ = {isa = PBXBuildFile; fileRef = AB0929161681C52E0039704D /* TMGeneralUnitTest.m */; };
+		AB09291E1681C5870039704D /* TMGeneralDataManagerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = AB09291D1681C5870039704D /* TMGeneralDataManagerTest.m */; };
+		AB0929211681C5E80039704D /* TMImageCacheControlTest.m in Sources */ = {isa = PBXBuildFile; fileRef = AB0929201681C5E80039704D /* TMImageCacheControlTest.m */; };
+		AB0929221681C6750039704D /* TMGeneralDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AB0928FE1681C4E30039704D /* TMGeneralDataManager.m */; };
+		AB0929231681C67B0039704D /* TMGeneralDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AB0928FF1681C4E30039704D /* TMGeneralDataModel.xcdatamodeld */; };
+		AB09292B1681C7460039704D /* TMDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AB0928F71681C1FB0039704D /* TMDataManager.m */; };
+		AB09292C1681C8220039704D /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB4D7B891658C8B700B5A2C3 /* CoreFoundation.framework */; };
+		AB09292D1681C8280039704D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E02939F10EC6492BB21EECC9 /* libPods.a */; };
+		AB09292F1681C8A70039704D /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB09292E1681C8A70039704D /* CoreData.framework */; };
 		AB4D7B251658B0F300B5A2C3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB4D7B241658B0F300B5A2C3 /* Foundation.framework */; };
 		AB4D7B2A1658B0F300B5A2C3 /* TMGeneral.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AB4D7B291658B0F300B5A2C3 /* TMGeneral.h */; };
 		AB4D7B2C1658B0F300B5A2C3 /* TMGeneral.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B2B1658B0F300B5A2C3 /* TMGeneral.m */; };
@@ -15,7 +32,6 @@
 		AB4D7B501658B3B700B5A2C3 /* TMAPIDownloadModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B3A1658B3B700B5A2C3 /* TMAPIDownloadModel.m */; };
 		AB4D7B511658B3B700B5A2C3 /* TMAPIModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B3C1658B3B700B5A2C3 /* TMAPIModel.m */; };
 		AB4D7B521658B3B700B5A2C3 /* TMAPIWebModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B3E1658B3B700B5A2C3 /* TMAPIWebModel.m */; };
-		AB4D7B531658B3B700B5A2C3 /* TMDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B401658B3B700B5A2C3 /* TMDataManager.m */; };
 		AB4D7B551658B3B700B5A2C3 /* TMGlobalModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B451658B3B700B5A2C3 /* TMGlobalModel.m */; };
 		AB4D7B561658B3B700B5A2C3 /* TMImageCacheControl.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B471658B3B700B5A2C3 /* TMImageCacheControl.m */; };
 		AB4D7B571658B3B700B5A2C3 /* TMKeyboardController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B491658B3B700B5A2C3 /* TMKeyboardController.m */; };
@@ -29,12 +45,10 @@
 		AB4D7B621658B5C700B5A2C3 /* TMAPIDownloadModel.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AB4D7B391658B3B700B5A2C3 /* TMAPIDownloadModel.h */; };
 		AB4D7B631658B5C700B5A2C3 /* TMAPIModel.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AB4D7B3B1658B3B700B5A2C3 /* TMAPIModel.h */; };
 		AB4D7B641658B5C700B5A2C3 /* TMAPIWebModel.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AB4D7B3D1658B3B700B5A2C3 /* TMAPIWebModel.h */; };
-		AB4D7B651658B5C700B5A2C3 /* TMDataManager.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AB4D7B3F1658B3B700B5A2C3 /* TMDataManager.h */; };
 		AB4D7B661658B5C700B5A2C3 /* TMImageCacheControl.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AB4D7B461658B3B700B5A2C3 /* TMImageCacheControl.h */; };
 		AB4D7B671658B5C700B5A2C3 /* TMViewController.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AB4D7B4E1658B3B700B5A2C3 /* TMViewController.h */; };
 		AB4D7B8A1658C8B700B5A2C3 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB4D7B891658C8B700B5A2C3 /* CoreFoundation.framework */; };
 		AB4D7B901658C8B700B5A2C3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AB4D7B8E1658C8B700B5A2C3 /* InfoPlist.strings */; };
-		AB4D7B961658C8C700B5A2C3 /* TMGeneralDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B421658B3B700B5A2C3 /* TMGeneralDataModel.xcdatamodeld */; };
 		DFEBE1BC33864832B06FE090 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E02939F10EC6492BB21EECC9 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -52,7 +66,6 @@
 				AB4D7B621658B5C700B5A2C3 /* TMAPIDownloadModel.h in CopyFiles */,
 				AB4D7B631658B5C700B5A2C3 /* TMAPIModel.h in CopyFiles */,
 				AB4D7B641658B5C700B5A2C3 /* TMAPIWebModel.h in CopyFiles */,
-				AB4D7B651658B5C700B5A2C3 /* TMDataManager.h in CopyFiles */,
 				AB4D7B661658B5C700B5A2C3 /* TMImageCacheControl.h in CopyFiles */,
 				AB4D7B671658B5C700B5A2C3 /* TMViewController.h in CopyFiles */,
 				AB4D7B2A1658B0F300B5A2C3 /* TMGeneral.h in CopyFiles */,
@@ -63,6 +76,22 @@
 
 /* Begin PBXFileReference section */
 		03C3F9113300433EA35678A0 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
+		AB0928F51681BDAB0039704D /* TMDataManager+Protected.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TMDataManager+Protected.h"; sourceTree = "<group>"; };
+		AB0928F61681C1FB0039704D /* TMDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMDataManager.h; sourceTree = "<group>"; };
+		AB0928F71681C1FB0039704D /* TMDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMDataManager.m; sourceTree = "<group>"; };
+		AB0928FD1681C4E30039704D /* TMGeneralDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMGeneralDataManager.h; sourceTree = "<group>"; };
+		AB0928FE1681C4E30039704D /* TMGeneralDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMGeneralDataManager.m; sourceTree = "<group>"; };
+		AB0929001681C4E30039704D /* TMGeneralDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TMGeneralDataModel.xcdatamodel; sourceTree = "<group>"; };
+		AB0929091681C52E0039704D /* TMGeneralUnitTest.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TMGeneralUnitTest.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB09290A1681C52E0039704D /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		AB09290C1681C52E0039704D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		AB0929111681C52E0039704D /* TMGeneralUnitTest-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TMGeneralUnitTest-Info.plist"; sourceTree = "<group>"; };
+		AB0929131681C52E0039704D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		AB0929161681C52E0039704D /* TMGeneralUnitTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TMGeneralUnitTest.m; sourceTree = "<group>"; };
+		AB0929181681C52E0039704D /* TMGeneralUnitTest-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TMGeneralUnitTest-Prefix.pch"; sourceTree = "<group>"; };
+		AB09291D1681C5870039704D /* TMGeneralDataManagerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMGeneralDataManagerTest.m; sourceTree = "<group>"; };
+		AB0929201681C5E80039704D /* TMImageCacheControlTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMImageCacheControlTest.m; sourceTree = "<group>"; };
+		AB09292E1681C8A70039704D /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		AB4D7B211658B0F300B5A2C3 /* libTMGeneral.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libTMGeneral.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB4D7B241658B0F300B5A2C3 /* Foundation.framework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		AB4D7B281658B0F300B5A2C3 /* TMGeneral-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TMGeneral-Prefix.pch"; sourceTree = "<group>"; };
@@ -78,9 +107,6 @@
 		AB4D7B3C1658B3B700B5A2C3 /* TMAPIModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMAPIModel.m; sourceTree = "<group>"; };
 		AB4D7B3D1658B3B700B5A2C3 /* TMAPIWebModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMAPIWebModel.h; sourceTree = "<group>"; };
 		AB4D7B3E1658B3B700B5A2C3 /* TMAPIWebModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMAPIWebModel.m; sourceTree = "<group>"; };
-		AB4D7B3F1658B3B700B5A2C3 /* TMDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMDataManager.h; sourceTree = "<group>"; };
-		AB4D7B401658B3B700B5A2C3 /* TMDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMDataManager.m; sourceTree = "<group>"; };
-		AB4D7B431658B3B700B5A2C3 /* TMGeneralDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TMGeneralDataModel.xcdatamodel; sourceTree = "<group>"; };
 		AB4D7B441658B3B700B5A2C3 /* TMGlobalModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMGlobalModel.h; sourceTree = "<group>"; };
 		AB4D7B451658B3B700B5A2C3 /* TMGlobalModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMGlobalModel.m; sourceTree = "<group>"; };
 		AB4D7B461658B3B700B5A2C3 /* TMImageCacheControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMImageCacheControl.h; sourceTree = "<group>"; };
@@ -102,6 +128,19 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		AB0929051681C52E0039704D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AB09292F1681C8A70039704D /* CoreData.framework in Frameworks */,
+				AB09290B1681C52E0039704D /* SenTestingKit.framework in Frameworks */,
+				AB09290D1681C52E0039704D /* UIKit.framework in Frameworks */,
+				AB09290E1681C52E0039704D /* Foundation.framework in Frameworks */,
+				AB09292C1681C8220039704D /* CoreFoundation.framework in Frameworks */,
+				AB09292D1681C8280039704D /* libPods.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AB4D7B1E1658B0F300B5A2C3 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -122,11 +161,43 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AB0928F01681BB770039704D /* ModelManager */ = {
+			isa = PBXGroup;
+			children = (
+				AB0928F61681C1FB0039704D /* TMDataManager.h */,
+				AB0928F71681C1FB0039704D /* TMDataManager.m */,
+				AB0928F51681BDAB0039704D /* TMDataManager+Protected.h */,
+			);
+			path = ModelManager;
+			sourceTree = "<group>";
+		};
+		AB09290F1681C52E0039704D /* TMGeneralUnitTest */ = {
+			isa = PBXGroup;
+			children = (
+				AB0929161681C52E0039704D /* TMGeneralUnitTest.m */,
+				AB09291D1681C5870039704D /* TMGeneralDataManagerTest.m */,
+				AB0929201681C5E80039704D /* TMImageCacheControlTest.m */,
+				AB0929101681C52E0039704D /* Supporting Files */,
+			);
+			path = TMGeneralUnitTest;
+			sourceTree = "<group>";
+		};
+		AB0929101681C52E0039704D /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				AB0929111681C52E0039704D /* TMGeneralUnitTest-Info.plist */,
+				AB0929121681C52E0039704D /* InfoPlist.strings */,
+				AB0929181681C52E0039704D /* TMGeneralUnitTest-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		AB4D7B161658B0F300B5A2C3 = {
 			isa = PBXGroup;
 			children = (
 				AB4D7B261658B0F300B5A2C3 /* TMGeneral */,
 				AB4D7B8B1658C8B700B5A2C3 /* TMGeneralResource */,
+				AB09290F1681C52E0039704D /* TMGeneralUnitTest */,
 				AB4D7B231658B0F300B5A2C3 /* Frameworks */,
 				AB4D7B221658B0F300B5A2C3 /* Products */,
 				03C3F9113300433EA35678A0 /* Pods.xcconfig */,
@@ -138,6 +209,7 @@
 			children = (
 				AB4D7B211658B0F300B5A2C3 /* libTMGeneral.a */,
 				AB4D7B881658C8B700B5A2C3 /* TMGeneralResource.bundle */,
+				AB0929091681C52E0039704D /* TMGeneralUnitTest.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -145,9 +217,12 @@
 		AB4D7B231658B0F300B5A2C3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AB09292E1681C8A70039704D /* CoreData.framework */,
 				AB4D7B241658B0F300B5A2C3 /* Foundation.framework */,
 				E02939F10EC6492BB21EECC9 /* libPods.a */,
 				AB4D7B891658C8B700B5A2C3 /* CoreFoundation.framework */,
+				AB09290A1681C52E0039704D /* SenTestingKit.framework */,
+				AB09290C1681C52E0039704D /* UIKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -155,15 +230,13 @@
 		AB4D7B261658B0F300B5A2C3 /* TMGeneral */ = {
 			isa = PBXGroup;
 			children = (
+				AB0928F01681BB770039704D /* ModelManager */,
 				AB4D7B5D1658B48C00B5A2C3 /* Global */,
 				AB4D7B5C1658B3E600B5A2C3 /* Tool */,
 				AB4D7B5B1658B3DE00B5A2C3 /* ApiModel */,
 				AB4D7B321658B13200B5A2C3 /* Model */,
 				AB4D7B291658B0F300B5A2C3 /* TMGeneral.h */,
 				AB4D7B2B1658B0F300B5A2C3 /* TMGeneral.m */,
-				AB4D7B3F1658B3B700B5A2C3 /* TMDataManager.h */,
-				AB4D7B401658B3B700B5A2C3 /* TMDataManager.m */,
-				AB4D7B421658B3B700B5A2C3 /* TMGeneralDataModel.xcdatamodeld */,
 				AB4D7B461658B3B700B5A2C3 /* TMImageCacheControl.h */,
 				AB4D7B471658B3B700B5A2C3 /* TMImageCacheControl.m */,
 				AB4D7B4E1658B3B700B5A2C3 /* TMViewController.h */,
@@ -184,6 +257,9 @@
 		AB4D7B321658B13200B5A2C3 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				AB0928FD1681C4E30039704D /* TMGeneralDataManager.h */,
+				AB0928FE1681C4E30039704D /* TMGeneralDataManager.m */,
+				AB0928FF1681C4E30039704D /* TMGeneralDataModel.xcdatamodeld */,
 				AB4D7B331658B13200B5A2C3 /* TMApiData.h */,
 				AB4D7B341658B13200B5A2C3 /* TMApiData.m */,
 				AB4D7B351658B13200B5A2C3 /* TMImageCache.h */,
@@ -248,6 +324,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		AB0929081681C52E0039704D /* TMGeneralUnitTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AB0929191681C52E0039704D /* Build configuration list for PBXNativeTarget "TMGeneralUnitTest" */;
+			buildPhases = (
+				AB0929041681C52E0039704D /* Sources */,
+				AB0929051681C52E0039704D /* Frameworks */,
+				AB0929061681C52E0039704D /* Resources */,
+				AB0929071681C52E0039704D /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TMGeneralUnitTest;
+			productName = TMGeneralUnitTest;
+			productReference = AB0929091681C52E0039704D /* TMGeneralUnitTest.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
 		AB4D7B201658B0F300B5A2C3 /* TMGeneral */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = AB4D7B2F1658B0F300B5A2C3 /* Build configuration list for PBXNativeTarget "TMGeneral" */;
@@ -306,11 +400,20 @@
 			targets = (
 				AB4D7B201658B0F300B5A2C3 /* TMGeneral */,
 				AB4D7B871658C8B700B5A2C3 /* TMGeneralResource */,
+				AB0929081681C52E0039704D /* TMGeneralUnitTest */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		AB0929061681C52E0039704D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AB0929141681C52E0039704D /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AB4D7B861658C8B700B5A2C3 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -336,9 +439,35 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
 		};
+		AB0929071681C52E0039704D /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		AB0929041681C52E0039704D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AB0929171681C52E0039704D /* TMGeneralUnitTest.m in Sources */,
+				AB09291E1681C5870039704D /* TMGeneralDataManagerTest.m in Sources */,
+				AB0929211681C5E80039704D /* TMImageCacheControlTest.m in Sources */,
+				AB0929221681C6750039704D /* TMGeneralDataManager.m in Sources */,
+				AB0929231681C67B0039704D /* TMGeneralDataModel.xcdatamodeld in Sources */,
+				AB09292B1681C7460039704D /* TMDataManager.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AB4D7B1D1658B0F300B5A2C3 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -349,13 +478,15 @@
 				AB4D7B501658B3B700B5A2C3 /* TMAPIDownloadModel.m in Sources */,
 				AB4D7B511658B3B700B5A2C3 /* TMAPIModel.m in Sources */,
 				AB4D7B521658B3B700B5A2C3 /* TMAPIWebModel.m in Sources */,
-				AB4D7B531658B3B700B5A2C3 /* TMDataManager.m in Sources */,
 				AB4D7B551658B3B700B5A2C3 /* TMGlobalModel.m in Sources */,
 				AB4D7B561658B3B700B5A2C3 /* TMImageCacheControl.m in Sources */,
 				AB4D7B571658B3B700B5A2C3 /* TMKeyboardController.m in Sources */,
 				AB4D7B581658B3B700B5A2C3 /* TMTools.m in Sources */,
 				AB4D7B591658B3B700B5A2C3 /* TMUITools.m in Sources */,
 				AB4D7B5A1658B3B700B5A2C3 /* TMViewController.m in Sources */,
+				AB0928FA1681C1FB0039704D /* TMDataManager.m in Sources */,
+				AB0929011681C4E30039704D /* TMGeneralDataManager.m in Sources */,
+				AB0929021681C4E30039704D /* TMGeneralDataModel.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -363,13 +494,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AB4D7B961658C8C700B5A2C3 /* TMGeneralDataModel.xcdatamodeld in Sources */,
+				AB0929031681C4E60039704D /* TMGeneralDataModel.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		AB0929121681C52E0039704D /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AB0929131681C52E0039704D /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
 		AB4D7B8E1658C8B700B5A2C3 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -381,6 +520,40 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		AB09291A1681C52E0039704D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "TMGeneralUnitTest/TMGeneralUnitTest-Prefix.pch";
+				INFOPLIST_FILE = "TMGeneralUnitTest/TMGeneralUnitTest-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		AB09291B1681C52E0039704D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "TMGeneralUnitTest/TMGeneralUnitTest-Prefix.pch";
+				INFOPLIST_FILE = "TMGeneralUnitTest/TMGeneralUnitTest-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
 		AB4D7B2D1658B0F300B5A2C3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -496,6 +669,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		AB0929191681C52E0039704D /* Build configuration list for PBXNativeTarget "TMGeneralUnitTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AB09291A1681C52E0039704D /* Debug */,
+				AB09291B1681C52E0039704D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		AB4D7B1B1658B0F300B5A2C3 /* Build configuration list for PBXProject "TMGeneral" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -526,12 +707,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		AB4D7B421658B3B700B5A2C3 /* TMGeneralDataModel.xcdatamodeld */ = {
+		AB0928FF1681C4E30039704D /* TMGeneralDataModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				AB4D7B431658B3B700B5A2C3 /* TMGeneralDataModel.xcdatamodel */,
+				AB0929001681C4E30039704D /* TMGeneralDataModel.xcdatamodel */,
 			);
-			currentVersion = AB4D7B431658B3B700B5A2C3 /* TMGeneralDataModel.xcdatamodel */;
+			currentVersion = AB0929001681C4E30039704D /* TMGeneralDataModel.xcdatamodel */;
 			path = TMGeneralDataModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

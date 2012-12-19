@@ -7,7 +7,7 @@
 //
 
 #import "TMImageCacheControl.h"
-#import "TMDataManager.h"
+#import "TMGeneralDataManager.h"
 #import "TMTools.h"
 
 #import "TMImageCache.h"
@@ -151,7 +151,7 @@
             cacheItem.data = responseObject;
             //returnData = [UIImage imageWithData:responseObject];
             
-            [[TMDataManager sharedInstance] save];
+            [[TMGeneralDataManager sharedInstance] save];
             
             [selfItem finishAndUpdateImage:cacheItem.data WithTagMD5:cacheItem.tag];
             
@@ -408,7 +408,7 @@
         aItem.data = responseObject;
         //returnData = [UIImage imageWithData:responseObject];
         
-        [[TMDataManager sharedInstance] save];
+        [[TMGeneralDataManager sharedInstance] save];
         
         [selfItem finishAndUpdateImage:aItem.data WithTagMD5:aItem.tag];
         
@@ -426,7 +426,7 @@
 
 - (TMImageCache *) createCacheItemFrom:(NSString *)aUrl withTagMD5:(NSString *)aTagMD5 andType:(TMImageControl_Type)aType
 {
-    NSManagedObjectContext *manaedObjectContext = [TMDataManager sharedInstance].mainObjectContext;
+    NSManagedObjectContext *manaedObjectContext = [TMGeneralDataManager sharedInstance].mainThreadManagedObjectContext;
     NSFetchRequest *fetchReq = [[NSFetchRequest alloc]init];
     [fetchReq setEntity:[NSEntityDescription entityForName:@"TMImageCache" inManagedObjectContext:manaedObjectContext]];
     
@@ -441,13 +441,13 @@
         return item;
     } else if ([resultArray count] == 0) {
         
-        NSManagedObjectContext *manaedObjectContext = [TMDataManager sharedInstance].mainObjectContext;
+        NSManagedObjectContext *manaedObjectContext = [TMGeneralDataManager sharedInstance].mainThreadManagedObjectContext;
         TMImageCache *item = [NSEntityDescription insertNewObjectForEntityForName:@"TMImageCache"
                                                          inManagedObjectContext:manaedObjectContext];
         item.tag = aTagMD5;
         item.identify = tmStringFromMD5([NSString stringWithFormat:@"%@%f", aTagMD5, [[NSDate date] timeIntervalSince1970]]);
         item.type = [NSNumber numberWithInt:aType];
-        [[TMDataManager sharedInstance] save];
+        [[TMGeneralDataManager sharedInstance] save];
         
         //[self getDataFrom:aUrl AndSaveIn:item];
         

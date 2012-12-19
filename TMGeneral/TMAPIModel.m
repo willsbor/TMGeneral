@@ -7,7 +7,7 @@
 //
 
 #import "TMAPIModel.h"
-#import "TMDataManager.h"
+#import "TMGeneralDataManager.h"
 #import "TMApiData.h"
 #import "TMTools.h"
 
@@ -57,7 +57,7 @@ static NSTimer *g_checkCacheAPITimer = nil;
     /// 但是要保證 TMAPI_Cache_Type_EveryActive 能被送出
     /// 所以這標要檢查表留需要被執行的命令
     
-    NSManagedObjectContext *manaedObjectContext = [TMDataManager sharedInstance].mainObjectContext;
+    NSManagedObjectContext *manaedObjectContext = [TMGeneralDataManager sharedInstance].mainThreadManagedObjectContext;
     NSFetchRequest *fetchReq = [[NSFetchRequest alloc]init];
     [fetchReq setEntity:[NSEntityDescription entityForName:@"TMApiData" inManagedObjectContext:manaedObjectContext]];
     [fetchReq setPredicate:[NSPredicate predicateWithFormat:@"(cacheType == %d) AND (state == %d OR state == %d)",
@@ -75,7 +75,7 @@ static NSTimer *g_checkCacheAPITimer = nil;
         }
     }
     
-    [[TMDataManager sharedInstance] save];
+    [[TMGeneralDataManager sharedInstance] save];
 }
 
 + (void) switchAPIDataStateFromInvalid2Stop
@@ -88,7 +88,7 @@ static NSTimer *g_checkCacheAPITimer = nil;
     
     
     ///
-    NSManagedObjectContext *manaedObjectContext = [TMDataManager sharedInstance].mainObjectContext;
+    NSManagedObjectContext *manaedObjectContext = [TMGeneralDataManager sharedInstance].mainThreadManagedObjectContext;
     NSFetchRequest *fetchReq = [[NSFetchRequest alloc]init];
     [fetchReq setEntity:[NSEntityDescription entityForName:@"TMApiData" inManagedObjectContext:manaedObjectContext]];
     [fetchReq setPredicate:[NSPredicate predicateWithFormat:@"(state == %d or state == %d)",
@@ -102,12 +102,12 @@ static NSTimer *g_checkCacheAPITimer = nil;
         object.state = [NSNumber numberWithInt:TMAPI_State_Stop];
     }
     
-    [[TMDataManager sharedInstance] save];
+    [[TMGeneralDataManager sharedInstance] save];
 }
 
 + (void) removeAllFinishAPIData
 {
-    NSManagedObjectContext *manaedObjectContext = [TMDataManager sharedInstance].mainObjectContext;
+    NSManagedObjectContext *manaedObjectContext = [TMGeneralDataManager sharedInstance].mainThreadManagedObjectContext;
     NSFetchRequest *fetchReq = [[NSFetchRequest alloc]init];
     [fetchReq setEntity:[NSEntityDescription entityForName:@"TMApiData" inManagedObjectContext:manaedObjectContext]];
     [fetchReq setPredicate:[NSPredicate predicateWithFormat:@"(state == %d or state == %d)",
@@ -121,7 +121,7 @@ static NSTimer *g_checkCacheAPITimer = nil;
         [manaedObjectContext deleteObject:object];
     }
     
-    [[TMDataManager sharedInstance] save];
+    [[TMGeneralDataManager sharedInstance] save];
 }
 
 + (void) _checkAPIAction:(id)sender
@@ -130,7 +130,7 @@ static NSTimer *g_checkCacheAPITimer = nil;
         g_checkCacheAPITimer = nil;
     }
     
-    NSManagedObjectContext *manaedObjectContext = [TMDataManager sharedInstance].mainObjectContext;
+    NSManagedObjectContext *manaedObjectContext = [TMGeneralDataManager sharedInstance].mainThreadManagedObjectContext;
     NSFetchRequest *fetchReq = [[NSFetchRequest alloc]init];
     [fetchReq setEntity:[NSEntityDescription entityForName:@"TMApiData" inManagedObjectContext:manaedObjectContext]];
     [fetchReq setPredicate:[NSPredicate predicateWithFormat:@"(cacheType == %d OR cacheType == %d) AND (state == %d)",
@@ -223,7 +223,7 @@ static NSTimer *g_checkCacheAPITimer = nil;
          || [_actionItem.cacheType intValue] == TMAPI_Cache_Type_EveryActive)) {
         //[self saveTempInDB];
         
-        [[TMDataManager sharedInstance] save];
+        [[TMGeneralDataManager sharedInstance] save];
     }
     
     
@@ -326,7 +326,7 @@ static NSTimer *g_checkCacheAPITimer = nil;
     }
     
     /// 存入DB
-    [[TMDataManager sharedInstance] save];
+    [[TMGeneralDataManager sharedInstance] save];
     
     [g_tempList removeObject:self];
     [myLock unlock];
@@ -350,7 +350,7 @@ static NSTimer *g_checkCacheAPITimer = nil;
     _actionItem.state = [NSNumber numberWithInt:TMAPI_State_Finished];
     
     /// 修改DB暫存物件的狀態
-    [[TMDataManager sharedInstance] save];
+    [[TMGeneralDataManager sharedInstance] save];
     
     [g_tempList removeObject:self];
     [myLock unlock];
@@ -365,7 +365,7 @@ static NSTimer *g_checkCacheAPITimer = nil;
         return _inputParam;
     }
     
-    _inputParam = [[TMDataManager sharedInstance] objectFormNSData:_actionItem.content];
+    _inputParam = [TMDataManager objectFormNSData:_actionItem.content];
     return _inputParam;
 }
 
@@ -440,12 +440,12 @@ static NSTimer *g_checkCacheAPITimer = nil;
         _thread = TMAPI_Thread_Type_Main;
         
         /// 創造一個新的資料物件
-        NSManagedObjectContext *manaedObjectContext = [[TMDataManager sharedInstance] mainObjectContext];
+        NSManagedObjectContext *manaedObjectContext = [TMGeneralDataManager sharedInstance].mainThreadManagedObjectContext;
         _actionItem = [NSEntityDescription insertNewObjectForEntityForName:@"TMApiData"
                                                          inManagedObjectContext:manaedObjectContext];
         
         _actionItem.type = [NSNumber numberWithInt:TMAPI_Type_General];
-        _actionItem.content = [[TMDataManager sharedInstance] dataFromNSData:aInput];
+        _actionItem.content = [TMDataManager dataFromNSData:aInput];
         _actionItem.cacheType = [NSNumber numberWithInt:TMAPI_Cache_Type_None];
         _actionItem.state = [NSNumber numberWithInt:TMAPI_State_Init];
         _actionItem.retryTimes = @3;
@@ -458,7 +458,7 @@ static NSTimer *g_checkCacheAPITimer = nil;
         
         _actionItem.identify = tmStringFromMD5([NSString stringWithFormat:@"%@", _actionItem.createTime]);
         
-        [[TMDataManager sharedInstance] save];
+        [[TMGeneralDataManager sharedInstance] save];
 
     }
     return self;
@@ -477,7 +477,7 @@ static NSTimer *g_checkCacheAPITimer = nil;
         
         _actionItem.lastActionTime = [NSDate date];
         
-        [[TMDataManager sharedInstance] save];
+        [[TMGeneralDataManager sharedInstance] save];
     }
     
     return self;
