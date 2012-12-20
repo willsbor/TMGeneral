@@ -37,7 +37,8 @@ static TMGeneralDataManager *sharedInstance;
 
 - (void) save
 {
-    [super save];
+    //// 儲存 的  狀況會有問題
+    //[super save];
 }
 
 @end
