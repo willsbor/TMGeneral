@@ -25,6 +25,11 @@ static TMGeneralDataManager *sharedInstance;
 	return sharedInstance;
 }
 
+- (NSString *)managedObjectBundleName
+{
+    return @"TMGeneralResource";
+}
+
 - (NSString *)managedObjectModelName
 {
     return @"TMGeneralDataModel";
@@ -32,7 +37,7 @@ static TMGeneralDataManager *sharedInstance;
 
 - (void) save
 {
-    [self save];
+    [super save];
 }
 
 @end

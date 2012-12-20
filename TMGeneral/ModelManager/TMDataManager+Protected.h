@@ -19,6 +19,8 @@
  **/
 - (void)commonInit;
 
+- (NSString *)managedObjectBundleName;
+
 /**
  * Override me, if needed, to provide customized behavior.
  *

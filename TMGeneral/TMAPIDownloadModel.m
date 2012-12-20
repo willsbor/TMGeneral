@@ -7,7 +7,7 @@
 //
 
 #import "TMAPIDownloadModel.h"
-#import "AFNetworking.h"
+#import <AFNetworking/AFNetworking.h>
 #import "TMApiData.h"
 #import "TMTools.h"
 #import "AFDownloadRequestOperation.h"

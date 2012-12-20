@@ -182,6 +182,11 @@ static NSString *g_defaultProjectName = nil;
 #pragma mark Override Me
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+- (NSString *)managedObjectBundleName
+{
+    return nil;
+}
+
 - (NSString *)managedObjectModelName
 {
 	// Override me, if needed, to provide customized behavior.
@@ -495,12 +500,17 @@ static NSString *g_defaultProjectName = nil;
 		NSString *momName = [self managedObjectModelName];
 		
 		//XMPPLogVerbose(@"%@: Creating managedObjectModel (%@)", [self class], momName);
-		
-		NSString *momPath = [[NSBundle mainBundle] pathForResource:momName ofType:@"mom"];
+		NSBundle *bundle = [NSBundle mainBundle];
+        if ([self managedObjectBundleName]) {
+            NSString *bundlePath = [[NSBundle mainBundle] pathForResource:[self managedObjectBundleName] ofType:@"bundle"];
+            bundle = [NSBundle bundleWithPath:bundlePath];
+        }
+        
+		NSString *momPath = [bundle pathForResource:momName ofType:@"mom"];
 		if (momPath == nil)
 		{
 			// The model may be versioned or created with Xcode 4, try momd as an extension.
-			momPath = [[NSBundle mainBundle] pathForResource:momName ofType:@"momd"];
+			momPath = [bundle pathForResource:momName ofType:@"momd"];
 		}
         
 		if (momPath)
