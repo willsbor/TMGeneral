@@ -11,9 +11,13 @@
 #import "TMApiData.h"
 #import "AFHTTPRequestOperation.h"
 
+typedef void(^WebSuccess)(AFHTTPRequestOperation *operation, id responseObject);
+typedef void(^WebFailed)(AFHTTPRequestOperation *operation, NSError *error);
+
 @interface TMAPIWebModel ()
 {
-
+    WebSuccess _successResponse;
+    WebFailed  _failedResponse;
 }
 @end
 
@@ -47,9 +51,18 @@
     _operation = [_httpClient HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [selfItem webSuccess:operation response:responseObject];
         
+        if (_successResponse != nil) {
+            _successResponse(operation, responseObject);
+        }
+        
+        
         [selfItem final];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [selfItem webFailed:operation error:error];
+        
+        if (_failedResponse != nil) {
+            _failedResponse(operation, error);
+        }
         
         if ([selfItem checkRetry]) {
             [selfItem retry];
@@ -71,6 +84,13 @@
 - (void) webFailed:(AFHTTPRequestOperation *)operation error:(NSError *)error
 {
     
+}
+
+- (void)setCompletionBlockWithSuccess:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+                              failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
+{
+    _successResponse = success;
+    _failedResponse = failure;
 }
 
 - (void) final

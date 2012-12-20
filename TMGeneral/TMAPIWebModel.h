@@ -37,4 +37,8 @@ enum {
 - (void) webSuccess:(AFHTTPRequestOperation *)operation response:(id)responseObject;
 - (void) webFailed:(AFHTTPRequestOperation *)operation error:(NSError *)error;
 
+
+- (void)setCompletionBlockWithSuccess:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+                              failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
+
 @end
