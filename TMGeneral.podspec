@@ -17,7 +17,7 @@ Pod::Spec.new do |s|
   #s.resources    = 'TMGeneral/TMGeneralDataModel.xcdatamodeld'
   s.platform     = :ios, '5.0'
   s.ios.deployment_target = '5.0'
-  s.source_files = 'TMGeneral', 'TMGeneralResource', 'TMGeneral/model', 'TMGeneral/ModelManager'
+  s.source_files = 'TMGeneral', 'TMGeneralResource', 'TMGeneral/model', 'TMGeneral/ModelManager', 'TMGeneral/Vender'
   s.framework  = 'CoreData'
   s.requires_arc = true
   #s.dependency 'JSONKit',       '1.4'
