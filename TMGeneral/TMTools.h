@@ -18,4 +18,6 @@ extern NSString *tmStringNSDate(NSDate *aDate, NSString *aFormat);
 
 extern NSString *tmStringRemindTimeWithNSDate(NSDate *aDate);
 
+extern NSString *tmGoogleSign(NSString *aURL, NSString* aKey, NSString *aClientID);
+
 #endif
