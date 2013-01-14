@@ -110,6 +110,12 @@
 
 - (void) checkInputMethod:(TMKeyboardItem *) aItem
 {
+    /// 先判斷是否有select bar
+    CGFloat kh = [self checkInputMethod2];
+    if (aItem.delegate != nil && [aItem.delegate respondsToSelector:@selector(keyboard:changeInputAndWithSelectBarHeight:andKeyBoardHeight:)]) {
+        [aItem.delegate keyboard:self changeInputAndWithSelectBarHeight:_inputMethodModify andKeyBoardHeight:kh];
+    }
+    
     if (aItem.modifiedBySelectedBar == NO) {
         _inputMethodModify = 0;
         _isShowKB = YES;
@@ -120,15 +126,14 @@
     
     //HiiirLog(@"[UITextInputMode currentInputMode].primaryLanguage = %@", string);
     //NSRange range = [string rangeOfString:@"0x46de50"];
-    CGFloat kh = [self checkInputMethod2];
     if ([string isEqualToString:@"zh-Hant"] == YES
         || [string isEqualToString:@"zh-Hans"] == YES) {
     } else
         _inputMethodModify = 0;
     
     
-    if (aItem.delegate != nil && [aItem.delegate respondsToSelector:@selector(keyboard:willModifySelectHigh:OfItem:)]) {
-        [aItem.delegate keyboard:self willModifySelectHigh:kh OfItem:aItem];
+    if (aItem.delegate != nil && [aItem.delegate respondsToSelector:@selector(keyboard:willModifySelectOfItem:)]) {
+        [aItem.delegate keyboard:self willModifySelectOfItem:aItem];
     }
     
     [UIView animateWithDuration:0.1 delay:0.0 options:(UIViewAnimationOptionAllowUserInteraction)  animations:^{
@@ -150,8 +155,8 @@
     } completion:^(BOOL finished) {
         _isShowKB = YES;
         
-        if (aItem.delegate != nil && [aItem.delegate respondsToSelector:@selector(keyboard:didModifySelectHigh:OfItem:)]) {
-            [aItem.delegate keyboard:self didModifySelectHigh:kh OfItem:aItem];
+        if (aItem.delegate != nil && [aItem.delegate respondsToSelector:@selector(keyboard:didModifySelectOfItem:)]) {
+            [aItem.delegate keyboard:self didModifySelectOfItem:aItem];
         }
     }];
 }
@@ -169,6 +174,7 @@
      */
     
     for (TMKeyboardItem *item in [g_KBMs allValues]) {
+        
         if (item.targetTextField != nil) {
             if ([item.targetTextField isFirstResponder]) {
                 [self _m_showKeyBoard:item];
@@ -208,7 +214,7 @@
             }
         }
     }
-
+    
     return YES;
 }
 
@@ -218,11 +224,11 @@
     TMKeyboardItem *item = [self getKeyboardItemWithKey:[self makeKey:textView]];
     
     if (item != nil) {
-    if (item.textViewDelegate) {
-        if ([item.textViewDelegate respondsToSelector:@selector(textViewShouldEndEditing:)]) {
-            return [item.textViewDelegate textViewShouldEndEditing:textView];
+        if (item.textViewDelegate) {
+            if ([item.textViewDelegate respondsToSelector:@selector(textViewShouldEndEditing:)]) {
+                return [item.textViewDelegate textViewShouldEndEditing:textView];
+            }
         }
-    }
     }
     return YES;
 }
@@ -316,10 +322,10 @@
     else if (aItem.tartgetTextView != nil) {
         aItem.tartgetTextView.delegate = self;
     }
-
+    
     /// 20120604 Kang+- object 不可以給nil 不然其他物件也會丟 UITextInputCurrentInputModeDidChangeNotification 然後就會亂跳
     /// 20120905 KAng+- object 如果是_targetTF  連接都接不到orz
-
+    
     for (UIView *object in aItem.movingViews) {
         //_recordY[i++] = 0.0;
         NSString *key = [NSString stringWithFormat:@"%p", object];
@@ -336,7 +342,7 @@
     }
     else if (aItem.tartgetTextView != nil) {
         aItem.tartgetTextView.delegate = nil;
-
+        
     }
     
     
@@ -348,6 +354,8 @@
 }
 
 - (void) _m_showKeyBoard:(TMKeyboardItem *) aItem {
+    
+    
     
     [UIView animateWithDuration:0.3 delay:0.0 options:(UIViewAnimationOptionAllowUserInteraction) animations:^{
         //int i = 0;
@@ -487,9 +495,9 @@
         [self unregister:object];
     }
     
-     g_KBMs = nil;
-     g_KBMs = nil;
-
+    g_KBMs = nil;
+    g_KBMs = nil;
+    
     
     
 }

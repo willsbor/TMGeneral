@@ -20,8 +20,10 @@
 @protocol TMKeyboardDelegate <NSObject>
 
 @optional
-- (void) keyboard:(TMKeyboardController *)aKeyControl willModifySelectHigh:(CGFloat)aKeyBoardHeight OfItem:(TMKeyboardItem *)aKeyItem ;
-- (void) keyboard:(TMKeyboardController *)aKeyControl didModifySelectHigh:(CGFloat)aKeyBoardHeight OfItem:(TMKeyboardItem *)aKeyItem;
+- (void) keyboard:(TMKeyboardController *)aKeyControl willModifySelectOfItem:(TMKeyboardItem *)aKeyItem ;
+- (void) keyboard:(TMKeyboardController *)aKeyControl didModifySelectOfItem:(TMKeyboardItem *)aKeyItem;
+
+- (void) keyboard:(TMKeyboardController *)aKeyControl changeInputAndWithSelectBarHeight:(CGFloat)aSelectBarHeight andKeyBoardHeight:(CGFloat)aKeyboardHeight;
 
 @end
 
