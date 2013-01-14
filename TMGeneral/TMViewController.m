@@ -10,7 +10,7 @@
 #import "TMImageCacheControl.h"
 #import "TMKeyboardController.h"
 
-@interface TMViewController () <TMAPIModelProtocol, UITextViewDelegate>
+@interface TMViewController () <TMAPIModelProtocol, UITextViewDelegate, TMKeyboardDelegate>
 {
     NSMutableArray *_loadingImageViews;
     NSMutableArray *_keyboardWatchList;
@@ -134,7 +134,12 @@
     [[TMKeyboardController defaultTMKeyboardController] hideKeyBoard:KeyboardKey];
 }
 
-
+- (void) hideAllKeyBoard
+{
+    for (NSString *key in _keyboardWatchList) {
+        [self hideKeyBoard:key];
+    }
+}
 
 - (NSString *) registerTextField:(UITextField *) aTargetTextField
                      toMoveViews:(NSArray *)aMovedViews
@@ -160,6 +165,7 @@
     item.movingDist = aMovingDistance;
     item.modifiedBySelectedBar = aSelectBar;
     item.movingViews = aMovedViews;
+    item.delegate = self;
     
     return key;
 }
@@ -197,6 +203,7 @@
     item.movingDist = aMovingDistance;
     item.modifiedBySelectedBar = aSelectBar;
     item.movingViews = aMovedViews;
+    item.delegate = self;
     
     return key;
 }
@@ -211,7 +218,18 @@
 
 #pragma mark - private
 
+#pragma mark - TMKeyboardDelegate
+/*
+- (void) keyboard:(TMKeyboardController *)aKeyControl didModifySelectHigh:(CGFloat)aKeyBoardHeight OfItem:(TMKeyboardItem *)aKeyItem
+{
+    
+}
 
+- (void) keyboard:(TMKeyboardController *)aKeyControl willModifySelectHigh:(CGFloat)aKeyBoardHeight OfItem:(TMKeyboardItem *)aKeyItem
+{
+    
+}
+*/
 
 #pragma mark - TMAPIModelProtocol
 

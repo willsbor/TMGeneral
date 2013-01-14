@@ -39,6 +39,7 @@
        placeholder:(UIImage *)aPlaceholder;
 
 /// keyboard
+- (void) hideAllKeyBoard;
 - (void) showKeyBoard:(NSString *)KeyboardKey;
 - (void) hideKeyBoard:(NSString *)KeyboardKey;
 

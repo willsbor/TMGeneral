@@ -15,6 +15,15 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+@class TMKeyboardController;
+@class TMKeyboardItem;
+@protocol TMKeyboardDelegate <NSObject>
+
+@optional
+- (void) keyboard:(TMKeyboardController *)aKeyControl willModifySelectHigh:(CGFloat)aKeyBoardHeight OfItem:(TMKeyboardItem *)aKeyItem ;
+- (void) keyboard:(TMKeyboardController *)aKeyControl didModifySelectHigh:(CGFloat)aKeyBoardHeight OfItem:(TMKeyboardItem *)aKeyItem;
+
+@end
 
 @interface TMKeyboardItem : NSObject
 
@@ -25,6 +34,8 @@
 @property (nonatomic, strong) UITextField *targetTextField;
 @property (nonatomic, strong) NSArray *movingViews;
 @property (nonatomic, strong) UITextView *tartgetTextView;
+
+@property (nonatomic, weak) id<TMKeyboardDelegate> delegate;
 
 @end
 

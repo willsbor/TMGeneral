@@ -85,15 +85,17 @@
     [g_KBMs removeObjectForKey:aKey];
 }
 
-- (void) checkInputMethod2
+- (CGFloat) checkInputMethod2
 {
+    CGFloat keyBoardHeight = 0;
     for (UIWindow *window in [[UIApplication sharedApplication] windows]) {
         for (UIView *view in [window subviews]) {
             if ([[NSString stringWithFormat:@"%@", [view class]] isEqualToString:@"UIPeripheralHostView"] == YES ) {
-                NSLog(@"%@ - %@", [view class], NSStringFromCGRect([view frame]));
+                //NSLog(@"%@ - %@", [view class], NSStringFromCGRect([view frame]));
                 CGRect tmp = [view frame];
-                if (tmp.size.height == 252  ///< 可能只for iphone 單方向 直的
-                    || tmp.size.height == 198) {    ///< for iphone 單方向 痕的
+                keyBoardHeight = tmp.size.height;
+                if (keyBoardHeight == 252  ///< 可能只for iphone 單方向 直的
+                    || keyBoardHeight == 198) {    ///< for iphone 單方向 橫的
                     _inputMethodModify = 36;
                 } else {
                     _inputMethodModify = 0;
@@ -102,6 +104,8 @@
             }
         }
     }
+    
+    return keyBoardHeight;
 }
 
 - (void) checkInputMethod:(TMKeyboardItem *) aItem
@@ -116,12 +120,16 @@
     
     //HiiirLog(@"[UITextInputMode currentInputMode].primaryLanguage = %@", string);
     //NSRange range = [string rangeOfString:@"0x46de50"];
+    CGFloat kh = [self checkInputMethod2];
     if ([string isEqualToString:@"zh-Hant"] == YES
         || [string isEqualToString:@"zh-Hans"] == YES) {
-        [self checkInputMethod2];
     } else
         _inputMethodModify = 0;
     
+    
+    if (aItem.delegate != nil && [aItem.delegate respondsToSelector:@selector(keyboard:willModifySelectHigh:OfItem:)]) {
+        [aItem.delegate keyboard:self willModifySelectHigh:kh OfItem:aItem];
+    }
     
     [UIView animateWithDuration:0.1 delay:0.0 options:(UIViewAnimationOptionAllowUserInteraction)  animations:^{
         //int i = 0;
@@ -141,6 +149,10 @@
         }
     } completion:^(BOOL finished) {
         _isShowKB = YES;
+        
+        if (aItem.delegate != nil && [aItem.delegate respondsToSelector:@selector(keyboard:didModifySelectHigh:OfItem:)]) {
+            [aItem.delegate keyboard:self didModifySelectHigh:kh OfItem:aItem];
+        }
     }];
 }
 
