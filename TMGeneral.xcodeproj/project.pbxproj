@@ -66,6 +66,8 @@
 		AB4D7B671658B5C700B5A2C3 /* TMViewController.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AB4D7B4E1658B3B700B5A2C3 /* TMViewController.h */; };
 		AB4D7B8A1658C8B700B5A2C3 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB4D7B891658C8B700B5A2C3 /* CoreFoundation.framework */; };
 		AB4D7B901658C8B700B5A2C3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AB4D7B8E1658C8B700B5A2C3 /* InfoPlist.strings */; };
+		ABE621AB16A682E70096C5A8 /* GTMBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = ABFE8F87168803DF00649E88 /* GTMBase64.m */; };
+		ABE621AD16A682EC0096C5A8 /* GTMStringEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = ABFE8F841688034700649E88 /* GTMStringEncoding.m */; };
 		ABFE8F851688034700649E88 /* GTMStringEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = ABFE8F841688034700649E88 /* GTMStringEncoding.m */; };
 		ABFE8F89168803DF00649E88 /* GTMBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = ABFE8F87168803DF00649E88 /* GTMBase64.m */; };
 		DFEBE1BC33864832B06FE090 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E02939F10EC6492BB21EECC9 /* libPods.a */; };
@@ -529,6 +531,8 @@
 				AB09294816820C3E0039704D /* TMGlobalModel.m in Sources */,
 				AB092956168219A60039704D /* TMImageCacheControl.m in Sources */,
 				AB092957168219AF0039704D /* TMGeneral.m in Sources */,
+				ABE621AB16A682E70096C5A8 /* GTMBase64.m in Sources */,
+				ABE621AD16A682EC0096C5A8 /* GTMStringEncoding.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

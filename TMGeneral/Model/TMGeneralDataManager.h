@@ -7,6 +7,7 @@
 //
 
 #import "TMDataManager.h"
+#import "TMDataManager+Protected.h"
 
 @interface TMGeneralDataManager : TMDataManager
 

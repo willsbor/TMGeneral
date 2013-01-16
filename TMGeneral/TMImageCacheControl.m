@@ -147,12 +147,13 @@
         [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
             NSLog(@"ImageCache Success : %@", object.url);
             
-            cacheItem.lastDate = [NSDate date];
-            cacheItem.data = responseObject;
+            [[TMGeneralDataManager sharedInstance] executeBlock:^{
+                cacheItem.lastDate = [NSDate date];
+                cacheItem.data = responseObject;
+            }];
+            
             //returnData = [UIImage imageWithData:responseObject];
-            
-            [[TMGeneralDataManager sharedInstance] save];
-            
+
             [selfItem finishAndUpdateImage:cacheItem.data WithTagMD5:cacheItem.tag];
             
             
@@ -403,12 +404,12 @@
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"ImageCache Success : %@", aUrl);
-        
-        aItem.lastDate = [NSDate date];
-        aItem.data = responseObject;
+        [[TMGeneralDataManager sharedInstance] executeBlock:^{
+            aItem.lastDate = [NSDate date];
+            aItem.data = responseObject;
+        }];
+
         //returnData = [UIImage imageWithData:responseObject];
-        
-        [[TMGeneralDataManager sharedInstance] save];
         
         [selfItem finishAndUpdateImage:aItem.data WithTagMD5:aItem.tag];
         
@@ -426,39 +427,38 @@
 
 - (TMImageCache *) createCacheItemFrom:(NSString *)aUrl withTagMD5:(NSString *)aTagMD5 andType:(TMImageControl_Type)aType
 {
-    NSManagedObjectContext *manaedObjectContext = [TMGeneralDataManager sharedInstance].mainThreadManagedObjectContext;
-    NSFetchRequest *fetchReq = [[NSFetchRequest alloc]init];
-    [fetchReq setEntity:[NSEntityDescription entityForName:@"TMImageCache" inManagedObjectContext:manaedObjectContext]];
-    
-    [fetchReq setPredicate:[NSPredicate predicateWithFormat:@"tag == %@", aTagMD5]];
-    
-    
-    NSArray *resultArray = [manaedObjectContext executeFetchRequest:fetchReq error:nil];
-    
-    if ([resultArray count] == 1) {
-        TMImageCache *item = [resultArray objectAtIndex:0];
+    __block TMImageCache *item = nil;
+    [[TMGeneralDataManager sharedInstance] executeBlock:^{
+        NSManagedObjectContext *manaedObjectContext = [TMGeneralDataManager sharedInstance].managedObjectContext;
+        NSFetchRequest *fetchReq = [[NSFetchRequest alloc]init];
+        [fetchReq setEntity:[NSEntityDescription entityForName:@"TMImageCache" inManagedObjectContext:manaedObjectContext]];
         
-        return item;
-    } else if ([resultArray count] == 0) {
+        [fetchReq setPredicate:[NSPredicate predicateWithFormat:@"tag == %@", aTagMD5]];
         
-        NSManagedObjectContext *manaedObjectContext = [TMGeneralDataManager sharedInstance].mainThreadManagedObjectContext;
-        TMImageCache *item = [NSEntityDescription insertNewObjectForEntityForName:@"TMImageCache"
-                                                         inManagedObjectContext:manaedObjectContext];
-        item.tag = aTagMD5;
-        item.identify = tmStringFromMD5([NSString stringWithFormat:@"%@%f", aTagMD5, [[NSDate date] timeIntervalSince1970]]);
-        item.type = [NSNumber numberWithInt:aType];
-        [[TMGeneralDataManager sharedInstance] save];
+        NSArray *resultArray = [manaedObjectContext executeFetchRequest:fetchReq error:nil];
         
-        //[self getDataFrom:aUrl AndSaveIn:item];
+        if ([resultArray count] == 1) {
+            item = [resultArray objectAtIndex:0];
+            
+        } else if ([resultArray count] == 0) {
+            
+            
+            
+            NSManagedObjectContext *manaedObjectContext = [TMGeneralDataManager sharedInstance].managedObjectContext;
+            item = [NSEntityDescription insertNewObjectForEntityForName:@"TMImageCache"
+                                                 inManagedObjectContext:manaedObjectContext];
+            item.tag = aTagMD5;
+            item.identify = tmStringFromMD5([NSString stringWithFormat:@"%@%f", aTagMD5, [[NSDate date] timeIntervalSince1970]]);
+            item.type = [NSNumber numberWithInt:aType];
+            //[self getDataFrom:aUrl AndSaveIn:item];
+            
+        } else {
+            assert(@"重複");
+        }
         
-        return item;
+    }];
         
-    } else {
-        assert(@"重複");
-        return nil;
-    }
-    
-    return nil;
+    return item;
 }
 
 - (id)init

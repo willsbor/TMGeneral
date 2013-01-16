@@ -20,6 +20,7 @@ static TMGeneralDataManager *sharedInstance;
 	dispatch_once(&onceToken, ^{
 		
 		sharedInstance = [[TMGeneralDataManager alloc] initWithDatabaseFilename:nil];
+        [sharedInstance setSaveThreshold:10]; ///for test
 	});
 	
 	return sharedInstance;
