@@ -51,15 +51,14 @@
 	return sharedInstance;
 }
 
-- (void) finishOnePreloadAndNotify:(NSString *)aTagMD5
+- (int) finishOnePreloadAndNotify:(NSString *)aTagMD5
 {
-    if (preloadDelegate == nil) {
-        return;
-    }
-    
     _preloadCounter++;
     
-    if (_preloadCounter == [_preloadArray count]) {
+    if (preloadDelegate == nil) {
+        
+    }
+    else if (_preloadCounter == [_preloadArray count]) {
         
         if ([preloadDelegate respondsToSelector:@selector(tmImageCacheControl:PreloadFinish:)]) {
             [preloadDelegate tmImageCacheControl:self PreloadFinish:TMImageControl_Preload_Errcode_Success];
@@ -72,6 +71,7 @@
         NSAssert(FALSE, @"_preloadCounter > [_preloadArray count]");
     }
     
+    return [_preloadArray count] - _preloadCounter;
 }
 
 - (void) executePreload:(id<TMImageCacheControlPreloadProtocol>)aDelegete
@@ -87,8 +87,8 @@
         NSString *aTagMD5 = tmStringFromMD5(object.tag);
         
         if (object.type == TMImageControl_Type_NoCache) {
-            [self finishOnePreloadAndNotify:aTagMD5];
-            return;
+            if (0 == [self finishOnePreloadAndNotify:aTagMD5])
+                break;
         }
         
         
@@ -104,8 +104,8 @@
             if (cacheItem.data != nil) {
                 if (object.type == TMImageControl_Type_FirstTime) {
                     /// 已經 有資料了...
-                    [self finishOnePreloadAndNotify:aTagMD5];
-                    return;
+                    if (0 == [self finishOnePreloadAndNotify:aTagMD5])
+                        break;
                 }
                 else if (object.type == TMImageControl_Type_UpdateEveryTime) {
                     
