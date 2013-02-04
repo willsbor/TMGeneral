@@ -37,7 +37,7 @@ static TMGlobal_WaitingView_Animation_Direction g_waitingDirection = TMGlobal_Wa
 
 - (BOOL) isWaitingViewDisplay
 {
-    if (self.waitingView != nil && self.waitingView.hidden == NO) {
+    if (self.waitingView != nil && self.waitingView.alpha != 0.0) {
         return YES;
     } else
         return NO;
@@ -87,6 +87,8 @@ static TMGlobal_WaitingView_Animation_Direction g_waitingDirection = TMGlobal_Wa
             [self.waitingView addSubview:text];
             
             [g_baseView addSubview:self.waitingView];
+            
+            self.waitingView.alpha = 0.0;
         } else {
             text = (UILabel *)[self.waitingView viewWithTag:24632];
         }
@@ -105,12 +107,30 @@ static TMGlobal_WaitingView_Animation_Direction g_waitingDirection = TMGlobal_Wa
         
         if (!(aPoint.x == -3333 && aPoint.y == -3333)) {
             CGRect f = self.waitingView.frame;
-            f.origin.x = aPoint.x - f.size.width;
-            f.origin.y = aPoint.y;
+            
+            
+            switch (g_waitingDirection) {
+                default:
+                case TMGlobal_WaitingView_Animation_Direction_L2R:
+                    f.origin.x = aPoint.x - f.size.width;
+                    f.origin.y = aPoint.y;
+                    break;
+                case TMGlobal_WaitingView_Animation_Direction_R2L:
+                    f.origin.x = aPoint.x;
+                    f.origin.y = aPoint.y;
+                    break;
+                case TMGlobal_WaitingView_Animation_Direction_D2U:
+                    f.origin.x = aPoint.x - f.size.width / 2;
+                    f.origin.y = aPoint.y;
+                    break;
+                case TMGlobal_WaitingView_Animation_Direction_U2D:
+                    f.origin.x = aPoint.x - f.size.width / 2;
+                    f.origin.y = aPoint.y - f.size.height;
+                    break;
+            }
+            
             self.waitingView.frame = f;
         }
-
-        self.waitingView.hidden = NO;
         
         self.waitingView.transform = CGAffineTransformMakeTranslation(0, 0);
         
@@ -137,17 +157,19 @@ static TMGlobal_WaitingView_Animation_Direction g_waitingDirection = TMGlobal_Wa
         
         [UIView animateWithDuration:0.5 delay:0 options:(UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionCurveEaseOut) animations:^{
             self.waitingView.transform = CGAffineTransformMakeTranslation(nextx, nexty);
+            self.waitingView.alpha = 1.0;
         } completion:^(BOOL finished) {
-            self.waitingView.transform = CGAffineTransformMakeTranslation(nextx, nexty);
+            //self.waitingView.transform = CGAffineTransformMakeTranslation(nextx, nexty);
         }];
         
     } else {
-        if (self.waitingView != nil && self.waitingView.hidden == NO) {
+        if (self.waitingView != nil && self.waitingView.alpha != 0.0) {
             [UIView animateWithDuration:0.5 delay:0 options:(UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionCurveEaseOut) animations:^{
                 self.waitingView.transform = CGAffineTransformMakeTranslation(0, 0);
+                self.waitingView.alpha = 0.0;
             } completion:^(BOOL finished) {
-                self.waitingView.hidden = YES;
-                self.waitingView.transform = CGAffineTransformMakeTranslation(0, 0);
+                //self.waitingView.hidden = YES;
+                //self.waitingView.transform = CGAffineTransformMakeTranslation(0, 0);
             }];
         }
     }

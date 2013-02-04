@@ -37,6 +37,7 @@ typedef enum {
 + (void) setWaitingViewAnimationDirection:(TMGlobal_WaitingView_Animation_Direction)aDirection;
 - (void) cleanWaitingViewForLang;
 - (BOOL) isWaitingViewDisplay;
+- (void) showWaitingView:(BOOL)aShow;
 - (void) showWaitingView:(BOOL)aShow AtPoint:(CGPoint)aPoint withText:(NSString *)aText;
 
 @end
