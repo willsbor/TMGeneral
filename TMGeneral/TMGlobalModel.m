@@ -55,9 +55,10 @@ static TMGlobal_WaitingView_Animation_Direction g_waitingDirection = TMGlobal_Wa
     self.waitingViewCloseTimer = nil;
     
     if (self.waitingView != nil && self.waitingView.alpha != 0.0) {
+        __unsafe_unretained TMGlobalModel *selfIem = self;
         [UIView animateWithDuration:0.5 delay:0 options:(UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionCurveEaseOut) animations:^{
-            self.waitingView.transform = CGAffineTransformMakeTranslation(0, 0);
-            self.waitingView.alpha = 0.0;
+            selfIem.waitingView.transform = CGAffineTransformMakeTranslation(0, 0);
+            selfIem.waitingView.alpha = 0.0;
         } completion:^(BOOL finished) {
             //self.waitingView.hidden = YES;
             //self.waitingView.transform = CGAffineTransformMakeTranslation(0, 0);
@@ -171,15 +172,16 @@ static TMGlobal_WaitingView_Animation_Direction g_waitingDirection = TMGlobal_Wa
             break;
     }
     
+    __unsafe_unretained TMGlobalModel *selfIem = self;
     [UIView animateWithDuration:0.5 delay:0 options:(UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionCurveEaseOut) animations:^{
-        self.waitingView.transform = CGAffineTransformMakeTranslation(nextx, nexty);
-        self.waitingView.alpha = 1.0;
+        selfIem.waitingView.transform = CGAffineTransformMakeTranslation(nextx, nexty);
+        selfIem.waitingView.alpha = 1.0;
     } completion:^(BOOL finished) {
         //self.waitingView.transform = CGAffineTransformMakeTranslation(nextx, nexty);
         
         if (aHiddenTime > 0) {
-            [self.waitingViewCloseTimer invalidate];
-            self.waitingViewCloseTimer = [NSTimer scheduledTimerWithTimeInterval:aHiddenTime target:self selector:@selector(closeWaitingViewAction:) userInfo:nil repeats:NO];
+            [selfIem.waitingViewCloseTimer invalidate];
+            selfIem.waitingViewCloseTimer = [NSTimer scheduledTimerWithTimeInterval:aHiddenTime target:selfIem selector:@selector(closeWaitingViewAction:) userInfo:nil repeats:NO];
         }
     }];
 }
