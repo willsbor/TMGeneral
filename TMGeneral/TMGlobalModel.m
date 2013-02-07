@@ -110,6 +110,9 @@ static TMGlobal_WaitingView_Animation_Direction g_waitingDirection = TMGlobal_Wa
         text = (UILabel *)[self.waitingView viewWithTag:24632];
     }
     
+    [self.waitingViewCloseTimer invalidate];
+    
+    CGRect newf;
     if (aText != nil) {
         text.text = aText;
         CGSize textSize = tmStringSize(text.text, text.font, MAXFLOAT);
@@ -119,11 +122,11 @@ static TMGlobal_WaitingView_Animation_Direction g_waitingDirection = TMGlobal_Wa
         
         f = self.waitingView.frame;
         f.size.width = 5.0 + 20/*pV.frame.size.width*/ + 5.0 + text.frame.size.width + 5;
-        self.waitingView.frame = f;
+        newf = f;
     }
     
     if (!(aPoint.x == -3333 && aPoint.y == -3333)) {
-        CGRect f = self.waitingView.frame;
+        CGRect f = newf;
         
         
         switch (g_waitingDirection) {
@@ -146,10 +149,13 @@ static TMGlobal_WaitingView_Animation_Direction g_waitingDirection = TMGlobal_Wa
                 break;
         }
         
-        self.waitingView.frame = f;
+        newf = f;
     }
     
-    self.waitingView.transform = CGAffineTransformMakeTranslation(0, 0);
+    if (self.waitingView.alpha == 0) {
+        self.waitingView.transform = CGAffineTransformMakeTranslation(0, 0);
+        self.waitingView.frame = newf;
+    }
     
     CGFloat nextx, nexty;
     switch (g_waitingDirection) {
@@ -180,7 +186,6 @@ static TMGlobal_WaitingView_Animation_Direction g_waitingDirection = TMGlobal_Wa
         //self.waitingView.transform = CGAffineTransformMakeTranslation(nextx, nexty);
         
         if (aHiddenTime > 0) {
-            [selfIem.waitingViewCloseTimer invalidate];
             selfIem.waitingViewCloseTimer = [NSTimer scheduledTimerWithTimeInterval:aHiddenTime target:selfIem selector:@selector(closeWaitingViewAction:) userInfo:nil repeats:NO];
         }
     }];
