@@ -26,6 +26,8 @@ typedef enum
     TMImageControl_Preload_Errcode_Failed,
 } TMImageControl_Preload_Errcode;
 
+typedef UIImage* (^TMICImageModify)(UIImage *);
+
 @class TMImageCacheControl;
 @protocol TMImageCacheControlPreloadProtocol <NSObject>
 
@@ -37,6 +39,7 @@ typedef enum
 @interface TMImageCacheControl : NSObject
 
 @property (nonatomic, strong) NSDictionary *defaultOptions;
+@property (nonatomic, strong) TMICImageModify ImageModify;
 
 + (TMImageCacheControl *) defaultTMImageCacheControl;
 
@@ -57,5 +60,6 @@ typedef enum
 /// public
 - (void) addPreloadImageURL:(NSString *)aURL withTag:(NSString *)aTag andType:(TMImageControl_Type)aType;
 - (void) executePreload:(id<TMImageCacheControlPreloadProtocol>)aDelegete;
+
 
 @end

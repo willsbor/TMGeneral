@@ -153,7 +153,7 @@
             }];
             
             //returnData = [UIImage imageWithData:responseObject];
-
+            
             [selfItem finishAndUpdateImage:cacheItem.data WithTagMD5:cacheItem.tag];
             
             
@@ -190,7 +190,7 @@
     
     [_preloadArray addObject:item];
     
-
+    
 }
 
 - (void) removeListonImageViews:(NSArray *)aImageViews
@@ -265,14 +265,14 @@
     
     NSAssert(aTag != nil, @"aTag is nil");
     NSAssert([aTag length] > 0, @"[aTag length] == 0");
-    //NSAssert(aURL != nil, @"aURL is nil");  ///tag 跟 url 不能同時為空  URL 為空表示不用網路下載 
+    //NSAssert(aURL != nil, @"aURL is nil");  ///tag 跟 url 不能同時為空  URL 為空表示不用網路下載
     
     /// 結合default options
     NSMutableDictionary *options = [[NSMutableDictionary alloc] initWithDictionary:_defaultOptions];
     [options addEntriesFromDictionary:aOptions];
     
     NSString *aTagMD5 = tmStringFromMD5(aTag);
-
+    
     
     // 先找 globle image list 中有沒有這個iv
     [_lock lock];
@@ -313,13 +313,22 @@
         if (cacheItem.data != nil) {
             if (aType == TMImageControl_Type_FirstTime
                 || aType == TMImageControl_Type_UpdateEveryTime) {
-                aImageView.image = [UIImage imageWithData:cacheItem.data];
+                
+                if (self.ImageModify != nil) {
+                    aImageView.image = _ImageModify([UIImage imageWithData:cacheItem.data]);
+                } else {
+                    aImageView.image = [UIImage imageWithData:cacheItem.data];
+                }
             }
         } else {
             /// 如果cache沒有圖 看看有沒有 placeholder加入
             UIImage *placeholder = [options objectForKey:TM_IMAGE_CACHE_PLACEHOLDER_IMAGE];
             if (placeholder != nil) {
-                aImageView.image = placeholder;
+                if (self.ImageModify != nil) {
+                    aImageView.image = _ImageModify(placeholder);
+                } else {
+                    aImageView.image = placeholder;
+                }
             }
         }
     }
@@ -344,7 +353,7 @@
         /// 只是前面先不拿 cache Image 填入
         [self getDataFrom:aURL AndSaveIn:cacheItem];
     }
-
+    
 }
 
 - (void) finishAndUpdateImage:(NSData *)aImageData WithTagMD5:(NSString *)aTagMD5
@@ -364,7 +373,11 @@
         
         if ([object isKindOfClass:[UIImageView class]]) {
             if (image != nil) {
-                ((UIImageView *)object).image = image;
+                if (self.ImageModify != nil) {
+                    ((UIImageView *)object).image = _ImageModify(image);
+                } else {
+                    ((UIImageView *)object).image = image;
+                }
             }
             
             NSString *imgKey = tmStringFromMD5([object description]);
@@ -408,7 +421,7 @@
             aItem.lastDate = [NSDate date];
             aItem.data = responseObject;
         }];
-
+        
         //returnData = [UIImage imageWithData:responseObject];
         
         [selfItem finishAndUpdateImage:aItem.data WithTagMD5:aItem.tag];
@@ -457,7 +470,7 @@
         }
         
     }];
-        
+    
     return item;
 }
 
