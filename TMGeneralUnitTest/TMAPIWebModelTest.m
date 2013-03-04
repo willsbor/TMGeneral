@@ -11,11 +11,12 @@
 #import "TMApiData.h"
 #import "TMViewController.h"
 #import "TMDataManager.h"
+#import "TMDataManager+Protected.h"
 #import "TMGeneralDataManager.h"
 #import <objc/runtime.h>
 
 @interface TMAPIModel (privateFunction)
-+ (void) _checkAPIAction:(id)sender;
+
 @end
 
 @implementation TMAPIModel (privateFunction)
@@ -33,6 +34,14 @@
 {
     
 }
+
+@end
+
+@interface TMGeneralDataManager (privateFunction)
+- (void) _checkAPIAction:(id)sender;
+@end
+
+@implementation TMGeneralDataManager (privateFunction)
 
 @end
 
@@ -261,15 +270,19 @@
     STAssertTrue(api.errcode == TMAPI_Errcode_Failed, @"Timeout time = 0, so the errcode should be TMAPI_Errcode_Failed (error = %d)", api.errcode);
     
     ///  偷拿出來把timeout 改掉
-    NSManagedObjectContext *manaedObjectContext = [TMGeneralDataManager sharedInstance].mainThreadManagedObjectContext;
-    NSFetchRequest *fetchReq = [[NSFetchRequest alloc]init];
-    [fetchReq setEntity:[NSEntityDescription entityForName:@"TMApiData" inManagedObjectContext:manaedObjectContext]];
-    [fetchReq setPredicate:[NSPredicate predicateWithFormat:@"(cacheType == %d OR cacheType == %d) AND (state == %d)",
-                            TMAPI_Cache_Type_EveryActive,
-                            TMAPI_Cache_Type_ThisActive,
-                            TMAPI_State_Failed]];
+    __block NSArray *resultArray;
+    [[TMGeneralDataManager sharedInstance] executeBlock:^{
+        NSManagedObjectContext *manaedObjectContext = [TMGeneralDataManager sharedInstance].managedObjectContext;
+        NSFetchRequest *fetchReq = [[NSFetchRequest alloc] init];
+        [fetchReq setEntity:[NSEntityDescription entityForName:@"TMApiData" inManagedObjectContext:manaedObjectContext]];
+        [fetchReq setPredicate:[NSPredicate predicateWithFormat:@"(cacheType == %d OR cacheType == %d) AND (state == %d)",
+                                TMAPI_Cache_Type_EveryActive,
+                                TMAPI_Cache_Type_ThisActive,
+                                TMAPI_State_Failed]];
+        
+         resultArray = [manaedObjectContext executeFetchRequest:fetchReq error:nil];
+    }];
     
-    NSArray *resultArray = [manaedObjectContext executeFetchRequest:fetchReq error:nil];
     
     STAssertTrue([resultArray count] == 1, @"there only one Failed api_model");
     
@@ -280,19 +293,24 @@
     object.content = [TMDataManager dataFromNSData:newDic];
     
     //// 後台跑 sub thread 重新開始
-    [TMAPIModel _checkAPIAction:nil];
+    [[TMGeneralDataManager sharedInstance] _checkAPIAction:nil];
     
     asyncWaitUntil = [NSDate dateWithTimeIntervalSinceNow:2.5];
     while ( [asyncWaitUntil timeIntervalSinceNow] > 0) {
 		[[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:asyncWaitUntil];
 	}
     
-    [fetchReq setPredicate:[NSPredicate predicateWithFormat:@"(cacheType == %d OR cacheType == %d) AND (state == %d)",
-                            TMAPI_Cache_Type_EveryActive,
-                            TMAPI_Cache_Type_ThisActive,
-                            TMAPI_State_Finished]];
-    
-    resultArray = [manaedObjectContext executeFetchRequest:fetchReq error:nil];
+    [[TMGeneralDataManager sharedInstance] executeBlock:^{
+        NSManagedObjectContext *manaedObjectContext = [TMGeneralDataManager sharedInstance].managedObjectContext;
+        NSFetchRequest *fetchReq = [[NSFetchRequest alloc] init];
+        [fetchReq setEntity:[NSEntityDescription entityForName:@"TMApiData" inManagedObjectContext:manaedObjectContext]];
+        [fetchReq setPredicate:[NSPredicate predicateWithFormat:@"(cacheType == %d OR cacheType == %d) AND (state == %d)",
+                                TMAPI_Cache_Type_EveryActive,
+                                TMAPI_Cache_Type_ThisActive,
+                                TMAPI_State_Finished]];
+        
+        resultArray = [manaedObjectContext executeFetchRequest:fetchReq error:nil];
+    }];
     
     STAssertTrue([resultArray count] == 1, @"there should be one success task");
 }
