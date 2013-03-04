@@ -32,144 +32,6 @@ static dispatch_queue_t api_model_operation_processing_queue() {
 @implementation TMAPIModel
 @synthesize inputParam = _inputParam;
 
-#pragma mark - static
-
-static NSMutableArray *g_tempList = nil;
-static NSTimer *g_checkCacheAPITimer = nil;
-
-+ (BOOL) isIdentifyInTempList:(NSString *)aIdentify
-{
-    for (TMAPIModel *object in g_tempList) {
-        if ([object.actionItem.identify isEqualToString:aIdentify]) {
-            return YES;
-        }
-    }
-    
-    return NO;
-}
-
-+ (void) switchAPIDataStateFromInvalidDoing2Pending
-{
-    /// 將 不在執行列表中的物件 且 cachetype 是 TMAPI_Cache_Type_EveryActive
-    /// 狀態如果是doing 就轉換成 pending  (先不包含 TMAPI_State_Init)
-    
-    /// 因為程式有可能中途被強制中段 導致 DB內的狀態還停留在doing
-    /// 但是要保證 TMAPI_Cache_Type_EveryActive 能被送出
-    /// 所以這標要檢查表留需要被執行的命令
-    
-    NSManagedObjectContext *manaedObjectContext = [TMGeneralDataManager sharedInstance].mainThreadManagedObjectContext;
-    NSFetchRequest *fetchReq = [[NSFetchRequest alloc]init];
-    [fetchReq setEntity:[NSEntityDescription entityForName:@"TMApiData" inManagedObjectContext:manaedObjectContext]];
-    [fetchReq setPredicate:[NSPredicate predicateWithFormat:@"(cacheType == %d) AND (state == %d OR state == %d)",
-                            TMAPI_Cache_Type_EveryActive,
-                            TMAPI_State_Doing,
-                            TMAPI_State_Pending]];
-     
-    NSArray *resultArray = [manaedObjectContext executeFetchRequest:fetchReq error:nil];
-    
-    for (TMApiData *object in resultArray)
-    {
-        if (NO == [self isIdentifyInTempList:object.identify]) {
-            /// 表示在 cache中  但是不再現在的正在執行列表裡  所以要將 doing & pending -> failed
-            object.state = [NSNumber numberWithInt:TMAPI_State_Failed];
-        }
-    }
-    
-    [[TMGeneralDataManager sharedInstance] save];
-}
-
-+ (void) switchAPIDataStateFromInvalid2Stop
-{
-    /// 這個不會管 有沒有正在執行
-    /// 會將所有 state != pending 都 將 state 轉換成 stop
-    
-    /// 所以要先檢查一些不合法的doing 轉成 pending
-    [[self class] switchAPIDataStateFromInvalidDoing2Pending];
-    
-    
-    ///
-    NSManagedObjectContext *manaedObjectContext = [TMGeneralDataManager sharedInstance].mainThreadManagedObjectContext;
-    NSFetchRequest *fetchReq = [[NSFetchRequest alloc]init];
-    [fetchReq setEntity:[NSEntityDescription entityForName:@"TMApiData" inManagedObjectContext:manaedObjectContext]];
-    [fetchReq setPredicate:[NSPredicate predicateWithFormat:@"(state == %d or state == %d)",
-                            TMAPI_State_Init,
-                            TMAPI_State_Doing]];
-    
-    NSArray *resultArray = [manaedObjectContext executeFetchRequest:fetchReq error:nil];
-    
-    for (TMApiData *object in resultArray)
-    {
-        object.state = [NSNumber numberWithInt:TMAPI_State_Stop];
-    }
-    
-    [[TMGeneralDataManager sharedInstance] save];
-}
-
-+ (void) removeAllFinishAPIData
-{
-    NSManagedObjectContext *manaedObjectContext = [TMGeneralDataManager sharedInstance].mainThreadManagedObjectContext;
-    NSFetchRequest *fetchReq = [[NSFetchRequest alloc]init];
-    [fetchReq setEntity:[NSEntityDescription entityForName:@"TMApiData" inManagedObjectContext:manaedObjectContext]];
-    [fetchReq setPredicate:[NSPredicate predicateWithFormat:@"(state == %d or state == %d)",
-                            TMAPI_State_Finished,
-                            TMAPI_State_Stop]];
-    
-    NSArray *resultArray = [manaedObjectContext executeFetchRequest:fetchReq error:nil];
-    
-    for (TMApiData *object in resultArray)
-    {
-        [manaedObjectContext deleteObject:object];
-    }
-    
-    [[TMGeneralDataManager sharedInstance] save];
-}
-
-+ (void) _checkAPIAction:(id)sender
-{
-    @synchronized([self class]) {
-        g_checkCacheAPITimer = nil;
-    }
-    
-    NSManagedObjectContext *manaedObjectContext = [TMGeneralDataManager sharedInstance].mainThreadManagedObjectContext;
-    NSFetchRequest *fetchReq = [[NSFetchRequest alloc]init];
-    [fetchReq setEntity:[NSEntityDescription entityForName:@"TMApiData" inManagedObjectContext:manaedObjectContext]];
-    [fetchReq setPredicate:[NSPredicate predicateWithFormat:@"(cacheType == %d OR cacheType == %d) AND (state == %d)",
-                            TMAPI_Cache_Type_EveryActive,
-                            TMAPI_Cache_Type_ThisActive,
-                            TMAPI_State_Failed]];
-     
-    NSArray *resultArray = [manaedObjectContext executeFetchRequest:fetchReq error:nil];
-    
-    for (TMApiData *object in resultArray) {
-        /// 設後不理
-        ////  這裡一直執行可能會有行為上的問題  就是假設一直送不成功 ... 系統可能會很忙 or 煩
-        id apiClass = NSClassFromString(object.objectName);
-        id apiModel = [[apiClass alloc] initFromAction:object];
-        ((TMAPIModel *)apiModel).thread = TMAPI_Thread_Type_SubThread;  ///< 如果做保證執行的動作 則讓他在sub thread 做
-        [apiModel startWithDelegate:nil];
-    }
-    
-    [[self class] startCheckCacheAPI];
-}
-
-+ (void) startCheckCacheAPI
-{
-    @synchronized([self class]) {
-        if (g_checkCacheAPITimer != nil) {
-            return;
-        }
-        
-        g_checkCacheAPITimer = [NSTimer scheduledTimerWithTimeInterval:TMAPIMODEL_DEFAULT_CHECK_API_DURATION target:[self class] selector:@selector(_checkAPIAction:) userInfo:nil repeats:NO];
-    }
-}
-
-+ (void) stopCheckCacheAPI
-{
-    @synchronized([self class]) {
-        [g_checkCacheAPITimer invalidate];
-        g_checkCacheAPITimer = nil;
-    }
-}
 
 #pragma mark - private
 
@@ -206,24 +68,19 @@ static NSTimer *g_checkCacheAPITimer = nil;
 
 - (void) startWithDelegate:(id)aDelegate
 {
-    @synchronized(self) {
-        if (g_tempList == nil)
-            g_tempList = [[NSMutableArray alloc] init];
-    }
-    
-    [g_tempList addObject:self];  ///< 加入執行列表
+    [[TMGeneralDataManager sharedInstance].apiIdentifyList addObject:self];  ///< 加入執行列表
     _delegate = aDelegate;
     _errcode = TMAPI_Errcode_Failed;
-    _actionItem.state = [NSNumber numberWithInt:TMAPI_State_Doing];
+    //_actionItem.state = [NSNumber numberWithInt:TMAPI_State_Doing];
+    [[TMGeneralDataManager sharedInstance] changeApiData:_actionItem Status:TMAPI_State_Doing];
     
     _retryCount = [_actionItem.retryTimes intValue];  ///<開始重新設定retry 次數 
     
     //// 如果要背景重傳 .... 就 先存入DB
     if (( [_actionItem.cacheType intValue] == TMAPI_Cache_Type_ThisActive
          || [_actionItem.cacheType intValue] == TMAPI_Cache_Type_EveryActive)) {
-        //[self saveTempInDB];
-        
-        [[TMGeneralDataManager sharedInstance] save];
+
+        //[[TMGeneralDataManager sharedInstance] save];
     }
     
     
@@ -257,8 +114,8 @@ static NSTimer *g_checkCacheAPITimer = nil;
     }
     
     _errcode = TMAPI_Errcode_Failed_And_Retry;
-    _actionItem.state = [NSNumber numberWithInt:TMAPI_State_Doing];
-    
+    //_actionItem.state = [NSNumber numberWithInt:TMAPI_State_Doing];
+    [[TMGeneralDataManager sharedInstance] changeApiData:_actionItem Status:TMAPI_State_Doing];
     
     if (_thread == TMAPI_Thread_Type_SubThread){
         int64_t delayInSeconds = [_actionItem.retryDelayTime doubleValue];
@@ -316,19 +173,22 @@ static NSTimer *g_checkCacheAPITimer = nil;
     
    
     if(_errcode == TMAPI_Errcode_Success || _errcode == TMAPI_Errcode_Cancel) {
-         _actionItem.state = [NSNumber numberWithInt:TMAPI_State_Finished];
+         //_actionItem.state = [NSNumber numberWithInt:TMAPI_State_Finished];
+        [[TMGeneralDataManager sharedInstance] changeApiData:_actionItem Status:TMAPI_State_Finished];
     } else {
         /// 這次流程失敗 包含重試... 所以... 記錄狀態成 TMAPI_State_Pending
         if ([self checkRetry]) {
-            _actionItem.state = [NSNumber numberWithInt:TMAPI_State_Pending];
+            //_actionItem.state = [NSNumber numberWithInt:TMAPI_State_Pending];
+            [[TMGeneralDataManager sharedInstance] changeApiData:_actionItem Status:TMAPI_State_Pending];
         } else
-            _actionItem.state = [NSNumber numberWithInt:TMAPI_State_Failed];
+            //_actionItem.state = [NSNumber numberWithInt:TMAPI_State_Failed];
+            [[TMGeneralDataManager sharedInstance] changeApiData:_actionItem Status:TMAPI_State_Failed];
     }
     
     /// 存入DB
-    [[TMGeneralDataManager sharedInstance] save];
+    //[[TMGeneralDataManager sharedInstance] save];
     
-    [g_tempList removeObject:self];
+    [[TMGeneralDataManager sharedInstance].apiIdentifyList removeObject:self];
     [myLock unlock];
 }
 
@@ -347,12 +207,13 @@ static NSTimer *g_checkCacheAPITimer = nil;
         }
     }
     
-    _actionItem.state = [NSNumber numberWithInt:TMAPI_State_Finished];
+    //_actionItem.state = [NSNumber numberWithInt:TMAPI_State_Finished];
+    [[TMGeneralDataManager sharedInstance] changeApiData:_actionItem Status:TMAPI_State_Finished];
     
     /// 修改DB暫存物件的狀態
-    [[TMGeneralDataManager sharedInstance] save];
+    //[[TMGeneralDataManager sharedInstance] save];
     
-    [g_tempList removeObject:self];
+    [[TMGeneralDataManager sharedInstance].apiIdentifyList removeObject:self];
     [myLock unlock];
 }
 
@@ -398,7 +259,8 @@ static NSTimer *g_checkCacheAPITimer = nil;
 
 - (void) setCacheType:(TMAPI_Cache_Type)cacheType
 {
-    _actionItem.cacheType = [NSNumber numberWithInt:cacheType];
+    //_actionItem.cacheType = [NSNumber numberWithInt:cacheType];
+    [[TMGeneralDataManager sharedInstance] changeApiData:_actionItem CacheType:cacheType];
 }
 
 - (int) retryTimes
@@ -412,7 +274,8 @@ static NSTimer *g_checkCacheAPITimer = nil;
 
 - (void) setRetryTimes:(int)retryTimes
 {
-    _actionItem.retryTimes = [NSNumber numberWithInt:retryTimes];
+    //_actionItem.retryTimes = [NSNumber numberWithInt:retryTimes];
+    [[TMGeneralDataManager sharedInstance] changeApiData:_actionItem RetryTimes:retryTimes];
 }
 
 - (double) retryDelayTime
@@ -426,7 +289,8 @@ static NSTimer *g_checkCacheAPITimer = nil;
 
 - (void) setRetryDelayTime:(double)retryDelayTime
 {
-    _actionItem.retryDelayTime = [NSNumber numberWithDouble:retryDelayTime];
+    //_actionItem.retryDelayTime = [NSNumber numberWithDouble:retryDelayTime];
+    [[TMGeneralDataManager sharedInstance] changeApiData:_actionItem RetryDelayTimes:retryDelayTime];
 }
 
 #pragma mark - init
@@ -440,9 +304,7 @@ static NSTimer *g_checkCacheAPITimer = nil;
         _thread = TMAPI_Thread_Type_Main;
         
         /// 創造一個新的資料物件
-        NSManagedObjectContext *manaedObjectContext = [TMGeneralDataManager sharedInstance].mainThreadManagedObjectContext;
-        _actionItem = [NSEntityDescription insertNewObjectForEntityForName:@"TMApiData"
-                                                         inManagedObjectContext:manaedObjectContext];
+        _actionItem = [[TMGeneralDataManager sharedInstance] createTMApiData];
         
         _actionItem.type = [NSNumber numberWithInt:TMAPI_Type_General];
         _actionItem.content = [TMDataManager dataFromNSData:aInput];
@@ -458,7 +320,7 @@ static NSTimer *g_checkCacheAPITimer = nil;
         
         _actionItem.identify = tmStringFromMD5([NSString stringWithFormat:@"%@", _actionItem.createTime]);
         
-        [[TMGeneralDataManager sharedInstance] save];
+        //[[TMGeneralDataManager sharedInstance] save];
 
     }
     return self;
@@ -477,7 +339,7 @@ static NSTimer *g_checkCacheAPITimer = nil;
         
         _actionItem.lastActionTime = [NSDate date];
         
-        [[TMGeneralDataManager sharedInstance] save];
+        //[[TMGeneralDataManager sharedInstance] save];
     }
     
     return self;

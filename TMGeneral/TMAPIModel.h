@@ -95,15 +95,6 @@ typedef enum
 @property (nonatomic)           double      retryDelayTime;
 
 
-
-+ (void) switchAPIDataStateFromInvalidDoing2Pending;
-+ (void) switchAPIDataStateFromInvalid2Stop;
-
-+ (void) startCheckCacheAPI;
-+ (void) stopCheckCacheAPI;
-
-+ (void) removeAllFinishAPIData;
-
 //// public
 
 - (id) initFromAction:(TMApiData *)aAction;

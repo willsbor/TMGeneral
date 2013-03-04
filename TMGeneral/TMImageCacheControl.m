@@ -148,10 +148,7 @@
         [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
             NSLog(@"ImageCache Success : %@", object.url);
             
-            [[TMGeneralDataManager sharedInstance] executeBlock:^{
-                cacheItem.lastDate = [NSDate date];
-                cacheItem.data = responseObject;
-            }];
+            [[TMGeneralDataManager sharedInstance] imageCache:cacheItem setData:responseObject];
             
             //returnData = [UIImage imageWithData:responseObject];
             
@@ -439,10 +436,8 @@
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"ImageCache Success : %@", aUrl);
-        [[TMGeneralDataManager sharedInstance] executeBlock:^{
-            aItem.lastDate = [NSDate date];
-            aItem.data = responseObject;
-        }];
+        
+        [[TMGeneralDataManager sharedInstance] imageCache:aItem setData:responseObject];
         
         //returnData = [UIImage imageWithData:responseObject];
         
@@ -462,38 +457,7 @@
 
 - (TMImageCache *) createCacheItemFrom:(NSString *)aUrl withTagMD5:(NSString *)aTagMD5 andType:(TMImageControl_Type)aType
 {
-    __block TMImageCache *item = nil;
-    [[TMGeneralDataManager sharedInstance] executeBlock:^{
-        NSManagedObjectContext *manaedObjectContext = [TMGeneralDataManager sharedInstance].managedObjectContext;
-        NSFetchRequest *fetchReq = [[NSFetchRequest alloc]init];
-        [fetchReq setEntity:[NSEntityDescription entityForName:@"TMImageCache" inManagedObjectContext:manaedObjectContext]];
-        
-        [fetchReq setPredicate:[NSPredicate predicateWithFormat:@"tag == %@", aTagMD5]];
-        
-        NSArray *resultArray = [manaedObjectContext executeFetchRequest:fetchReq error:nil];
-        
-        if ([resultArray count] == 1) {
-            item = [resultArray objectAtIndex:0];
-            
-        } else if ([resultArray count] == 0) {
-            
-            
-            
-            NSManagedObjectContext *manaedObjectContext = [TMGeneralDataManager sharedInstance].managedObjectContext;
-            item = [NSEntityDescription insertNewObjectForEntityForName:@"TMImageCache"
-                                                 inManagedObjectContext:manaedObjectContext];
-            item.tag = aTagMD5;
-            item.identify = tmStringFromMD5([NSString stringWithFormat:@"%@%f", aTagMD5, [[NSDate date] timeIntervalSince1970]]);
-            item.type = [NSNumber numberWithInt:aType];
-            //[self getDataFrom:aUrl AndSaveIn:item];
-            
-        } else {
-            assert(@"重複");
-        }
-        
-    }];
-    
-    return item;
+    return [[TMGeneralDataManager sharedInstance] createImageCacheFrom:aUrl withTagMD5:aTagMD5 andType:aType];
 }
 
 - (id)init
