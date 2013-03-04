@@ -35,7 +35,7 @@ static NSTimer *g_checkCacheAPITimer = nil;
 
 - (BOOL) isIdentifyInTempList:(NSString *)aIdentify
 {
-    for (TMAPIModel *object in [[self class] sharedInstance].apiIdentifyList) {
+    for (TMAPIModel *object in self.apiIdentifyList) {
         if ([object.actionItem.identify isEqualToString:aIdentify]) {
             return YES;
         }
@@ -122,7 +122,7 @@ static NSTimer *g_checkCacheAPITimer = nil;
 
 - (void) _checkAPIAction:(id)sender
 {
-    @synchronized([self class]) {
+    @synchronized(self) {
         g_checkCacheAPITimer = nil;
     }
     
@@ -155,18 +155,18 @@ static NSTimer *g_checkCacheAPITimer = nil;
 
 - (void) startCheckCacheAPI
 {
-    @synchronized([self class]) {
+    @synchronized(self) {
         if (g_checkCacheAPITimer != nil) {
             return;
         }
         
-        g_checkCacheAPITimer = [NSTimer scheduledTimerWithTimeInterval:TMAPIMODEL_DEFAULT_CHECK_API_DURATION target:[self class] selector:@selector(_checkAPIAction:) userInfo:nil repeats:NO];
+        g_checkCacheAPITimer = [NSTimer scheduledTimerWithTimeInterval:TMAPIMODEL_DEFAULT_CHECK_API_DURATION target:self selector:@selector(_checkAPIAction:) userInfo:nil repeats:NO];
     }
 }
 
 - (void) stopCheckCacheAPI
 {
-    @synchronized([self class]) {
+    @synchronized(self) {
         [g_checkCacheAPITimer invalidate];
         g_checkCacheAPITimer = nil;
     }
