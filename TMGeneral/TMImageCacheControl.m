@@ -27,6 +27,7 @@
 @interface TMImageCacheControl ()
 {
     NSMutableDictionary *_imageViewList;
+    NSMutableDictionary *_imageView2ActivyList;
     NSMutableDictionary *_activeList;
     
     NSLock *_lock;
@@ -218,8 +219,9 @@
     }
     [_activeList removeObjectsForKeys:removekeys];
     
-    NSString *imgKey = tmStringFromMD5([aImageView description]);
+    NSString *imgKey = tmStringFromMD5([NSString stringWithFormat:@"%p", aImageView]);
     [_imageViewList removeObjectForKey:imgKey];
+    [_imageView2ActivyList removeObjectForKey:imgKey];
     
     /// 清掉
     
@@ -276,7 +278,7 @@
     
     // 先找 globle image list 中有沒有這個iv
     [_lock lock];
-    NSString *imgKey = tmStringFromMD5([aImageView description]);
+    NSString *imgKey = tmStringFromMD5([NSString stringWithFormat:@"%p", aImageView]);
     NSString *tagMD5 = [_imageViewList objectForKey:imgKey];
     //// 有的話
     ///// 將舊 url -> iv 的連結拿掉
@@ -320,6 +322,13 @@
                     aImageView.image = [UIImage imageWithData:cacheItem.data];
                 }
             }
+            
+            UIActivityIndicatorView *aiv = [_imageView2ActivyList objectForKey:imgKey];
+            if (aiv != nil) {
+                [aiv removeFromSuperview];
+                [_imageView2ActivyList removeObjectForKey:imgKey];
+            }
+            
         } else {
             /// 如果cache沒有圖 看看有沒有 placeholder加入
             UIImage *placeholder = [options objectForKey:TM_IMAGE_CACHE_PLACEHOLDER_IMAGE];
@@ -329,6 +338,14 @@
                 } else {
                     aImageView.image = placeholder;
                 }
+            }
+            
+            if ([[options objectForKey:TM_IMAGE_CACHE_ACTIVITY_INDICATOR] boolValue]) {
+                UIActivityIndicatorView *aiv = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:(UIActivityIndicatorViewStyleWhite)];
+                aiv.center = CGPointMake(aImageView.frame.size.width / 2, aImageView.frame.size.height / 2);
+                [aiv startAnimating];
+                [aImageView addSubview:aiv];
+                [_imageView2ActivyList setObject:aiv forKey:imgKey];
             }
         }
     }
@@ -379,9 +396,14 @@
                     ((UIImageView *)object).image = image;
                 }
             }
-            
-            NSString *imgKey = tmStringFromMD5([object description]);
+            NSString *imgKey = tmStringFromMD5([NSString stringWithFormat:@"%p", object]);
             [_imageViewList removeObjectForKey:imgKey];
+            
+            UIActivityIndicatorView *aiv = [_imageView2ActivyList objectForKey:imgKey];
+            if (aiv != nil) {
+                [aiv removeFromSuperview];
+                [_imageView2ActivyList removeObjectForKey:imgKey];
+            }
         }
         else if ([object isKindOfClass:[NSString class]]) {
             if ([((NSString *)object) isEqualToString:_PRELOAD_TAG] ) {
@@ -480,6 +502,7 @@
     if (self) {
         _lock = [[NSLock alloc] init];
         _imageViewList = [[NSMutableDictionary alloc] init];
+        _imageView2ActivyList = [[NSMutableDictionary alloc] init];
         _activeList = [[NSMutableDictionary alloc] init];
         _preloadArray = [[NSMutableArray alloc] init];
     }

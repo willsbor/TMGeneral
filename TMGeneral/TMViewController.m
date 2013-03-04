@@ -102,25 +102,21 @@
        placeholder:(UIImage *)aPlaceholder
 {
     TMImageCacheControl *ICC = [TMImageCacheControl defaultTMImageCacheControl];
+    NSDictionary *option;
     if (aPlaceholder != nil) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [ICC setImageURL:aURL
-                 toImageView:aImageView
-                     withTag:aTag
-                     andType:aType
-                  andOptions:[NSDictionary dictionaryWithObjectsAndKeys:
-                              aPlaceholder, TM_IMAGE_CACHE_PLACEHOLDER_IMAGE,
-                              nil]];
-        });
-       
+       option = @{TM_IMAGE_CACHE_ACTIVITY_INDICATOR: @YES,
+                  TM_IMAGE_CACHE_PLACEHOLDER_IMAGE: aPlaceholder};
     } else {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [ICC setImageURL:aURL
-                 toImageView:aImageView
-                     withTag:aTag
-                     andType:aType];
-        });
+        option = @{TM_IMAGE_CACHE_ACTIVITY_INDICATOR: @YES};
     }
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [ICC setImageURL:aURL
+             toImageView:aImageView
+                 withTag:aTag
+                 andType:aType
+              andOptions:option];
+    });
 }
 
 

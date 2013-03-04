@@ -10,6 +10,7 @@
 #import <Foundation/Foundation.h>
 
 #define TM_IMAGE_CACHE_PLACEHOLDER_IMAGE   @"com.thinkermobile.image_cache.placeholder"
+#define TM_IMAGE_CACHE_ACTIVITY_INDICATOR  @"com.thinkermobile.image_cache.activityindicator"
 
 #define TM_IMAGE_CACHE_NOTIFY_PRELOAD_FINISH   @"com.thinkermobile.image_cache.preload_finish"
 
