@@ -146,7 +146,7 @@
         __unsafe_unretained TMImageCacheControl *selfItem = self;
         AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
         [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-            NSLog(@"ImageCache Success : %@", object.url);
+            NSLog(@"ImageCache Success : (%d) %@", operation.response.statusCode, object.url);
             
             [[TMGeneralDataManager sharedInstance] imageCache:cacheItem setData:responseObject];
             
@@ -156,9 +156,15 @@
             
             
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            NSLog(@"ImageCache Error %@ : %@", object.url, error);
+            NSLog(@"ImageCache Error (%d) %@ : %@", operation.response.statusCode, object.url, error);
             
-            [selfItem finishAndUpdateImage:nil WithTagMD5:cacheItem.tag];
+            if (self.ImageModifyHTTPErrorWithOptions) {
+                UIImage *modifyImage = nil;
+                modifyImage = _ImageModifyHTTPErrorWithOptions(modifyImage, @{@"statusCode":[NSNumber numberWithInteger:operation.response.statusCode]});
+                [selfItem finishAndUpdateImage:UIImagePNGRepresentation(modifyImage) WithTagMD5:cacheItem.tag];
+            } else {
+                [selfItem finishAndUpdateImage:nil WithTagMD5:cacheItem.tag];
+            }
             
         }];
         
@@ -435,7 +441,8 @@
     __unsafe_unretained TMImageCacheControl *selfItem = self;
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"ImageCache Success : %@", aUrl);
+        NSLog(@"ImageCache Success : (%d) %@", operation.response.statusCode, aUrl);
+        
         
         [[TMGeneralDataManager sharedInstance] imageCache:aItem setData:responseObject];
         
@@ -445,10 +452,15 @@
         
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"ImageCache Error %@ : %@", aUrl, error);
+        NSLog(@"ImageCache Error (%d) %@ : %@", operation.response.statusCode, aUrl, error);
         
-        [selfItem finishAndUpdateImage:nil WithTagMD5:aItem.tag];
-        
+        if (self.ImageModifyHTTPErrorWithOptions) {
+            UIImage *modifyImage = nil;
+            modifyImage = _ImageModifyHTTPErrorWithOptions(modifyImage, @{@"statusCode":[NSNumber numberWithInteger:operation.response.statusCode]});
+            [selfItem finishAndUpdateImage:UIImagePNGRepresentation(modifyImage) WithTagMD5:aItem.tag];
+        } else {
+            [selfItem finishAndUpdateImage:nil WithTagMD5:aItem.tag];
+        }
     }];
     
     [operation start];
