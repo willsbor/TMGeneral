@@ -338,10 +338,11 @@
     
     /// 這裡可能要多註冊 inputAccessoryView 變更的話 要在註冊一次
     
-    [aTextField addObserver:self
-                 forKeyPath:@"inputAccessoryView"
-                    options:NSKeyValueObservingOptionNew
-                    context:NULL];
+    /*[aTextField addObserver:self
+     forKeyPath:@"inputAccessoryView"
+     options:NSKeyValueObservingOptionNew
+     context:NULL];
+     */
 }
 
 - (void) _registerHighChangeKVOView:(UITextView *)aTextView
@@ -356,22 +357,23 @@
                                       context:NULL];
     
     /// 這裡可能要多註冊 inputAccessoryView 變更的話 要在註冊一次
-    [aTextView addObserver:self
-                forKeyPath:@"inputAccessoryView"
-                   options:NSKeyValueObservingOptionNew
-                   context:NULL];
+    /*[aTextView addObserver:self
+     forKeyPath:@"inputAccessoryView"
+     options:NSKeyValueObservingOptionNew
+     context:NULL];
+     */
 }
 
 - (void) _unregisterHighChangeKVO:(UITextField *)aTextField
 {
     [aTextField.inputAccessoryView removeObserver:self forKeyPath:@"frame" context:NULL];
-    [aTextField removeObserver:self forKeyPath:@"inputAccessoryView" context:NULL];
+    //[aTextField removeObserver:self forKeyPath:@"inputAccessoryView" context:NULL];
 }
 
 - (void) _unregisterHighChangeKVOView:(UITextView *)aTextView
 {
     [aTextView.inputAccessoryView removeObserver:self forKeyPath:@"frame" context:NULL];
-    [aTextView removeObserver:self forKeyPath:@"inputAccessoryView" context:NULL];
+    //[aTextView removeObserver:self forKeyPath:@"inputAccessoryView" context:NULL];
 }
 
 #pragma mark -
