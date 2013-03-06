@@ -87,6 +87,7 @@
 
 - (CGFloat) checkInputMethod2
 {
+    
     CGFloat keyBoardHeight = 0;
     for (UIWindow *window in [[UIApplication sharedApplication] windows]) {
         for (UIView *view in [window subviews]) {
@@ -308,7 +309,73 @@
     }
 }
 
+#pragma mark - KVO
+
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context {
+    
+    if ([keyPath isEqualToString:@"frame"]) {
+        ///一次動作會重複進去兩次
+        [self inputModeDidChange:nil];
+    }
+    else if ([keyPath isEqualToString:@"inputAccessoryView"]) {
+        /// todo
+    }
+}
+
+- (void) _registerHighChangeKVO:(UITextField *)aTextField
+{
+    if (aTextField.inputAccessoryView == nil) {
+        aTextField.inputAccessoryView = [[UIView alloc] initWithFrame:(CGRectMake(0, 0, 320, 0))];
+    }
+    
+    [aTextField.inputAccessoryView addObserver:self
+                                    forKeyPath:@"frame"
+                                       options:NSKeyValueObservingOptionNew
+                                       context:NULL];
+    
+    /// 這裡可能要多註冊 inputAccessoryView 變更的話 要在註冊一次
+    
+    [aTextField addObserver:self
+                 forKeyPath:@"inputAccessoryView"
+                    options:NSKeyValueObservingOptionNew
+                    context:NULL];
+}
+
+- (void) _registerHighChangeKVOView:(UITextView *)aTextView
+{
+    if (aTextView.inputAccessoryView == nil) {
+        aTextView.inputAccessoryView = [[UIView alloc] initWithFrame:(CGRectMake(0, 0, 320, 0))];
+    }
+    
+    [aTextView.inputAccessoryView addObserver:self
+                                   forKeyPath:@"frame"
+                                      options:NSKeyValueObservingOptionNew
+                                      context:NULL];
+    
+    /// 這裡可能要多註冊 inputAccessoryView 變更的話 要在註冊一次
+    [aTextView addObserver:self
+                forKeyPath:@"inputAccessoryView"
+                   options:NSKeyValueObservingOptionNew
+                   context:NULL];
+}
+
+- (void) _unregisterHighChangeKVO:(UITextField *)aTextField
+{
+    [aTextField.inputAccessoryView removeObserver:self forKeyPath:@"frame" context:NULL];
+    [aTextField removeObserver:self forKeyPath:@"inputAccessoryView" context:NULL];
+}
+
+- (void) _unregisterHighChangeKVOView:(UITextView *)aTextView
+{
+    [aTextView.inputAccessoryView removeObserver:self forKeyPath:@"frame" context:NULL];
+    [aTextView removeObserver:self forKeyPath:@"inputAccessoryView" context:NULL];
+}
+
 #pragma mark -
+
 
 - (void) registerItem:(TMKeyboardItem *) aItem
 {
@@ -318,9 +385,13 @@
         [aItem.targetTextField addTarget:self action:@selector(beginEdit:) forControlEvents:(UIControlEventEditingDidBegin)];
         
         [aItem.targetTextField addTarget:self action:@selector(endEdit:) forControlEvents:(UIControlEventEditingDidEndOnExit)];
+        
+        [self _registerHighChangeKVO:aItem.targetTextField];
     }
     else if (aItem.tartgetTextView != nil) {
         aItem.tartgetTextView.delegate = self;
+        
+        [self _registerHighChangeKVOView:aItem.tartgetTextView];
     }
     
     /// 20120604 Kang+- object 不可以給nil 不然其他物件也會丟 UITextInputCurrentInputModeDidChangeNotification 然後就會亂跳
@@ -339,10 +410,13 @@
         [aItem.targetTextField removeTarget:self action:@selector(beginEdit:) forControlEvents:UIControlEventEditingDidBegin];
         [aItem.targetTextField removeTarget:self action:@selector(endEdit:) forControlEvents:UIControlEventEditingDidEndOnExit];
         //[_targetTF removeTarget:self action:@selector(endEdit:) forControlEvents:UIControlEventEditingDidEnd];
+        
+        [self _unregisterHighChangeKVO:aItem.targetTextField];
     }
     else if (aItem.tartgetTextView != nil) {
         aItem.tartgetTextView.delegate = nil;
         
+        [self _unregisterHighChangeKVOView:aItem.tartgetTextView];
     }
     
     
