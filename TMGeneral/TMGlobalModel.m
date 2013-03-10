@@ -215,6 +215,41 @@ static TMGlobal_WaitingView_Animation_Direction g_waitingDirection = TMGlobal_Wa
     }
 }
 
+- (void) clearOneTimeTag:(NSString *)aDefineName
+{
+    if (aDefineName == nil) {
+        return;
+    }
+    
+    NSNumber *v = [[NSUserDefaults standardUserDefaults] objectForKey:aDefineName];
+    if (v != nil) {
+        if ([v isKindOfClass:[NSNumber class]] && [v boolValue]) {
+            [[NSUserDefaults standardUserDefaults] setObject:@NO forKey:aDefineName];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+        }
+    }
+}
+
+- (void) setOneTimeForTag:(NSString *)aDefineName withAction:(void (^)(void))aAction
+{
+    if (aDefineName == nil) {
+        return;
+    }
+    
+    NSNumber *v = [[NSUserDefaults standardUserDefaults] objectForKey:aDefineName];
+    if (v == nil) {
+        [[NSUserDefaults standardUserDefaults] setObject:@YES forKey:aDefineName];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        aAction();
+    } else {
+        if ([v isKindOfClass:[NSNumber class]] && [v boolValue] == NO) {
+            [[NSUserDefaults standardUserDefaults] setObject:@YES forKey:aDefineName];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            aAction();
+        }
+    }
+}
+
 - (id)init
 {
     self = [super init];

@@ -23,7 +23,7 @@ typedef enum {
 
 @interface TMGlobalModel : NSObject
 {
-
+    
 }
 
 @property (nonatomic, readonly) NSMutableDictionary* mapKey;
@@ -42,4 +42,6 @@ typedef enum {
 ///   aHiddenTime < =0 is show all the time
 - (void) waitingViewShowAtPoint:(CGPoint)aPoint withText:(NSString *)aText withDelayHidden:(NSTimeInterval)aHiddenTime;
 
+- (void) setOneTimeForTag:(NSString *)aDefineName withAction:(void (^)(void))aAction;
+- (void) clearOneTimeTag:(NSString *)aDefineName;
 @end
