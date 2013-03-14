@@ -42,6 +42,24 @@ typedef enum {
 ///   aHiddenTime < =0 is show all the time
 - (void) waitingViewShowAtPoint:(CGPoint)aPoint withText:(NSString *)aText withDelayHidden:(NSTimeInterval)aHiddenTime;
 
+/**
+ * 設定 檢查一個flag 如果為nil or NO 則會執行 action 然後 將flag設定成 YES;
+ */
 - (void) setOneTimeForTag:(NSString *)aDefineName withAction:(void (^)(void))aAction;
+
+/**
+ * 將一個flag 如果他存在在UserDefault的話， 設定成 NO
+ */
 - (void) clearOneTimeTag:(NSString *)aDefineName;
+
+/**
+ * 設定 檢查一個flag 如果為nil or NO 則會執行 action 
+ */
+- (void) checkOneTimeForTag:(NSString *)aDefineName withAction:(void (^)(void))aAction;
+
+/**
+ * 將一個flag 設定成 YES 且儲存在 UserDefault
+ */
+- (void) setOneTimeTag:(NSString *)aDefineName;
+
 @end

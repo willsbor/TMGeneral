@@ -250,6 +250,39 @@ static TMGlobal_WaitingView_Animation_Direction g_waitingDirection = TMGlobal_Wa
     }
 }
 
+/**
+ * 設定 檢查一個flag 如果為nil or NO 則會執行 action
+ */
+- (void) checkOneTimeForTag:(NSString *)aDefineName withAction:(void (^)(void))aAction
+{
+    if (aDefineName == nil) {
+        return;
+    }
+    
+    NSNumber *v = [[NSUserDefaults standardUserDefaults] objectForKey:aDefineName];
+    if (v == nil) {
+        aAction();
+    } else {
+        if ([v isKindOfClass:[NSNumber class]] && [v boolValue] == NO) {
+            aAction();
+        }
+    }
+}
+
+/**
+ * 將一個flag 設定成 YES 且儲存在 UserDefault
+ */
+- (void) setOneTimeTag:(NSString *)aDefineName
+{
+    if (aDefineName == nil) {
+        return;
+    }
+    
+    //NSNumber *v = [[NSUserDefaults standardUserDefaults] objectForKey:aDefineName];
+    [[NSUserDefaults standardUserDefaults] setObject:@YES forKey:aDefineName];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
 - (id)init
 {
     self = [super init];
