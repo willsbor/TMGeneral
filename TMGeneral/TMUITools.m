@@ -284,6 +284,18 @@ CGSize tmStringSize(NSString *aString, UIFont *aFont, float aRefWidth)
     return expectedLabelSize;
 }
 
+void tmModifyLabelSizeByFontSize(UILabel *aText, float aMaxFontSize, float aMinFontSize)
+{
+    CGFloat fsize = aMaxFontSize;
+    CGSize s;
+    do {
+        aText.font = [aText.font fontWithSize:fsize];
+        fsize -= 1.0;
+        s = tmStringSize(aText.text, aText.font, aText.frame.size.width);
+        
+    } while (s.height > aText.frame.size.height && fsize > aMinFontSize);
+}
+
 void tmBringUIViewBehindAtY(UIView *aSecond, UIView *aRefView, float aOffset)
 {
     CGRect newFrame = aSecond.frame;
