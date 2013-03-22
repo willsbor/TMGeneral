@@ -68,10 +68,21 @@ static TMGlobal_WaitingView_Animation_Direction g_waitingDirection = TMGlobal_Wa
 
 - (void) waitingViewShowAtPoint:(CGPoint)aPoint withText:(NSString *)aText withDelayHidden:(NSTimeInterval)aHiddenTime
 {
+    static CGFloat upBottomBuffer = 8;
+    static CGFloat defaultActivityIndWidth = 20.0;   /*activityIndicator 要預留的寬度*/
+    static CGFloat cBuffer = 5.0;
+    static CGFloat tBuffer = 4.0;  ///< 我也忘了這是什麼
+    
     if (g_baseView == nil) {
         return;
     }
     
+    UIFont *font = [UIFont systemFontOfSize:12.0];
+    CGSize textSize = tmStringSize(aText, font, [[ UIScreen mainScreen ] bounds ].size.width
+                                   - (defaultActivityIndWidth + cBuffer * 3 + tBuffer));
+    NSLog(@"textSize = %@", NSStringFromCGSize(textSize));
+    
+    UIActivityIndicatorView *pV;
     UILabel *text;
     if (self.waitingView == nil) {
         if (aText == nil) {
@@ -84,22 +95,27 @@ static TMGlobal_WaitingView_Animation_Direction g_waitingDirection = TMGlobal_Wa
         }
         
         CGFloat height = [[ UIScreen mainScreen ] bounds ].size.height;
-        self.waitingView = [[UIView alloc] initWithFrame:CGRectMake(0, height - 60, 130, 40)];
+        self.waitingView = [[UIView alloc] initWithFrame:CGRectMake(0, height - 60, 130, textSize.height + upBottomBuffer + upBottomBuffer)];
         self.waitingView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.5];
         [self.waitingView.layer setCornerRadius:4.0f];
         [self.waitingView.layer setMasksToBounds:YES];
         [self.waitingView.layer setBorderWidth:1.0f];
         [self.waitingView.layer setBorderColor: [[UIColor grayColor] CGColor]];
         
-        UIActivityIndicatorView *pV = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:(UIActivityIndicatorViewStyleWhite)];
+        pV = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:(UIActivityIndicatorViewStyleWhite)];
+        pV.tag = 3233;
         [pV startAnimating];
         [self.waitingView addSubview:pV];
-        pV.center = CGPointMake(pV.frame.size.width / 2 + 5, 20);
+        CGRect f = pV.frame;
+        f.origin.x = cBuffer;
+        f.origin.y = (self.waitingView.frame.size.height - f.size.height) / 2;
+        pV.frame = f;
         
-        text = [[UILabel alloc] initWithFrame:CGRectMake(pV.frame.size.width + 10, 0, 100, 40)];
+        text = [[UILabel alloc] initWithFrame:CGRectMake(pV.frame.size.width + 10, 0, 100, textSize.height + upBottomBuffer + upBottomBuffer)];
+        text.numberOfLines = 0;
         text.backgroundColor = [UIColor clearColor];
         text.textColor = [UIColor whiteColor];
-        text.font = [UIFont systemFontOfSize:12.0];
+        text.font = font;
         text.tag = 24632;
         [self.waitingView addSubview:text];
         
@@ -108,6 +124,7 @@ static TMGlobal_WaitingView_Animation_Direction g_waitingDirection = TMGlobal_Wa
         self.waitingView.alpha = 0.0;
     } else {
         text = (UILabel *)[self.waitingView viewWithTag:24632];
+        pV = (UIActivityIndicatorView *)[self.waitingView viewWithTag:3233];
     }
     
     [self.waitingViewCloseTimer invalidate];
@@ -115,14 +132,19 @@ static TMGlobal_WaitingView_Animation_Direction g_waitingDirection = TMGlobal_Wa
     CGRect newf;
     if (aText != nil) {
         text.text = aText;
-        CGSize textSize = tmStringSize(text.text, text.font, MAXFLOAT);
         CGRect f = text.frame;
-        f.size.width = textSize.width + 4;
+        f.size.width = textSize.width + tBuffer;
+        f.size.height = textSize.height + upBottomBuffer * 2;
         text.frame = f;
         
         f = self.waitingView.frame;
-        f.size.width = 5.0 + 20/*pV.frame.size.width*/ + 5.0 + text.frame.size.width + 5;
+        f.size.width = cBuffer + defaultActivityIndWidth + cBuffer + text.frame.size.width + cBuffer;
+        f.size.height = textSize.height + upBottomBuffer * 2;
         newf = f;
+        
+        f = pV.frame;
+        f.origin.y = (newf.size.height - f.size.height) / 2;
+        pV.frame = f;
     }
     
     if (!(aPoint.x == -3333 && aPoint.y == -3333)) {
