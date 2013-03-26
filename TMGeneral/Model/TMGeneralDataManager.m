@@ -258,11 +258,6 @@ static NSTimer *g_checkCacheAPITimer = nil;
 
 #pragma mark -
 
-- (NSString *)managedObjectBundleName
-{
-    return @"TMGeneralResource";
-}
-
 - (NSString *)managedObjectModelName
 {
     return @"TMGeneralDataModel";
