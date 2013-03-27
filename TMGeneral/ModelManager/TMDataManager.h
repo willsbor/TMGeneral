@@ -107,6 +107,11 @@
 + (NSData *) dataFromNSData:(id)aObject;
 + (id) objectFormNSData:(NSData *)aData;
 
+- (NSFetchedResultsController *) createFetchResultsControllerWithEntityForName:(NSString *)aEntity
+                                                                  andPredicate:(NSPredicate *)predicate
+                                                                      andSorts:(NSArray *)sorts
+                                                                  andCacheName:(NSString *)aCacheName;
+
 @end
 /*
 @interface TMDataManager : NSObject
