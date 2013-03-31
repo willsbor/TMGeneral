@@ -23,9 +23,12 @@ typedef enum
 
 typedef enum
 {
-    TMImageControl_Preload_Errcode_Success,
-    TMImageControl_Preload_Errcode_Failed,
-} TMImageControl_Preload_Errcode;
+    TMImageControl_Errcode_Success,
+    TMImageControl_Errcode_Failed,
+    TMImageControl_Errcode_No_Downlaod_URL,
+    TMImageControl_Errcode_ServerError,
+    TMImageControl_Errcode_ServerError_With_ModifyImage,
+} TMImageControl_Errcode;
 
 typedef UIImage* (^TMICImageModify)(UIImage *);
 typedef UIImage* (^TMICImageModifyHTTPErrorWithOptions)(UIImage *, NSDictionary *);
@@ -59,6 +62,11 @@ typedef UIImage* (^TMICImageModifyHTTPErrorWithOptions)(UIImage *, NSDictionary 
              withTag:(NSString *)aTag
              andType:(TMImageControl_Type)aType
           andOptions:(NSDictionary *)aOptions;
+
+- (void) setImageURL:(NSString *)aURL toComplete:(void (^)(UIImage *aImage, NSError *error))aComplete;
+- (void) setImageURL:(NSString *)aURL withTag:(NSString *)aTag toComplete:(void (^)(UIImage *aImage, NSError *error))aComplete;
+- (void) setImageURL:(NSString *)aURL withType:(TMImageControl_Type)aType toComplete:(void (^)(UIImage *aImage, NSError *error))aComplete;
+- (void) setImageURL:(NSString *)aURL withTag:(NSString *)aTag andType:(TMImageControl_Type)aType toComplete:(void (^)(UIImage *aImage, NSError *error))aComplete;
 
 /// public
 - (void) addPreloadImageURL:(NSString *)aURL withTag:(NSString *)aTag andType:(TMImageControl_Type)aType;
