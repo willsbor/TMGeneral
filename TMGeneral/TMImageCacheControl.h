@@ -44,14 +44,15 @@ typedef UIImage* (^TMICImageModifyHTTPErrorWithOptions)(UIImage *, NSDictionary 
 @interface TMImageCacheControl : NSObject
 
 @property (nonatomic, strong) NSDictionary *defaultOptions;
-@property (nonatomic, strong) TMICImageModify ImageModify;
-@property (nonatomic, strong) TMICImageModifyHTTPErrorWithOptions ImageModifyHTTPErrorWithOptions;
+@property (nonatomic, strong) TMICImageModify ImageModify;    ///< 圖片擷取後 （不論從網路還是cache）皆會經過此block做圖片修改 (修改圖片不會存入cache)
+@property (nonatomic, strong) TMICImageModifyHTTPErrorWithOptions ImageModifyHTTPErrorWithOptions; ///< 如果網路有產生error code會經過此block 做圖片修改 (修改圖片不會存入cache)(之後會在經過一次 ImageModify)
 
 + (TMImageCacheControl *) defaultTMImageCacheControl;
 
 //// for TMViewController
 - (void) removeListonImageViews:(NSArray *)aImageViews;
 - (void) removeListonImageView:(UIImageView *)aImageView;
+
 
 - (void) setImageURL:(NSString *)aURL toImageView:(UIImageView *)aImageView;
 - (void) setImageURL:(NSString *)aURL toImageView:(UIImageView *)aImageView withTag:(NSString *)aTag;
@@ -63,6 +64,10 @@ typedef UIImage* (^TMICImageModifyHTTPErrorWithOptions)(UIImage *, NSDictionary 
              andType:(TMImageControl_Type)aType
           andOptions:(NSDictionary *)aOptions;
 
+/**
+ * 下面為擷取一個網址的圖片，結果會引到block，但是存取中的重複讀取(time issue) 尚未做最佳化與處理
+ * 並且沒有影響到上面to Image的function
+ */
 - (void) setImageURL:(NSString *)aURL toComplete:(void (^)(UIImage *aImage, NSError *error))aComplete;
 - (void) setImageURL:(NSString *)aURL withTag:(NSString *)aTag toComplete:(void (^)(UIImage *aImage, NSError *error))aComplete;
 - (void) setImageURL:(NSString *)aURL withType:(TMImageControl_Type)aType toComplete:(void (^)(UIImage *aImage, NSError *error))aComplete;

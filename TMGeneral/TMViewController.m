@@ -12,9 +12,10 @@
 
 @interface TMViewController () <TMAPIModelProtocol, UITextViewDelegate, TMKeyboardDelegate>
 {
-    NSMutableArray *_loadingImageViews;
-    NSMutableArray *_keyboardWatchList;
+
 }
+@property (nonatomic, strong) NSMutableArray *loadingImageViews;
+@property (nonatomic, strong) NSMutableArray *keyboardWatchList;
 
 @end
 
@@ -37,7 +38,7 @@
 
 - (void) cancelAPIForKey:(NSString *)aKey
 {
-    TMAPIModel *object = [_activeAPIs objectForKey:aKey];
+    TMAPIModel *object = [self.activeAPIs objectForKey:aKey];
     if (object != nil) {
         /// 取消api動作
         if (object.mode == TMAPI_Mode_Leave_With_Cancel) {
@@ -46,13 +47,13 @@
         object.delegate = nil;
         
         /// 從清單中移除
-        [_activeAPIs removeObjectForKey:aKey];
+        [self.activeAPIs removeObjectForKey:aKey];
     }
 }
 
 - (id) apiModelByKey:(NSString *)aKey
 {
-    return [_activeAPIs objectForKey:aKey];
+    return [self.activeAPIs objectForKey:aKey];
 }
 
 - (void) executeAPI:(TMAPIModel *)aModel
@@ -62,7 +63,7 @@
 
 - (void) executeAPI:(TMAPIModel *)aModel withKey:(NSString *)aKey
 {
-    TMAPIModel *object = [_activeAPIs objectForKey:aKey];
+    TMAPIModel *object = [self.activeAPIs objectForKey:aKey];
     
     if (object != nil) {
         if (object.mode == TMAPI_Mode_Leave_With_Cancel) {
@@ -71,7 +72,7 @@
         object.delegate = nil;
     }
     
-    [_activeAPIs setObject:aModel forKey:aKey];
+    [self.activeAPIs setObject:aModel forKey:aKey];
     
     aModel.key = aKey;
     [aModel startWithDelegate:self];
@@ -110,6 +111,8 @@
         option = @{TM_IMAGE_CACHE_ACTIVITY_INDICATOR: @YES};
     }
     
+    [self.loadingImageViews addObject:aImageView];
+    
     dispatch_async(dispatch_get_main_queue(), ^{
         [ICC setImageURL:aURL
              toImageView:aImageView
@@ -132,7 +135,7 @@
 
 - (void) hideAllKeyBoard
 {
-    for (NSString *key in _keyboardWatchList) {
+    for (NSString *key in self.keyboardWatchList) {
         [self hideKeyBoard:key];
     }
 }
@@ -146,10 +149,10 @@
     NSString *key = [[TMKeyboardController defaultTMKeyboardController] makeKey:aTargetTextField];
     
     TMKeyboardItem *item;
-    if ( [_keyboardWatchList containsObject:key] ) {
+    if ( [self.keyboardWatchList containsObject:key] ) {
         item = [[TMKeyboardController defaultTMKeyboardController] getKeyboardItemWithKey:key];
     } else {
-        [_keyboardWatchList addObject:key];
+        [self.keyboardWatchList addObject:key];
         
         item = [[TMKeyboardItem alloc] init];
         item.targetTextField = aTargetTextField;
@@ -183,10 +186,10 @@
     NSString *key = [[TMKeyboardController defaultTMKeyboardController] makeKey:aTargetTextView];
     
     TMKeyboardItem *item;
-    if ( [_keyboardWatchList containsObject:key] ) {
+    if ( [self.keyboardWatchList containsObject:key] ) {
         item = [[TMKeyboardController defaultTMKeyboardController] getKeyboardItemWithKey:key];
     } else {
-        [_keyboardWatchList addObject:key];
+        [self.keyboardWatchList addObject:key];
         
         item = [[TMKeyboardItem alloc] init];
         item.tartgetTextView = aTargetTextView;
@@ -245,7 +248,7 @@
 {
     UITouch *touch = [touches anyObject];
     if ([_touchHiddenKeyBoardsByViews containsObject:[touch view]]) {
-        for (NSString *key in _keyboardWatchList) {
+        for (NSString *key in self.keyboardWatchList) {
             [self hideKeyBoard:key];
         }
     }
@@ -259,7 +262,7 @@
 
     //// 離開View時  取消需要取消的api
     //// 不需要取消的則會繼續執行 但是delegate清掉
-    for (TMAPIModel *object in [_activeAPIs allValues]) {
+    for (TMAPIModel *object in [self.activeAPIs allValues]) {
         if (object.mode == TMAPI_Mode_Leave_With_Cancel) {
             [object cancel];
         }
@@ -268,15 +271,13 @@
     }
     
     /// 從觀察清單中移除
-    [_activeAPIs removeAllObjects];
+    [self.activeAPIs removeAllObjects];
     
     //// 移除keyboardWatchItem
-    for (NSString *key in _keyboardWatchList) {
+    for (NSString *key in self.keyboardWatchList) {
         [[TMKeyboardController defaultTMKeyboardController] removeWithKey:key];
     }
     
-    //// 移除 all url -> iv 的連結 (但是圖片還是會繼續下載到Cache中)
-    [[TMImageCacheControl defaultTMImageCacheControl] removeListonImageViews:_loadingImageViews];
 }
 
 - (id) initWithUniversal
@@ -298,17 +299,38 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        _activeAPIs = [[NSMutableDictionary alloc] init];
-        _loadingImageViews = [[NSMutableArray alloc] init];
-        _keyboardWatchList = [[NSMutableArray alloc] init];
     }
     return self;
 }
 
-- (void)dealloc
+- (NSMutableDictionary *) activeAPIs
 {
-     _loadingImageViews = nil;
-     _keyboardWatchList = nil;
+    if (_activeAPIs) {
+        return _activeAPIs;
+    }
+    
+    _activeAPIs = [[NSMutableDictionary alloc] init];
+    return _activeAPIs;
+}
+
+- (NSMutableArray *) loadingImageViews
+{
+    if (_loadingImageViews) {
+        return _loadingImageViews;
+    }
+    
+    _loadingImageViews = [[NSMutableArray alloc] init];
+    return _loadingImageViews;
+}
+
+- (NSMutableArray *) keyboardWatchList
+{
+    if (_keyboardWatchList) {
+        return _keyboardWatchList;
+    }
+    
+    _keyboardWatchList = [[NSMutableArray alloc] init];
+    return _keyboardWatchList;
 }
 
 - (void)viewDidLoad
@@ -324,14 +346,30 @@
     
     //// 清除掉已經結束的api
     NSMutableArray *removeObjs = [[NSMutableArray alloc] init];
-    for (TMAPIModel *object in [_activeAPIs allValues]) {
+    for (TMAPIModel *object in [self.activeAPIs allValues]) {
         if (object.state == TMAPI_State_Finished
             || (object.cacheType == TMAPI_Cache_Type_None && object.state == TMAPI_State_Failed)) {
             [removeObjs addObject:object.key];
         }
     }
     
-    [_activeAPIs removeObjectsForKeys:removeObjs];
+    [self.activeAPIs removeObjectsForKeys:removeObjs];
+    
+    
+    if ([self.view window] == nil)
+    {
+        // Add code to preserve data stored in the views that might be
+        // needed later.
+        
+        // Add code to clean up other strong references to the view in
+        // the view hierarchy.
+        
+        //// 移除 all url -> iv 的連結 (但是圖片還是會繼續下載到Cache中)
+        [[TMImageCacheControl defaultTMImageCacheControl] removeListonImageViews:self.loadingImageViews];
+        self.loadingImageViews = nil;
+        
+        self.view = nil;
+    }
 }
 
 @end

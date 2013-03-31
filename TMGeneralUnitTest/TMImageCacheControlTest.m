@@ -151,7 +151,7 @@
 		[[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:asyncWaitUntil];
 	}
     
-    STAssertEqualsWithAccuracy(errcode, TMImageControl_Preload_Errcode_Success, 0, nil);
+    STAssertEqualsWithAccuracy(errcode, TMImageControl_Errcode_Success, 0, nil);
 }
 
 - (void) testEveryTimeUpdate
