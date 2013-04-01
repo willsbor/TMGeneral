@@ -14,6 +14,9 @@
 
 #define TM_IMAGE_CACHE_NOTIFY_PRELOAD_FINISH   @"com.thinkermobile.image_cache.preload_finish"
 
+#define TM_IMAGE_CACHE_ERR_USERINFO_SERVER_ERROR_KEY @"ServerError"
+#define TM_IMAGE_CACHE_ERR_USERINFO_STATUS_CODE_KEY  @"ServerStatusCode"
+
 typedef enum
 {
     TMImageControl_Type_NoCache,  ///< 不做 cache
@@ -27,11 +30,9 @@ typedef enum
     TMImageControl_Errcode_Failed,
     TMImageControl_Errcode_No_Downlaod_URL,
     TMImageControl_Errcode_ServerError,
-    TMImageControl_Errcode_ServerError_With_ModifyImage,
 } TMImageControl_Errcode;
 
-typedef UIImage* (^TMICImageModify)(UIImage *);
-typedef UIImage* (^TMICImageModifyHTTPErrorWithOptions)(UIImage *, NSDictionary *);
+typedef UIImage* (^TMICImageModify)(UIImage *, NSError *);
 
 @class TMImageCacheControl;
 @protocol TMImageCacheControlPreloadProtocol <NSObject>
@@ -45,7 +46,6 @@ typedef UIImage* (^TMICImageModifyHTTPErrorWithOptions)(UIImage *, NSDictionary 
 
 @property (nonatomic, strong) NSDictionary *defaultOptions;
 @property (nonatomic, strong) TMICImageModify ImageModify;    ///< 圖片擷取後 （不論從網路還是cache）皆會經過此block做圖片修改 (修改圖片不會存入cache)
-@property (nonatomic, strong) TMICImageModifyHTTPErrorWithOptions ImageModifyHTTPErrorWithOptions; ///< 如果網路有產生error code會經過此block 做圖片修改 (修改圖片不會存入cache)(之後會在經過一次 ImageModify)
 
 + (TMImageCacheControl *) defaultTMImageCacheControl;
 

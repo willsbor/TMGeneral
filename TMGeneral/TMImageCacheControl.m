@@ -39,6 +39,9 @@
     //
 }
 
+@property (nonatomic, strong) void (^getDataSuccess)(AFHTTPRequestOperation *operation, id responseObject);
+@property (nonatomic, strong) void (^getDataFailure)(AFHTTPRequestOperation *operation, NSError *error);
+
 @end
 
 @implementation TMImageCacheControl
@@ -138,34 +141,25 @@
         [_lock unlock];
         
         
-        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:object.url]];
-        [request setHTTPShouldHandleCookies:NO];
-        [request setHTTPShouldUsePipelining:YES];
-        [request addValue:@"image/*" forHTTPHeaderField:@"Accept"];
         
-        __unsafe_unretained TMImageCacheControl *selfItem = self;
-        AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
-        [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-            NSLog(@"ImageCache Success : (%d) %@", operation.response.statusCode, object.url);
-            
-            [[TMGeneralDataManager sharedInstance] imageCache:cacheItem setData:responseObject];
-            [selfItem finishAndUpdateImage:cacheItem.data WithTagMD5:cacheItem.tag];
-            
-            
-        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            NSLog(@"ImageCache Error (%d) %@ : %@", operation.response.statusCode, object.url, error);
-            
-            if (self.ImageModifyHTTPErrorWithOptions) {
-                UIImage *modifyImage = nil;
-                modifyImage = _ImageModifyHTTPErrorWithOptions(modifyImage, @{@"statusCode":[NSNumber numberWithInteger:operation.response.statusCode]});
-                [selfItem finishAndUpdateImage:UIImagePNGRepresentation(modifyImage) WithTagMD5:cacheItem.tag];
+        NSString *cacheItemTag = cacheItem.tag;
+
+        __weak TMImageCacheControl *selfItem = self;
+        void (^getDataFinishBlock)(NSData *aImageNSData, NSError *error) = ^(NSData *aImageNSData, NSError *error) {
+            if (error == nil) {
+                UIImage *image = [UIImage imageWithData:aImageNSData];
+                if (_ImageModify) image = _ImageModify(image, nil);
+                [selfItem finishAndUpdateImage:image WithTagMD5:cacheItemTag];
             } else {
-                [selfItem finishAndUpdateImage:nil WithTagMD5:cacheItem.tag];
+                if (_ImageModify) {
+                    [selfItem finishAndUpdateImage:_ImageModify(nil, error) WithTagMD5:cacheItemTag];
+                } else {
+                    [selfItem finishAndUpdateImage:nil WithTagMD5:cacheItemTag];
+                }
             }
-            
-        }];
+        };
         
-        [operation start];
+        [self getDataFrom:object.url AndSaveIn:cacheItem toComplete:getDataFinishBlock];
     }
     
 }
@@ -303,7 +297,7 @@
                 || aType == TMImageControl_Type_UpdateEveryTime) {
                 
                 if (self.ImageModify != nil) {
-                    aImageView.image = _ImageModify([UIImage imageWithData:cacheItem.data]);
+                    aImageView.image = _ImageModify([UIImage imageWithData:cacheItem.data], nil);
                 } else {
                     aImageView.image = [UIImage imageWithData:cacheItem.data];
                 }
@@ -320,7 +314,7 @@
             UIImage *placeholder = [options objectForKey:TM_IMAGE_CACHE_PLACEHOLDER_IMAGE];
             if (placeholder != nil) {
                 if (self.ImageModify != nil) {
-                    aImageView.image = _ImageModify(placeholder);
+                    aImageView.image = _ImageModify(placeholder, nil);
                 } else {
                     aImageView.image = placeholder;
                 }
@@ -342,17 +336,21 @@
     /// type (檢查type 執行type對應動作)
     NSString *cacheItemTag = cacheItem.tag;
     
+    __weak TMImageCacheControl *selfItem = self;
     void (^getDataFinishBlock)(NSData *aImageNSData, NSError *error) = ^(NSData *aImageNSData, NSError *error) {
         if (error == nil) {
-            [self finishAndUpdateImage:aImageNSData WithTagMD5:cacheItemTag];
+            UIImage *image = [UIImage imageWithData:aImageNSData];
+            if (_ImageModify) image = _ImageModify(image, nil);
+            [selfItem finishAndUpdateImage:image WithTagMD5:cacheItemTag];
         } else {
-            if ([error.domain isEqualToString:NSStringFromClass([self class])]
-                && error.code == TMImageControl_Errcode_ServerError_With_ModifyImage) {
-                [self finishAndUpdateImage:aImageNSData WithTagMD5:cacheItemTag];
-            } else
-                [self finishAndUpdateImage:nil WithTagMD5:cacheItemTag];
+            if (_ImageModify) {
+                [selfItem finishAndUpdateImage:_ImageModify(nil, error) WithTagMD5:cacheItemTag];
+            } else {
+                [selfItem finishAndUpdateImage:nil WithTagMD5:cacheItemTag];
+            }
         }
     };
+    
     
     if (aType == TMImageControl_Type_FirstTime) {
         if (cacheItem.data == nil) {
@@ -395,6 +393,12 @@
     TMImageCache *cacheItem = [self createCacheItemFrom:aURL withTagMD5:aTagMD5 andType:aType];
     
     
+    void (^getDataFinishBlock)(NSData *aImageNSData, NSError *error) = ^(NSData *aImageNSData, NSError *error) {
+        UIImage *resultI = [UIImage imageWithData:aImageNSData];
+        if (self.ImageModify != nil) resultI = _ImageModify(resultI, error);
+        if (aComplete) aComplete(resultI, error);
+    };
+    
     if (cacheItem == nil) {
         /// 理論上不可能到這裡
         NSAssert(FALSE, @"there must be a item");
@@ -405,26 +409,14 @@
         if (cacheItem.data != nil) {
             if (aType == TMImageControl_Type_FirstTime
                 || aType == TMImageControl_Type_UpdateEveryTime) {
-                
-                UIImage *resultI = [UIImage imageWithData:cacheItem.data];
-                if (self.ImageModify != nil) resultI = _ImageModify(resultI);
-                
-                if (aComplete) aComplete(resultI, nil);
+                getDataFinishBlock(cacheItem.data, nil);
             }
         }
     }
     
-    
     if (aType == TMImageControl_Type_UpdateEveryTime
         || aType == TMImageControl_Type_NoCache
         || (aType == TMImageControl_Type_FirstTime && cacheItem.data == nil)) {
-        
-        void (^getDataFinishBlock)(NSData *aImageNSData, NSError *error) = ^(NSData *aImageNSData, NSError *error) {
-            UIImage *resultI = [UIImage imageWithData:aImageNSData];
-            if (self.ImageModify != nil) resultI = _ImageModify(resultI);
-            if (aComplete) aComplete(resultI, error);
-        };
-        
         [self getDataFrom:aURL AndSaveIn:cacheItem toComplete:getDataFinishBlock];
     }
     
@@ -443,28 +435,17 @@
     return aTag;
 }
 
-- (void) finishAndUpdateImage:(NSData *)aImageData WithTagMD5:(NSString *)aTagMD5
+- (void) finishAndUpdateImage:(UIImage *)aImageData WithTagMD5:(NSString *)aTagMD5
 {
     [_lock lock];
     
     NSMutableArray *imageviews = [_activeList objectForKey:aTagMD5];
     
-    UIImage *image = nil;
-    
-    if (aImageData != nil) {
-        image = [UIImage imageWithData:aImageData];
-    }
-    
-    
     for (NSObject *object in imageviews) {
         
         if ([object isKindOfClass:[UIImageView class]]) {
-            if (image != nil) {
-                if (self.ImageModify != nil) {
-                    ((UIImageView *)object).image = _ImageModify(image);
-                } else {
-                    ((UIImageView *)object).image = image;
-                }
+            if (aImageData != nil) {
+                ((UIImageView *)object).image = aImageData;
             }
             NSString *imgKey = tmStringFromMD5([NSString stringWithFormat:@"%p", object]);
             [_imageViewList removeObjectForKey:imgKey];
@@ -497,17 +478,12 @@
     return error;
 }
 
-- (NSError *) errorServerErrorWithCode:(NSError *)aServerError
+- (NSError *) errorServerErrorWithCode:(NSError *)aServerError andStatusCode:(NSInteger)aStatusCode
 {
-    __autoreleasing NSError *error = [[NSError alloc] initWithDomain:NSStringFromClass([self class]) code:TMImageControl_Errcode_ServerError userInfo:@{@"ServerError": aServerError}];
+    __autoreleasing NSError *error = [[NSError alloc] initWithDomain:NSStringFromClass([self class]) code:TMImageControl_Errcode_ServerError userInfo:@{TM_IMAGE_CACHE_ERR_USERINFO_SERVER_ERROR_KEY: aServerError, TM_IMAGE_CACHE_ERR_USERINFO_STATUS_CODE_KEY:[NSNumber numberWithInteger:aStatusCode]}];
     return error;
 }
 
-- (NSError *) errorServerErrorModifyWithCode:(NSError *)aServerError
-{
-    __autoreleasing NSError *error = [[NSError alloc] initWithDomain:NSStringFromClass([self class]) code:TMImageControl_Errcode_ServerError_With_ModifyImage userInfo:@{@"ServerError": aServerError}];
-    return error;
-}
 
 - (void) getDataFrom:(NSString *)aUrl AndSaveIn:(TMImageCache *)aItem toComplete:(void (^)(NSData *aImageNSData, NSError *error))aComplete
 {
@@ -526,34 +502,13 @@
     //__unsafe_unretained TMImageCacheControl *selfItem = self;
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-        //NSLog(@"ImageCache Success : (%d) %@", operation.response.statusCode, aUrl);
-        
         [[TMGeneralDataManager sharedInstance] imageCache:aItem setData:responseObject];
-        
-        //[selfItem finishAndUpdateImage:aItem.data WithTagMD5:aItem.tag];
         if (aComplete) aComplete(aItem.data, nil);
-        
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        //NSLog(@"ImageCache Error (%d) %@ : %@", operation.response.statusCode, aUrl, error);
-        
-        if (self.ImageModifyHTTPErrorWithOptions) {
-            UIImage *modifyImage = nil;
-            modifyImage = _ImageModifyHTTPErrorWithOptions(modifyImage, @{@"statusCode":[NSNumber numberWithInteger:operation.response.statusCode]});
-            //[selfItem finishAndUpdateImage:UIImagePNGRepresentation(modifyImage) WithTagMD5:aItem.tag];
-            if (modifyImage) {
-                if (aComplete) aComplete(UIImagePNGRepresentation(modifyImage), [self errorServerErrorModifyWithCode:error]);
-            } else {
-                /// == nil
-                if (aComplete) aComplete(nil, [self errorServerErrorWithCode:error]);
-            }
-        } else {
-            //[selfItem finishAndUpdateImage:nil WithTagMD5:aItem.tag];
-            if (aComplete) aComplete(nil, [self errorServerErrorWithCode:error]);
-        }
+        if (aComplete) aComplete(nil, [self errorServerErrorWithCode:error andStatusCode:operation.response.statusCode]);
     }];
     
     [operation start];
-    //[operation waitUntilFinished];   ///
 }
 
 - (TMImageCache *) createCacheItemFrom:(NSString *)aUrl withTagMD5:(NSString *)aTagMD5 andType:(TMImageControl_Type)aType
@@ -570,6 +525,14 @@
         _imageView2ActivyList = [[NSMutableDictionary alloc] init];
         _activeList = [[NSMutableDictionary alloc] init];
         _preloadArray = [[NSMutableArray alloc] init];
+        
+        /*
+        self.getDataSuccess = ^(AFHTTPRequestOperation *operation, id responseObject) {
+            [[TMGeneralDataManager sharedInstance] imageCache:aItem setData:responseObject];
+            if (aComplete) aComplete(aItem.data, nil);
+        };
+        */
+        
     }
     return self;
 }
