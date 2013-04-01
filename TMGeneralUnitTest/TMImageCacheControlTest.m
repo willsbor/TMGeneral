@@ -97,6 +97,9 @@
     else if ([aUrl isEqualToString:@"http://1.1.1.3"]) {
         image = tmImageWithColor([UIColor yellowColor]);
     }
+    else if ([aUrl isEqualToString:@"http://1.1.1.5"]) {
+        image = tmImageWithColor([UIColor yellowColor]);
+    }
     else if ([aUrl isEqualToString:@"http://1.1.2.1"]) {
         image = nil;
     }
@@ -128,6 +131,25 @@
 @end
 
 @implementation TMImageCacheControlTest
+
+- (void) testSetImageToBlock
+{
+    TMImageCacheControl *ICC = [TMImageCacheControl defaultTMImageCacheControl];
+    
+    UIImageView *targetImageView = [[UIImageView alloc] init];
+    [ICC setImageURL:@"http://1.1.1.5" toComplete:^(UIImage *aImage, NSError *error) {
+        targetImageView.image = aImage;
+    }];
+    
+    STAssertNil(targetImageView.image, @"it should not be asign data");
+    
+    asyncWaitUntil = [NSDate dateWithTimeIntervalSinceNow:2.0];
+    while (targetImageView.image == nil && [asyncWaitUntil timeIntervalSinceNow] > 0) {
+		[[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:asyncWaitUntil];
+	}
+    
+    STAssertNotNil(targetImageView.image, @"it should download data");
+}
 
 - (void) testServerErrcode403
 {
@@ -181,6 +203,8 @@
     
     STAssertNotNil(targetImageView.image, @"it should not be asign data because erver error");
     STAssertTrue([UIImagePNGRepresentation(modifyImage) isEqualToData:UIImagePNGRepresentation(targetImageView.image)], nil);
+    
+    ICC.ImageModify = nil;
 }
 
 - (void) testNormal
