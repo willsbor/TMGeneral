@@ -46,7 +46,7 @@ NSString *tmStringNSDate(NSDate *aDate, NSString *aFormat)
     return resultString;
 }
 
-NSString *tmStringNSDataByC(NSDate *aDate, const char *aFormat) {
+NSString *tmStringNSDateByC(NSDate *aDate, const char *aFormat) {
     struct tm *timeinfo;
     char buffer[80];
     
