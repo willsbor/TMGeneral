@@ -69,6 +69,7 @@
 		ABE621AB16A682E70096C5A8 /* GTMBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = ABFE8F87168803DF00649E88 /* GTMBase64.m */; };
 		ABE621AD16A682EC0096C5A8 /* GTMStringEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = ABFE8F841688034700649E88 /* GTMStringEncoding.m */; };
 		ABE6227416A9A5CE0096C5A8 /* TMTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ABE6227316A9A5CE0096C5A8 /* TMTableViewController.m */; };
+		ABFC75E517140E7C000BA88E /* TMToolTest.m in Sources */ = {isa = PBXBuildFile; fileRef = ABFC75E417140E7C000BA88E /* TMToolTest.m */; };
 		ABFE8F851688034700649E88 /* GTMStringEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = ABFE8F841688034700649E88 /* GTMStringEncoding.m */; };
 		ABFE8F89168803DF00649E88 /* GTMBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = ABFE8F87168803DF00649E88 /* GTMBase64.m */; };
 		DFEBE1BC33864832B06FE090 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E02939F10EC6492BB21EECC9 /* libPods.a */; };
@@ -153,6 +154,7 @@
 		AB4D7B911658C8B700B5A2C3 /* TMGeneralResource-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TMGeneralResource-Prefix.pch"; sourceTree = "<group>"; };
 		ABE6227216A9A5CE0096C5A8 /* TMTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMTableViewController.h; sourceTree = "<group>"; };
 		ABE6227316A9A5CE0096C5A8 /* TMTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMTableViewController.m; sourceTree = "<group>"; };
+		ABFC75E417140E7C000BA88E /* TMToolTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMToolTest.m; sourceTree = "<group>"; };
 		ABFE8F831688034700649E88 /* GTMStringEncoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMStringEncoding.h; sourceTree = "<group>"; };
 		ABFE8F841688034700649E88 /* GTMStringEncoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMStringEncoding.m; sourceTree = "<group>"; };
 		ABFE8F86168803DF00649E88 /* GTMBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMBase64.h; sourceTree = "<group>"; };
@@ -215,6 +217,7 @@
 				AB09291D1681C5870039704D /* TMGeneralDataManagerTest.m */,
 				AB0929201681C5E80039704D /* TMImageCacheControlTest.m */,
 				AB0929351681DB520039704D /* TMAPIWebModelTest.m */,
+				ABFC75E417140E7C000BA88E /* TMToolTest.m */,
 				AB0929101681C52E0039704D /* Supporting Files */,
 			);
 			path = TMGeneralUnitTest;
@@ -538,6 +541,7 @@
 				AB092957168219AF0039704D /* TMGeneral.m in Sources */,
 				ABE621AB16A682E70096C5A8 /* GTMBase64.m in Sources */,
 				ABE621AD16A682EC0096C5A8 /* GTMStringEncoding.m in Sources */,
+				ABFC75E517140E7C000BA88E /* TMToolTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

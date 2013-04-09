@@ -15,6 +15,7 @@ extern NSString *tmStringFromMD5(NSString *aString);
 extern NSString *tmGetIPAddress();
 
 extern NSString *tmStringNSDate(NSDate *aDate, NSString *aFormat);
+extern NSString *tmStringNSDataByC(NSDate *aDate, const char *aFormat);
 
 extern NSString *tmStringRemindTimeWithNSDate(NSDate *aDate);
 

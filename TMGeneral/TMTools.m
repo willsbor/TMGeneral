@@ -46,6 +46,22 @@ NSString *tmStringNSDate(NSDate *aDate, NSString *aFormat)
     return resultString;
 }
 
+NSString *tmStringNSDataByC(NSDate *aDate, const char *aFormat) {
+    struct tm *timeinfo;
+    char buffer[80];
+    
+    time_t rawtime = [aDate timeIntervalSince1970] - [[NSTimeZone localTimeZone] secondsFromGMT];
+    timeinfo = localtime(&rawtime);
+    
+    if (aFormat == NULL) {
+        aFormat = "%Y.%m.%d %H:%M";
+        /// "%Y-%m-%dT%H:%M:%S%z"
+    }
+    strftime(buffer, 80, aFormat, timeinfo);
+    
+    return [NSString stringWithCString:buffer encoding:NSUTF8StringEncoding];
+}
+
 NSString *tmStringRemindTimeWithNSDate(NSDate *aDate)
 {
     // The time interval
