@@ -277,16 +277,21 @@
 #if !(TARGET_IPHONE_SIMULATOR)
         if (_engineerMode == 1) {
             if (tapGR.state == UIGestureRecognizerStateEnded) {
-                [self performSegueWithIdentifier:@"EngineerModeSegue" sender:tapGR];
+                [self activeEnterEngineerFunction];
             }
         }
 #else
         if (tapGR.state == UIGestureRecognizerStateEnded) {
-            [self performSegueWithIdentifier:@"EngineerModeSegue" sender:tapGR];
+            [self activeEnterEngineerFunction];
         }
 #endif
     }
 
+}
+
+- (void) activeEnterEngineerFunction
+{
+    
 }
 
 #pragma mark - life

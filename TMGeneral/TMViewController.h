@@ -67,5 +67,5 @@
 
 - (IBAction)enterEngineerMode1:(id)sender;
 - (IBAction)enterEngineerMode2:(id)sender;
-
+- (void) activeEnterEngineerFunction;
 @end
