@@ -355,6 +355,19 @@
     }
     
     [_activeAPIs removeObjectsForKeys:removeObjs];
+    
+    if ([self isViewLoaded] && [self.view window] == nil)
+    {
+        // Add code to preserve data stored in the views that might be
+        // needed later.
+        
+        // Add code to clean up other strong references to the view in
+        // the view hierarchy.
+        
+        //// 移除 all url -> iv 的連結 (但是圖片還是會繼續下載到Cache中)
+        
+        self.view = nil;
+    }
 }
 
 #pragma mark - Table view data source

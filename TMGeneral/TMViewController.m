@@ -396,7 +396,7 @@
     [self.activeAPIs removeObjectsForKeys:removeObjs];
     
     
-    if ([self.view window] == nil)
+    if ([self isViewLoaded] && [self.view window] == nil)
     {
         // Add code to preserve data stored in the views that might be
         // needed later.
