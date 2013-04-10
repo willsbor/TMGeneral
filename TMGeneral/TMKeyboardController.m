@@ -82,6 +82,8 @@
 {
     if (g_KBMs == nil) return;
     
+    [self unregister:[self getKeyboardItemWithKey:aKey]];
+    
     [g_KBMs removeObjectForKey:aKey];
 }
 
