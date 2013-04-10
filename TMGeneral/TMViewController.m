@@ -12,7 +12,7 @@
 
 @interface TMViewController () <TMAPIModelProtocol, UITextViewDelegate, TMKeyboardDelegate>
 {
-
+    int _engineerMode;
 }
 @property (nonatomic, strong) NSMutableArray *loadingImageViews;
 @property (nonatomic, strong) NSMutableArray *keyboardWatchList;
@@ -252,6 +252,41 @@
             [self hideKeyBoard:key];
         }
     }
+}
+
+#pragma mark - engineer 
+
+- (IBAction)enterEngineerMode1:(id)sender {
+    if ([[sender class] isSubclassOfClass:[UILongPressGestureRecognizer class]]) {
+        UILongPressGestureRecognizer *longPGR = sender;
+        if (UIGestureRecognizerStateBegan == longPGR.state) {
+            _engineerMode = 1;
+        }
+        else if (UIGestureRecognizerStateEnded == longPGR.state
+                 || UIGestureRecognizerStateCancelled == longPGR.state
+                 || UIGestureRecognizerStateFailed == longPGR.state) {
+            _engineerMode = 0;
+        }
+    }
+    
+}
+
+- (IBAction)enterEngineerMode2:(id)sender {
+    if ([[sender class] isSubclassOfClass:[UITapGestureRecognizer class]]) {
+        UITapGestureRecognizer *tapGR = sender;
+#if !(TARGET_IPHONE_SIMULATOR)
+        if (_engineerMode == 1) {
+            if (tapGR.state == UIGestureRecognizerStateEnded) {
+                [self performSegueWithIdentifier:@"EngineerModeSegue" sender:tapGR];
+            }
+        }
+#else
+        if (tapGR.state == UIGestureRecognizerStateEnded) {
+            [self performSegueWithIdentifier:@"EngineerModeSegue" sender:tapGR];
+        }
+#endif
+    }
+
 }
 
 #pragma mark - life
