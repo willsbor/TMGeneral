@@ -208,7 +208,7 @@
 	}
 }
 
-
+/*
 - (void) testConnectTimeoutWithoutRetry
 {
     asyncWaitUntil = [NSDate dateWithTimeIntervalSinceNow:5];
@@ -314,5 +314,7 @@
     
     STAssertTrue([resultArray count] == 1, @"there should be one success task");
 }
+
+ */
 
 @end

@@ -79,7 +79,7 @@ typedef enum
  * 如果用這個方法修改Diction內的資料可能無法正確更新到DB中
  * DB中的參數 現在只能用可以被 NSKeyedArchiver
  */
-@property (nonatomic, readonly) NSDictionary *inputParam;  
+@property (nonatomic, readonly, strong) NSDictionary *inputParam;
 @property (nonatomic, copy)     NSMutableDictionary *outputParam;
 @property (nonatomic, unsafe_unretained)   id<TMAPIModelProtocol> delegate;
 @property (nonatomic)           int errcode;

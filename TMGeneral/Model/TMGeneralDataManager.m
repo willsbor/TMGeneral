@@ -185,9 +185,24 @@ static NSTimer *g_checkCacheAPITimer = nil;
     return _actionItem;
 }
 
+- (TMApiData *) createTMApiDataWith:(void (^)(TMApiData *apidata))aSetting
+{
+    __block TMApiData *_actionItem;
+    /// 創造一個新的資料物件
+    [self executeBlock:^{
+        NSManagedObjectContext *manaedObjectContext = self.managedObjectContext;
+        _actionItem = [NSEntityDescription insertNewObjectForEntityForName:@"TMApiData"
+                                                    inManagedObjectContext:manaedObjectContext];
+        
+        aSetting(_actionItem);
+    }];
+    
+    return _actionItem;
+}
+
 - (void) changeApiData:(TMApiData *)aData Status:(NSInteger) aState
 {
-    [self executeBlock:^{
+    [self executeBlock:^{        
         aData.state = [NSNumber numberWithInteger:aState];
     }];
 }

@@ -26,6 +26,7 @@
 - (void) removeAllFinishAPIData;
 
 - (TMApiData *) createTMApiData;
+- (TMApiData *) createTMApiDataWith:(void (^)(TMApiData *apidata))aSetting;
 - (void) changeApiData:(TMApiData *)aData Status:(NSInteger) aState;
 - (void) changeApiData:(TMApiData *)aData CacheType:(NSInteger)aCacheType;
 - (void) changeApiData:(TMApiData *)aData RetryTimes:(NSInteger)aRetryTimes;
@@ -33,6 +34,5 @@
 
 - (TMImageCache *) createImageCacheFrom:(NSString *)aUrl withTagMD5:(NSString *)aTagMD5 andType:(TMImageControl_Type)aType;
 - (void) imageCache:(TMImageCache *)aImageCache setData:(NSData *)aImageData;
-
 
 @end
