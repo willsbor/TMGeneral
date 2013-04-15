@@ -10,7 +10,6 @@
 		AB0928FA1681C1FB0039704D /* TMDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AB0928F71681C1FB0039704D /* TMDataManager.m */; };
 		AB0929011681C4E30039704D /* TMGeneralDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AB0928FE1681C4E30039704D /* TMGeneralDataManager.m */; };
 		AB0929021681C4E30039704D /* TMGeneralDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AB0928FF1681C4E30039704D /* TMGeneralDataModel.xcdatamodeld */; };
-		AB0929031681C4E60039704D /* TMGeneralDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AB0928FF1681C4E30039704D /* TMGeneralDataModel.xcdatamodeld */; };
 		AB09290B1681C52E0039704D /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB09290A1681C52E0039704D /* SenTestingKit.framework */; };
 		AB09290E1681C52E0039704D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB4D7B241658B0F300B5A2C3 /* Foundation.framework */; };
 		AB0929141681C52E0039704D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AB0929121681C52E0039704D /* InfoPlist.strings */; };
@@ -40,7 +39,6 @@
 		AB092957168219AF0039704D /* TMGeneral.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B2B1658B0F300B5A2C3 /* TMGeneral.m */; };
 		AB092959168219DA0039704D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB092958168219DA0039704D /* UIKit.framework */; };
 		AB09295D16821A420039704D /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB09295C16821A420039704D /* MobileCoreServices.framework */; };
-		AB09295E168220B50039704D /* TMGeneralResource.bundle in Resources */ = {isa = PBXBuildFile; fileRef = AB4D7B881658C8B700B5A2C3 /* TMGeneralResource.bundle */; };
 		AB0986F4171BD51F0060E191 /* GlobalModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AB0986F3171BD51F0060E191 /* GlobalModel.m */; };
 		AB4D7B251658B0F300B5A2C3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB4D7B241658B0F300B5A2C3 /* Foundation.framework */; };
 		AB4D7B2A1658B0F300B5A2C3 /* TMGeneral.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AB4D7B291658B0F300B5A2C3 /* TMGeneral.h */; };
@@ -65,8 +63,6 @@
 		AB4D7B641658B5C700B5A2C3 /* TMAPIWebModel.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AB4D7B3D1658B3B700B5A2C3 /* TMAPIWebModel.h */; };
 		AB4D7B661658B5C700B5A2C3 /* TMImageCacheControl.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AB4D7B461658B3B700B5A2C3 /* TMImageCacheControl.h */; };
 		AB4D7B671658B5C700B5A2C3 /* TMViewController.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AB4D7B4E1658B3B700B5A2C3 /* TMViewController.h */; };
-		AB4D7B8A1658C8B700B5A2C3 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB4D7B891658C8B700B5A2C3 /* CoreFoundation.framework */; };
-		AB4D7B901658C8B700B5A2C3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AB4D7B8E1658C8B700B5A2C3 /* InfoPlist.strings */; };
 		ABE621AB16A682E70096C5A8 /* GTMBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = ABFE8F87168803DF00649E88 /* GTMBase64.m */; };
 		ABE621AD16A682EC0096C5A8 /* GTMStringEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = ABFE8F841688034700649E88 /* GTMStringEncoding.m */; };
 		ABE6227416A9A5CE0096C5A8 /* TMTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ABE6227316A9A5CE0096C5A8 /* TMTableViewController.m */; };
@@ -149,7 +145,6 @@
 		AB4D7B4D1658B3B700B5A2C3 /* TMUITools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMUITools.m; sourceTree = "<group>"; };
 		AB4D7B4E1658B3B700B5A2C3 /* TMViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMViewController.h; sourceTree = "<group>"; };
 		AB4D7B4F1658B3B700B5A2C3 /* TMViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMViewController.m; sourceTree = "<group>"; };
-		AB4D7B881658C8B700B5A2C3 /* TMGeneralResource.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TMGeneralResource.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB4D7B891658C8B700B5A2C3 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		AB4D7B8D1658C8B700B5A2C3 /* TMGeneralResource-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TMGeneralResource-Info.plist"; sourceTree = "<group>"; };
 		AB4D7B8F1658C8B700B5A2C3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -188,14 +183,6 @@
 			files = (
 				AB4D7B251658B0F300B5A2C3 /* Foundation.framework in Frameworks */,
 				DFEBE1BC33864832B06FE090 /* libPods.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		AB4D7B851658C8B700B5A2C3 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				AB4D7B8A1658C8B700B5A2C3 /* CoreFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -252,7 +239,6 @@
 			isa = PBXGroup;
 			children = (
 				AB4D7B211658B0F300B5A2C3 /* libTMGeneral.a */,
-				AB4D7B881658C8B700B5A2C3 /* TMGeneralResource.bundle */,
 				AB0929091681C52E0039704D /* TMGeneralUnitTest.octest */,
 			);
 			name = Products;
@@ -423,23 +409,6 @@
 			productReference = AB4D7B211658B0F300B5A2C3 /* libTMGeneral.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		AB4D7B871658C8B700B5A2C3 /* TMGeneralResource */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = AB4D7B941658C8B700B5A2C3 /* Build configuration list for PBXNativeTarget "TMGeneralResource" */;
-			buildPhases = (
-				AB4D7B841658C8B700B5A2C3 /* Sources */,
-				AB4D7B851658C8B700B5A2C3 /* Frameworks */,
-				AB4D7B861658C8B700B5A2C3 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = TMGeneralResource;
-			productName = TMGeneralResource;
-			productReference = AB4D7B881658C8B700B5A2C3 /* TMGeneralResource.bundle */;
-			productType = "com.apple.product-type.bundle";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -462,7 +431,6 @@
 			projectRoot = "";
 			targets = (
 				AB4D7B201658B0F300B5A2C3 /* TMGeneral */,
-				AB4D7B871658C8B700B5A2C3 /* TMGeneralResource */,
 				AB0929081681C52E0039704D /* TMGeneralUnitTest */,
 			);
 		};
@@ -474,15 +442,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				AB0929141681C52E0039704D /* InfoPlist.strings in Resources */,
-				AB09295E168220B50039704D /* TMGeneralResource.bundle in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		AB4D7B861658C8B700B5A2C3 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				AB4D7B901658C8B700B5A2C3 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -571,14 +530,6 @@
 				ABFE8F851688034700649E88 /* GTMStringEncoding.m in Sources */,
 				ABFE8F89168803DF00649E88 /* GTMBase64.m in Sources */,
 				ABE6227416A9A5CE0096C5A8 /* TMTableViewController.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		AB4D7B841658C8B700B5A2C3 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				AB0929031681C4E60039704D /* TMGeneralDataModel.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -731,43 +682,6 @@
 			};
 			name = Release;
 		};
-		AB4D7B921658C8B700B5A2C3 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				COMBINE_HIDPI_IMAGES = YES;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "TMGeneralResource/TMGeneralResource-Prefix.pch";
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				INFOPLIST_FILE = "TMGeneralResource/TMGeneralResource-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				WRAPPER_EXTENSION = bundle;
-			};
-			name = Debug;
-		};
-		AB4D7B931658C8B700B5A2C3 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				COMBINE_HIDPI_IMAGES = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "TMGeneralResource/TMGeneralResource-Prefix.pch";
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				INFOPLIST_FILE = "TMGeneralResource/TMGeneralResource-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				WRAPPER_EXTENSION = bundle;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -794,15 +708,6 @@
 			buildConfigurations = (
 				AB4D7B301658B0F300B5A2C3 /* Debug */,
 				AB4D7B311658B0F300B5A2C3 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		AB4D7B941658C8B700B5A2C3 /* Build configuration list for PBXNativeTarget "TMGeneralResource" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				AB4D7B921658C8B700B5A2C3 /* Debug */,
-				AB4D7B931658C8B700B5A2C3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
