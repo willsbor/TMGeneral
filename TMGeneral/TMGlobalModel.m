@@ -341,7 +341,6 @@ static TMGlobal_WaitingView_Animation_Direction g_waitingDirection = TMGlobal_Wa
 - (TMGlobal_AppMode) appMode
 {
     NSString *bundle = [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString *)kCFBundleIdentifierKey];
-    NSLog(@"test : now bundle ID = %@", bundle);
     
     NSString *value = [[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:__UserDefault_Mode_Key_Format, bundle]];
     
