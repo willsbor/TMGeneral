@@ -882,6 +882,7 @@
 		};
 		AB098764171C3A560060E191 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 03C3F9113300433EA35678A0 /* Pods.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -893,10 +894,6 @@
 				HEADER_SEARCH_PATHS = "${PODS_HEADERS_SEARCH_PATHS}";
 				INFOPLIST_FILE = "TMGeneralApp/TMGeneralApp-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				PODS_BUILD_HEADERS_SEARCH_PATHS = "\"${PODS_ROOT}/BuildHeaders\" \"${PODS_ROOT}/BuildHeaders/AFDownloadRequestOperation\" \"${PODS_ROOT}/BuildHeaders/AFNetworking\" \"${PODS_ROOT}/BuildHeaders/OCHamcrest\" \"${PODS_ROOT}/BuildHeaders/OCMock\"";
-				PODS_HEADERS_SEARCH_PATHS = "${PODS_PUBLIC_HEADERS_SEARCH_PATHS}";
-				PODS_PUBLIC_HEADERS_SEARCH_PATHS = "\"${PODS_ROOT}/Headers\" \"${PODS_ROOT}/Headers/AFDownloadRequestOperation\" \"${PODS_ROOT}/Headers/AFNetworking\" \"${PODS_ROOT}/Headers/OCHamcrest\" \"${PODS_ROOT}/Headers/OCMock\"";
-				PODS_ROOT = "${SRCROOT}/Pods";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -904,6 +901,7 @@
 		};
 		AB098765171C3A560060E191 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 03C3F9113300433EA35678A0 /* Pods.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -916,10 +914,6 @@
 				INFOPLIST_FILE = "TMGeneralApp/TMGeneralApp-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				PODS_BUILD_HEADERS_SEARCH_PATHS = "\"${PODS_ROOT}/BuildHeaders\" \"${PODS_ROOT}/BuildHeaders/AFDownloadRequestOperation\" \"${PODS_ROOT}/BuildHeaders/AFNetworking\" \"${PODS_ROOT}/BuildHeaders/OCHamcrest\" \"${PODS_ROOT}/BuildHeaders/OCMock\"";
-				PODS_HEADERS_SEARCH_PATHS = "${PODS_PUBLIC_HEADERS_SEARCH_PATHS}";
-				PODS_PUBLIC_HEADERS_SEARCH_PATHS = "\"${PODS_ROOT}/Headers\" \"${PODS_ROOT}/Headers/AFDownloadRequestOperation\" \"${PODS_ROOT}/Headers/AFNetworking\" \"${PODS_ROOT}/Headers/OCHamcrest\" \"${PODS_ROOT}/Headers/OCMock\"";
-				PODS_ROOT = "${SRCROOT}/Pods";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -927,6 +921,7 @@
 		};
 		AB098766171C3A560060E191 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 03C3F9113300433EA35678A0 /* Pods.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/TMGeneralApp.app/TMGeneralApp";
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -942,10 +937,6 @@
 				HEADER_SEARCH_PATHS = "${PODS_HEADERS_SEARCH_PATHS}";
 				INFOPLIST_FILE = "TMGeneralAppTests/TMGeneralAppTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
-				PODS_BUILD_HEADERS_SEARCH_PATHS = "\"${PODS_ROOT}/BuildHeaders\" \"${PODS_ROOT}/BuildHeaders/AFDownloadRequestOperation\" \"${PODS_ROOT}/BuildHeaders/AFNetworking\" \"${PODS_ROOT}/BuildHeaders/OCHamcrest\" \"${PODS_ROOT}/BuildHeaders/OCMock\"";
-				PODS_HEADERS_SEARCH_PATHS = "${PODS_PUBLIC_HEADERS_SEARCH_PATHS}";
-				PODS_PUBLIC_HEADERS_SEARCH_PATHS = "\"${PODS_ROOT}/Headers\" \"${PODS_ROOT}/Headers/AFDownloadRequestOperation\" \"${PODS_ROOT}/Headers/AFNetworking\" \"${PODS_ROOT}/Headers/OCHamcrest\" \"${PODS_ROOT}/Headers/OCMock\"";
-				PODS_ROOT = "${SRCROOT}/Pods";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
@@ -954,6 +945,7 @@
 		};
 		AB098767171C3A560060E191 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 03C3F9113300433EA35678A0 /* Pods.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/TMGeneralApp.app/TMGeneralApp";
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -969,10 +961,6 @@
 				HEADER_SEARCH_PATHS = "${PODS_HEADERS_SEARCH_PATHS}";
 				INFOPLIST_FILE = "TMGeneralAppTests/TMGeneralAppTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
-				PODS_BUILD_HEADERS_SEARCH_PATHS = "\"${PODS_ROOT}/BuildHeaders\" \"${PODS_ROOT}/BuildHeaders/AFDownloadRequestOperation\" \"${PODS_ROOT}/BuildHeaders/AFNetworking\" \"${PODS_ROOT}/BuildHeaders/OCHamcrest\" \"${PODS_ROOT}/BuildHeaders/OCMock\"";
-				PODS_HEADERS_SEARCH_PATHS = "${PODS_PUBLIC_HEADERS_SEARCH_PATHS}";
-				PODS_PUBLIC_HEADERS_SEARCH_PATHS = "\"${PODS_ROOT}/Headers\" \"${PODS_ROOT}/Headers/AFDownloadRequestOperation\" \"${PODS_ROOT}/Headers/AFNetworking\" \"${PODS_ROOT}/Headers/OCHamcrest\" \"${PODS_ROOT}/Headers/OCMock\"";
-				PODS_ROOT = "${SRCROOT}/Pods";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
@@ -1073,6 +1061,7 @@
 				AB098765171C3A560060E191 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		AB098769171C3A560060E191 /* Build configuration list for PBXNativeTarget "TMGeneralAppTests" */ = {
 			isa = XCConfigurationList;
@@ -1081,6 +1070,7 @@
 				AB098767171C3A560060E191 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		AB4D7B1B1658B0F300B5A2C3 /* Build configuration list for PBXProject "TMGeneral" */ = {
 			isa = XCConfigurationList;
