@@ -146,9 +146,6 @@
 		AB4D7B4E1658B3B700B5A2C3 /* TMViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMViewController.h; sourceTree = "<group>"; };
 		AB4D7B4F1658B3B700B5A2C3 /* TMViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMViewController.m; sourceTree = "<group>"; };
 		AB4D7B891658C8B700B5A2C3 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
-		AB4D7B8D1658C8B700B5A2C3 /* TMGeneralResource-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TMGeneralResource-Info.plist"; sourceTree = "<group>"; };
-		AB4D7B8F1658C8B700B5A2C3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		AB4D7B911658C8B700B5A2C3 /* TMGeneralResource-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TMGeneralResource-Prefix.pch"; sourceTree = "<group>"; };
 		ABE6227216A9A5CE0096C5A8 /* TMTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMTableViewController.h; sourceTree = "<group>"; };
 		ABE6227316A9A5CE0096C5A8 /* TMTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMTableViewController.m; sourceTree = "<group>"; };
 		ABFC75E417140E7C000BA88E /* TMToolTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMToolTest.m; sourceTree = "<group>"; };
@@ -227,7 +224,6 @@
 			isa = PBXGroup;
 			children = (
 				AB4D7B261658B0F300B5A2C3 /* TMGeneral */,
-				AB4D7B8B1658C8B700B5A2C3 /* TMGeneralResource */,
 				AB09290F1681C52E0039704D /* TMGeneralUnitTest */,
 				AB4D7B231658B0F300B5A2C3 /* Frameworks */,
 				AB4D7B221658B0F300B5A2C3 /* Products */,
@@ -338,24 +334,6 @@
 				AB4D7B451658B3B700B5A2C3 /* TMGlobalModel.m */,
 			);
 			name = Global;
-			sourceTree = "<group>";
-		};
-		AB4D7B8B1658C8B700B5A2C3 /* TMGeneralResource */ = {
-			isa = PBXGroup;
-			children = (
-				AB4D7B8C1658C8B700B5A2C3 /* Supporting Files */,
-			);
-			path = TMGeneralResource;
-			sourceTree = "<group>";
-		};
-		AB4D7B8C1658C8B700B5A2C3 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				AB4D7B8D1658C8B700B5A2C3 /* TMGeneralResource-Info.plist */,
-				AB4D7B8E1658C8B700B5A2C3 /* InfoPlist.strings */,
-				AB4D7B911658C8B700B5A2C3 /* TMGeneralResource-Prefix.pch */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		ABFE8F811688032200649E88 /* Vender */ = {
@@ -540,14 +518,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				AB0929131681C52E0039704D /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		AB4D7B8E1658C8B700B5A2C3 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				AB4D7B8F1658C8B700B5A2C3 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
