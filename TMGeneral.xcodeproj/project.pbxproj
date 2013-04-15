@@ -14,15 +14,12 @@
 		AB09290E1681C52E0039704D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB4D7B241658B0F300B5A2C3 /* Foundation.framework */; };
 		AB0929141681C52E0039704D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AB0929121681C52E0039704D /* InfoPlist.strings */; };
 		AB0929171681C52E0039704D /* TMGeneralUnitTest.m in Sources */ = {isa = PBXBuildFile; fileRef = AB0929161681C52E0039704D /* TMGeneralUnitTest.m */; };
-		AB09291E1681C5870039704D /* TMGeneralDataManagerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = AB09291D1681C5870039704D /* TMGeneralDataManagerTest.m */; };
-		AB0929211681C5E80039704D /* TMImageCacheControlTest.m in Sources */ = {isa = PBXBuildFile; fileRef = AB0929201681C5E80039704D /* TMImageCacheControlTest.m */; };
 		AB0929221681C6750039704D /* TMGeneralDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AB0928FE1681C4E30039704D /* TMGeneralDataManager.m */; };
 		AB0929231681C67B0039704D /* TMGeneralDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AB0928FF1681C4E30039704D /* TMGeneralDataModel.xcdatamodeld */; };
 		AB09292B1681C7460039704D /* TMDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AB0928F71681C1FB0039704D /* TMDataManager.m */; };
 		AB09292C1681C8220039704D /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB4D7B891658C8B700B5A2C3 /* CoreFoundation.framework */; };
 		AB09292D1681C8280039704D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E02939F10EC6492BB21EECC9 /* libPods.a */; };
 		AB09292F1681C8A70039704D /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB09292E1681C8A70039704D /* CoreData.framework */; };
-		AB0929361681DB520039704D /* TMAPIWebModelTest.m in Sources */ = {isa = PBXBuildFile; fileRef = AB0929351681DB520039704D /* TMAPIWebModelTest.m */; };
 		AB0929371681DB780039704D /* TMAPIModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B3C1658B3B700B5A2C3 /* TMAPIModel.m */; };
 		AB0929381681DF4D0039704D /* TMViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B4F1658B3B700B5A2C3 /* TMViewController.m */; };
 		AB092939168209370039704D /* TMUITools.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B4D1658B3B700B5A2C3 /* TMUITools.m */; };
@@ -39,7 +36,69 @@
 		AB092957168219AF0039704D /* TMGeneral.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B2B1658B0F300B5A2C3 /* TMGeneral.m */; };
 		AB092959168219DA0039704D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB092958168219DA0039704D /* UIKit.framework */; };
 		AB09295D16821A420039704D /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB09295C16821A420039704D /* MobileCoreServices.framework */; };
-		AB0986F4171BD51F0060E191 /* GlobalModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AB0986F3171BD51F0060E191 /* GlobalModel.m */; };
+		AB09873B171C3A560060E191 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB092958168219DA0039704D /* UIKit.framework */; };
+		AB09873C171C3A560060E191 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB4D7B241658B0F300B5A2C3 /* Foundation.framework */; };
+		AB09873D171C3A560060E191 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB092952168219730039704D /* CoreGraphics.framework */; };
+		AB098743171C3A560060E191 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AB098741171C3A560060E191 /* InfoPlist.strings */; };
+		AB098745171C3A560060E191 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AB098744171C3A560060E191 /* main.m */; };
+		AB098749171C3A560060E191 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AB098748171C3A560060E191 /* AppDelegate.m */; };
+		AB09874B171C3A560060E191 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = AB09874A171C3A560060E191 /* Default.png */; };
+		AB09874D171C3A560060E191 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AB09874C171C3A560060E191 /* Default@2x.png */; };
+		AB09874F171C3A560060E191 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AB09874E171C3A560060E191 /* Default-568h@2x.png */; };
+		AB098756171C3A560060E191 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB09290A1681C52E0039704D /* SenTestingKit.framework */; };
+		AB098757171C3A560060E191 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB092958168219DA0039704D /* UIKit.framework */; };
+		AB098758171C3A560060E191 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB4D7B241658B0F300B5A2C3 /* Foundation.framework */; };
+		AB098760171C3A560060E191 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AB09875E171C3A560060E191 /* InfoPlist.strings */; };
+		AB098763171C3A560060E191 /* TMGeneralAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AB098762171C3A560060E191 /* TMGeneralAppTests.m */; };
+		AB09876F171C3B650060E191 /* GlobalModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AB09876A171C3B650060E191 /* GlobalModel.m */; };
+		AB098770171C3B650060E191 /* TMAPIWebModelTest.m in Sources */ = {isa = PBXBuildFile; fileRef = AB09876B171C3B650060E191 /* TMAPIWebModelTest.m */; };
+		AB098771171C3B650060E191 /* TMGeneralDataManagerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = AB09876C171C3B650060E191 /* TMGeneralDataManagerTest.m */; };
+		AB098772171C3B650060E191 /* TMImageCacheControlTest.m in Sources */ = {isa = PBXBuildFile; fileRef = AB09876D171C3B650060E191 /* TMImageCacheControlTest.m */; };
+		AB098773171C3B650060E191 /* TMToolTest.m in Sources */ = {isa = PBXBuildFile; fileRef = AB09876E171C3B650060E191 /* TMToolTest.m */; };
+		AB098774171C3B8B0060E191 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E02939F10EC6492BB21EECC9 /* libPods.a */; };
+		AB098775171C3BF80060E191 /* TMGeneral.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B2B1658B0F300B5A2C3 /* TMGeneral.m */; };
+		AB098776171C3BFB0060E191 /* TMImageCacheControl.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B471658B3B700B5A2C3 /* TMImageCacheControl.m */; };
+		AB098777171C3BFF0060E191 /* TMViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B4F1658B3B700B5A2C3 /* TMViewController.m */; };
+		AB098779171C3C080060E191 /* TMGeneralDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AB0928FE1681C4E30039704D /* TMGeneralDataManager.m */; };
+		AB09877A171C3C0B0060E191 /* TMGeneralDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AB0928FF1681C4E30039704D /* TMGeneralDataModel.xcdatamodeld */; };
+		AB09877B171C3C0F0060E191 /* TMApiData.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B341658B13200B5A2C3 /* TMApiData.m */; };
+		AB09877C171C3C0F0060E191 /* TMImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B361658B13200B5A2C3 /* TMImageCache.m */; };
+		AB09877D171C3C100060E191 /* TMApiData.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B341658B13200B5A2C3 /* TMApiData.m */; };
+		AB09877E171C3C100060E191 /* TMImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B361658B13200B5A2C3 /* TMImageCache.m */; };
+		AB09877F171C3C1C0060E191 /* TMAPIDownloadModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B3A1658B3B700B5A2C3 /* TMAPIDownloadModel.m */; };
+		AB098780171C3C1C0060E191 /* TMAPIModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B3C1658B3B700B5A2C3 /* TMAPIModel.m */; };
+		AB098781171C3C1C0060E191 /* TMAPIWebModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B3E1658B3B700B5A2C3 /* TMAPIWebModel.m */; };
+		AB098782171C3C240060E191 /* TMKeyboardController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B491658B3B700B5A2C3 /* TMKeyboardController.m */; };
+		AB098783171C3C240060E191 /* TMTools.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B4B1658B3B700B5A2C3 /* TMTools.m */; };
+		AB098784171C3C240060E191 /* TMUITools.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B4D1658B3B700B5A2C3 /* TMUITools.m */; };
+		AB098785171C3C290060E191 /* TMGlobalModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B451658B3B700B5A2C3 /* TMGlobalModel.m */; };
+		AB098786171C3C2E0060E191 /* TMDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AB0928F71681C1FB0039704D /* TMDataManager.m */; };
+		AB098787171C3C340060E191 /* GTMBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = ABFE8F87168803DF00649E88 /* GTMBase64.m */; };
+		AB098788171C3C340060E191 /* GTMStringEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = ABFE8F841688034700649E88 /* GTMStringEncoding.m */; };
+		AB098789171C3D3C0060E191 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB0929541682199B0039704D /* SystemConfiguration.framework */; };
+		AB09878A171C3D3F0060E191 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB092952168219730039704D /* CoreGraphics.framework */; };
+		AB09878B171C3D410060E191 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB09292E1681C8A70039704D /* CoreData.framework */; };
+		AB09878C171C3D470060E191 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB4D7B891658C8B700B5A2C3 /* CoreFoundation.framework */; };
+		AB09878D171C3E3C0060E191 /* TMGeneralDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AB0928FF1681C4E30039704D /* TMGeneralDataModel.xcdatamodeld */; };
+		AB09878E171C3E400060E191 /* TMGeneralDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AB0928FE1681C4E30039704D /* TMGeneralDataManager.m */; };
+		AB09878F171C3E5A0060E191 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB09292E1681C8A70039704D /* CoreData.framework */; };
+		AB098790171C3E640060E191 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB09295C16821A420039704D /* MobileCoreServices.framework */; };
+		AB098791171C3E640060E191 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB0929541682199B0039704D /* SystemConfiguration.framework */; };
+		AB098792171C3E650060E191 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB09295C16821A420039704D /* MobileCoreServices.framework */; };
+		AB098793171C3E860060E191 /* TMGeneral.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B2B1658B0F300B5A2C3 /* TMGeneral.m */; };
+		AB098794171C3E860060E191 /* TMImageCacheControl.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B471658B3B700B5A2C3 /* TMImageCacheControl.m */; };
+		AB098795171C3E860060E191 /* TMViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B4F1658B3B700B5A2C3 /* TMViewController.m */; };
+		AB098796171C3E8B0060E191 /* TMAPIDownloadModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B3A1658B3B700B5A2C3 /* TMAPIDownloadModel.m */; };
+		AB098797171C3E8B0060E191 /* TMAPIModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B3C1658B3B700B5A2C3 /* TMAPIModel.m */; };
+		AB098798171C3E8B0060E191 /* TMAPIWebModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B3E1658B3B700B5A2C3 /* TMAPIWebModel.m */; };
+		AB098799171C3E930060E191 /* TMKeyboardController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B491658B3B700B5A2C3 /* TMKeyboardController.m */; };
+		AB09879A171C3E930060E191 /* TMTools.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B4B1658B3B700B5A2C3 /* TMTools.m */; };
+		AB09879B171C3E930060E191 /* TMUITools.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B4D1658B3B700B5A2C3 /* TMUITools.m */; };
+		AB09879C171C3E990060E191 /* GTMBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = ABFE8F87168803DF00649E88 /* GTMBase64.m */; };
+		AB09879D171C3E990060E191 /* GTMStringEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = ABFE8F841688034700649E88 /* GTMStringEncoding.m */; };
+		AB09879E171C3E990060E191 /* TMDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AB0928F71681C1FB0039704D /* TMDataManager.m */; };
+		AB09879F171C3E990060E191 /* TMGlobalModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B451658B3B700B5A2C3 /* TMGlobalModel.m */; };
+		AB0987A0171C3F7B0060E191 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E02939F10EC6492BB21EECC9 /* libPods.a */; };
 		AB4D7B251658B0F300B5A2C3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB4D7B241658B0F300B5A2C3 /* Foundation.framework */; };
 		AB4D7B2A1658B0F300B5A2C3 /* TMGeneral.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AB4D7B291658B0F300B5A2C3 /* TMGeneral.h */; };
 		AB4D7B2C1658B0F300B5A2C3 /* TMGeneral.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B2B1658B0F300B5A2C3 /* TMGeneral.m */; };
@@ -66,11 +125,20 @@
 		ABE621AB16A682E70096C5A8 /* GTMBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = ABFE8F87168803DF00649E88 /* GTMBase64.m */; };
 		ABE621AD16A682EC0096C5A8 /* GTMStringEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = ABFE8F841688034700649E88 /* GTMStringEncoding.m */; };
 		ABE6227416A9A5CE0096C5A8 /* TMTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ABE6227316A9A5CE0096C5A8 /* TMTableViewController.m */; };
-		ABFC75E517140E7C000BA88E /* TMToolTest.m in Sources */ = {isa = PBXBuildFile; fileRef = ABFC75E417140E7C000BA88E /* TMToolTest.m */; };
 		ABFE8F851688034700649E88 /* GTMStringEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = ABFE8F841688034700649E88 /* GTMStringEncoding.m */; };
 		ABFE8F89168803DF00649E88 /* GTMBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = ABFE8F87168803DF00649E88 /* GTMBase64.m */; };
 		DFEBE1BC33864832B06FE090 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E02939F10EC6492BB21EECC9 /* libPods.a */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		AB098759171C3A560060E191 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AB4D7B181658B0F300B5A2C3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AB098739171C3A560060E191;
+			remoteInfo = TMGeneralApp;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		AB4D7B1F1658B0F300B5A2C3 /* CopyFiles */ = {
@@ -109,15 +177,30 @@
 		AB0929131681C52E0039704D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		AB0929161681C52E0039704D /* TMGeneralUnitTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TMGeneralUnitTest.m; sourceTree = "<group>"; };
 		AB0929181681C52E0039704D /* TMGeneralUnitTest-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TMGeneralUnitTest-Prefix.pch"; sourceTree = "<group>"; };
-		AB09291D1681C5870039704D /* TMGeneralDataManagerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMGeneralDataManagerTest.m; sourceTree = "<group>"; };
-		AB0929201681C5E80039704D /* TMImageCacheControlTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMImageCacheControlTest.m; sourceTree = "<group>"; };
 		AB09292E1681C8A70039704D /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		AB0929351681DB520039704D /* TMAPIWebModelTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMAPIWebModelTest.m; sourceTree = "<group>"; };
 		AB092952168219730039704D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		AB0929541682199B0039704D /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		AB092958168219DA0039704D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		AB09295C16821A420039704D /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
-		AB0986F3171BD51F0060E191 /* GlobalModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlobalModel.m; sourceTree = "<group>"; };
+		AB09873A171C3A560060E191 /* TMGeneralApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TMGeneralApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB098740171C3A560060E191 /* TMGeneralApp-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TMGeneralApp-Info.plist"; sourceTree = "<group>"; };
+		AB098742171C3A560060E191 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		AB098744171C3A560060E191 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		AB098746171C3A560060E191 /* TMGeneralApp-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TMGeneralApp-Prefix.pch"; sourceTree = "<group>"; };
+		AB098747171C3A560060E191 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		AB098748171C3A560060E191 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		AB09874A171C3A560060E191 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		AB09874C171C3A560060E191 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		AB09874E171C3A560060E191 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		AB098755171C3A560060E191 /* TMGeneralAppTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TMGeneralAppTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB09875D171C3A560060E191 /* TMGeneralAppTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TMGeneralAppTests-Info.plist"; sourceTree = "<group>"; };
+		AB09875F171C3A560060E191 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		AB098762171C3A560060E191 /* TMGeneralAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TMGeneralAppTests.m; sourceTree = "<group>"; };
+		AB09876A171C3B650060E191 /* GlobalModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlobalModel.m; sourceTree = "<group>"; };
+		AB09876B171C3B650060E191 /* TMAPIWebModelTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMAPIWebModelTest.m; sourceTree = "<group>"; };
+		AB09876C171C3B650060E191 /* TMGeneralDataManagerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMGeneralDataManagerTest.m; sourceTree = "<group>"; };
+		AB09876D171C3B650060E191 /* TMImageCacheControlTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMImageCacheControlTest.m; sourceTree = "<group>"; };
+		AB09876E171C3B650060E191 /* TMToolTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMToolTest.m; sourceTree = "<group>"; };
 		AB4D7B211658B0F300B5A2C3 /* libTMGeneral.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libTMGeneral.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB4D7B241658B0F300B5A2C3 /* Foundation.framework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		AB4D7B281658B0F300B5A2C3 /* TMGeneral-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TMGeneral-Prefix.pch"; sourceTree = "<group>"; };
@@ -148,7 +231,6 @@
 		AB4D7B891658C8B700B5A2C3 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		ABE6227216A9A5CE0096C5A8 /* TMTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMTableViewController.h; sourceTree = "<group>"; };
 		ABE6227316A9A5CE0096C5A8 /* TMTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMTableViewController.m; sourceTree = "<group>"; };
-		ABFC75E417140E7C000BA88E /* TMToolTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMToolTest.m; sourceTree = "<group>"; };
 		ABFE8F831688034700649E88 /* GTMStringEncoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMStringEncoding.h; sourceTree = "<group>"; };
 		ABFE8F841688034700649E88 /* GTMStringEncoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMStringEncoding.m; sourceTree = "<group>"; };
 		ABFE8F86168803DF00649E88 /* GTMBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMBase64.h; sourceTree = "<group>"; };
@@ -171,6 +253,36 @@
 				AB09290E1681C52E0039704D /* Foundation.framework in Frameworks */,
 				AB09292C1681C8220039704D /* CoreFoundation.framework in Frameworks */,
 				AB09292D1681C8280039704D /* libPods.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AB098737171C3A560060E191 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AB09873B171C3A560060E191 /* UIKit.framework in Frameworks */,
+				AB09873C171C3A560060E191 /* Foundation.framework in Frameworks */,
+				AB09873D171C3A560060E191 /* CoreGraphics.framework in Frameworks */,
+				AB09878F171C3E5A0060E191 /* CoreData.framework in Frameworks */,
+				AB098790171C3E640060E191 /* MobileCoreServices.framework in Frameworks */,
+				AB098791171C3E640060E191 /* SystemConfiguration.framework in Frameworks */,
+				AB0987A0171C3F7B0060E191 /* libPods.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AB098751171C3A560060E191 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AB098756171C3A560060E191 /* SenTestingKit.framework in Frameworks */,
+				AB098757171C3A560060E191 /* UIKit.framework in Frameworks */,
+				AB098758171C3A560060E191 /* Foundation.framework in Frameworks */,
+				AB098774171C3B8B0060E191 /* libPods.a in Frameworks */,
+				AB098789171C3D3C0060E191 /* SystemConfiguration.framework in Frameworks */,
+				AB09878A171C3D3F0060E191 /* CoreGraphics.framework in Frameworks */,
+				AB09878B171C3D410060E191 /* CoreData.framework in Frameworks */,
+				AB09878C171C3D470060E191 /* CoreFoundation.framework in Frameworks */,
+				AB098792171C3E650060E191 /* MobileCoreServices.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -200,11 +312,6 @@
 			isa = PBXGroup;
 			children = (
 				AB0929161681C52E0039704D /* TMGeneralUnitTest.m */,
-				AB09291D1681C5870039704D /* TMGeneralDataManagerTest.m */,
-				AB0929201681C5E80039704D /* TMImageCacheControlTest.m */,
-				AB0929351681DB520039704D /* TMAPIWebModelTest.m */,
-				ABFC75E417140E7C000BA88E /* TMToolTest.m */,
-				AB0986F3171BD51F0060E191 /* GlobalModel.m */,
 				AB0929101681C52E0039704D /* Supporting Files */,
 			);
 			path = TMGeneralUnitTest;
@@ -220,11 +327,60 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		AB09873E171C3A560060E191 /* TMGeneralApp */ = {
+			isa = PBXGroup;
+			children = (
+				AB098747171C3A560060E191 /* AppDelegate.h */,
+				AB098748171C3A560060E191 /* AppDelegate.m */,
+				AB09873F171C3A560060E191 /* Supporting Files */,
+			);
+			path = TMGeneralApp;
+			sourceTree = "<group>";
+		};
+		AB09873F171C3A560060E191 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				AB098740171C3A560060E191 /* TMGeneralApp-Info.plist */,
+				AB098741171C3A560060E191 /* InfoPlist.strings */,
+				AB098744171C3A560060E191 /* main.m */,
+				AB098746171C3A560060E191 /* TMGeneralApp-Prefix.pch */,
+				AB09874A171C3A560060E191 /* Default.png */,
+				AB09874C171C3A560060E191 /* Default@2x.png */,
+				AB09874E171C3A560060E191 /* Default-568h@2x.png */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		AB09875B171C3A560060E191 /* TMGeneralAppTests */ = {
+			isa = PBXGroup;
+			children = (
+				AB09876A171C3B650060E191 /* GlobalModel.m */,
+				AB09876B171C3B650060E191 /* TMAPIWebModelTest.m */,
+				AB09876C171C3B650060E191 /* TMGeneralDataManagerTest.m */,
+				AB09876D171C3B650060E191 /* TMImageCacheControlTest.m */,
+				AB09876E171C3B650060E191 /* TMToolTest.m */,
+				AB098762171C3A560060E191 /* TMGeneralAppTests.m */,
+				AB09875C171C3A560060E191 /* Supporting Files */,
+			);
+			path = TMGeneralAppTests;
+			sourceTree = "<group>";
+		};
+		AB09875C171C3A560060E191 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				AB09875D171C3A560060E191 /* TMGeneralAppTests-Info.plist */,
+				AB09875E171C3A560060E191 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		AB4D7B161658B0F300B5A2C3 = {
 			isa = PBXGroup;
 			children = (
 				AB4D7B261658B0F300B5A2C3 /* TMGeneral */,
 				AB09290F1681C52E0039704D /* TMGeneralUnitTest */,
+				AB09873E171C3A560060E191 /* TMGeneralApp */,
+				AB09875B171C3A560060E191 /* TMGeneralAppTests */,
 				AB4D7B231658B0F300B5A2C3 /* Frameworks */,
 				AB4D7B221658B0F300B5A2C3 /* Products */,
 				03C3F9113300433EA35678A0 /* Pods.xcconfig */,
@@ -236,6 +392,8 @@
 			children = (
 				AB4D7B211658B0F300B5A2C3 /* libTMGeneral.a */,
 				AB0929091681C52E0039704D /* TMGeneralUnitTest.octest */,
+				AB09873A171C3A560060E191 /* TMGeneralApp.app */,
+				AB098755171C3A560060E191 /* TMGeneralAppTests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -369,6 +527,42 @@
 			productReference = AB0929091681C52E0039704D /* TMGeneralUnitTest.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
+		AB098739171C3A560060E191 /* TMGeneralApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AB098768171C3A560060E191 /* Build configuration list for PBXNativeTarget "TMGeneralApp" */;
+			buildPhases = (
+				AB098736171C3A560060E191 /* Sources */,
+				AB098737171C3A560060E191 /* Frameworks */,
+				AB098738171C3A560060E191 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TMGeneralApp;
+			productName = TMGeneralApp;
+			productReference = AB09873A171C3A560060E191 /* TMGeneralApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+		AB098754171C3A560060E191 /* TMGeneralAppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AB098769171C3A560060E191 /* Build configuration list for PBXNativeTarget "TMGeneralAppTests" */;
+			buildPhases = (
+				AB098750171C3A560060E191 /* Sources */,
+				AB098751171C3A560060E191 /* Frameworks */,
+				AB098752171C3A560060E191 /* Resources */,
+				AB098753171C3A560060E191 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AB09875A171C3A560060E191 /* PBXTargetDependency */,
+			);
+			name = TMGeneralAppTests;
+			productName = TMGeneralAppTests;
+			productReference = AB098755171C3A560060E191 /* TMGeneralAppTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
 		AB4D7B201658B0F300B5A2C3 /* TMGeneral */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = AB4D7B2F1658B0F300B5A2C3 /* Build configuration list for PBXNativeTarget "TMGeneral" */;
@@ -410,6 +604,8 @@
 			targets = (
 				AB4D7B201658B0F300B5A2C3 /* TMGeneral */,
 				AB0929081681C52E0039704D /* TMGeneralUnitTest */,
+				AB098739171C3A560060E191 /* TMGeneralApp */,
+				AB098754171C3A560060E191 /* TMGeneralAppTests */,
 			);
 		};
 /* End PBXProject section */
@@ -420,6 +616,25 @@
 			buildActionMask = 2147483647;
 			files = (
 				AB0929141681C52E0039704D /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AB098738171C3A560060E191 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AB098743171C3A560060E191 /* InfoPlist.strings in Resources */,
+				AB09874B171C3A560060E191 /* Default.png in Resources */,
+				AB09874D171C3A560060E191 /* Default@2x.png in Resources */,
+				AB09874F171C3A560060E191 /* Default-568h@2x.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AB098752171C3A560060E191 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AB098760171C3A560060E191 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -453,6 +668,19 @@
 			shellPath = /bin/sh;
 			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
 		};
+		AB098753171C3A560060E191 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\nif [ \"$RUN_APPLICATION_TESTS_WITH_IOS_SIM\" = \"YES\" ]; then\ntest_bundle_path=\"$BUILT_PRODUCTS_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION\"\nenvironment_args=\"--setenv DYLD_INSERT_LIBRARIES=/../../Library/PrivateFrameworks/IDEBundleInjection.framework/IDEBundleInjection --setenv XCInjectBundle=$test_bundle_path --setenv XCInjectBundleInto=$TEST_HOST\"\necho $test_bundle_path\necho $(dirname $TEST_HOST)\nios-sim launch $(dirname $TEST_HOST) $environment_args --args -SenTest All $test_bundle_path\necho \"Finished running tests with ios-sim\"\nelse\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\nfi\n";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -461,12 +689,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				AB0929171681C52E0039704D /* TMGeneralUnitTest.m in Sources */,
-				AB09291E1681C5870039704D /* TMGeneralDataManagerTest.m in Sources */,
-				AB0929211681C5E80039704D /* TMImageCacheControlTest.m in Sources */,
 				AB0929221681C6750039704D /* TMGeneralDataManager.m in Sources */,
 				AB0929231681C67B0039704D /* TMGeneralDataModel.xcdatamodeld in Sources */,
 				AB09292B1681C7460039704D /* TMDataManager.m in Sources */,
-				AB0929361681DB520039704D /* TMAPIWebModelTest.m in Sources */,
 				AB0929371681DB780039704D /* TMAPIModel.m in Sources */,
 				AB0929381681DF4D0039704D /* TMViewController.m in Sources */,
 				AB092939168209370039704D /* TMUITools.m in Sources */,
@@ -481,8 +706,62 @@
 				AB092957168219AF0039704D /* TMGeneral.m in Sources */,
 				ABE621AB16A682E70096C5A8 /* GTMBase64.m in Sources */,
 				ABE621AD16A682EC0096C5A8 /* GTMStringEncoding.m in Sources */,
-				ABFC75E517140E7C000BA88E /* TMToolTest.m in Sources */,
-				AB0986F4171BD51F0060E191 /* GlobalModel.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AB098736171C3A560060E191 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AB098745171C3A560060E191 /* main.m in Sources */,
+				AB098749171C3A560060E191 /* AppDelegate.m in Sources */,
+				AB09877D171C3C100060E191 /* TMApiData.m in Sources */,
+				AB09877E171C3C100060E191 /* TMImageCache.m in Sources */,
+				AB09878D171C3E3C0060E191 /* TMGeneralDataModel.xcdatamodeld in Sources */,
+				AB09878E171C3E400060E191 /* TMGeneralDataManager.m in Sources */,
+				AB098793171C3E860060E191 /* TMGeneral.m in Sources */,
+				AB098794171C3E860060E191 /* TMImageCacheControl.m in Sources */,
+				AB098795171C3E860060E191 /* TMViewController.m in Sources */,
+				AB098796171C3E8B0060E191 /* TMAPIDownloadModel.m in Sources */,
+				AB098797171C3E8B0060E191 /* TMAPIModel.m in Sources */,
+				AB098798171C3E8B0060E191 /* TMAPIWebModel.m in Sources */,
+				AB098799171C3E930060E191 /* TMKeyboardController.m in Sources */,
+				AB09879A171C3E930060E191 /* TMTools.m in Sources */,
+				AB09879B171C3E930060E191 /* TMUITools.m in Sources */,
+				AB09879C171C3E990060E191 /* GTMBase64.m in Sources */,
+				AB09879D171C3E990060E191 /* GTMStringEncoding.m in Sources */,
+				AB09879E171C3E990060E191 /* TMDataManager.m in Sources */,
+				AB09879F171C3E990060E191 /* TMGlobalModel.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AB098750171C3A560060E191 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AB098763171C3A560060E191 /* TMGeneralAppTests.m in Sources */,
+				AB09876F171C3B650060E191 /* GlobalModel.m in Sources */,
+				AB098770171C3B650060E191 /* TMAPIWebModelTest.m in Sources */,
+				AB098771171C3B650060E191 /* TMGeneralDataManagerTest.m in Sources */,
+				AB098772171C3B650060E191 /* TMImageCacheControlTest.m in Sources */,
+				AB098773171C3B650060E191 /* TMToolTest.m in Sources */,
+				AB098775171C3BF80060E191 /* TMGeneral.m in Sources */,
+				AB098776171C3BFB0060E191 /* TMImageCacheControl.m in Sources */,
+				AB098777171C3BFF0060E191 /* TMViewController.m in Sources */,
+				AB098779171C3C080060E191 /* TMGeneralDataManager.m in Sources */,
+				AB09877A171C3C0B0060E191 /* TMGeneralDataModel.xcdatamodeld in Sources */,
+				AB09877B171C3C0F0060E191 /* TMApiData.m in Sources */,
+				AB09877C171C3C0F0060E191 /* TMImageCache.m in Sources */,
+				AB09877F171C3C1C0060E191 /* TMAPIDownloadModel.m in Sources */,
+				AB098780171C3C1C0060E191 /* TMAPIModel.m in Sources */,
+				AB098781171C3C1C0060E191 /* TMAPIWebModel.m in Sources */,
+				AB098782171C3C240060E191 /* TMKeyboardController.m in Sources */,
+				AB098783171C3C240060E191 /* TMTools.m in Sources */,
+				AB098784171C3C240060E191 /* TMUITools.m in Sources */,
+				AB098785171C3C290060E191 /* TMGlobalModel.m in Sources */,
+				AB098786171C3C2E0060E191 /* TMDataManager.m in Sources */,
+				AB098787171C3C340060E191 /* GTMBase64.m in Sources */,
+				AB098788171C3C340060E191 /* GTMStringEncoding.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -513,11 +792,35 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		AB09875A171C3A560060E191 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AB098739171C3A560060E191 /* TMGeneralApp */;
+			targetProxy = AB098759171C3A560060E191 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		AB0929121681C52E0039704D /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
 				AB0929131681C52E0039704D /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		AB098741171C3A560060E191 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AB098742171C3A560060E191 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		AB09875E171C3A560060E191 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AB09875F171C3A560060E191 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -573,6 +876,105 @@
 				PODS_PUBLIC_HEADERS_SEARCH_PATHS = "\"${PODS_ROOT}/Headers\" \"${PODS_ROOT}/Headers/AFDownloadRequestOperation\" \"${PODS_ROOT}/Headers/AFNetworking\"";
 				PODS_ROOT = "${SRCROOT}/Pods";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+		AB098764171C3A560060E191 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "TMGeneralApp/TMGeneralApp-Prefix.pch";
+				HEADER_SEARCH_PATHS = "${PODS_HEADERS_SEARCH_PATHS}";
+				INFOPLIST_FILE = "TMGeneralApp/TMGeneralApp-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				PODS_BUILD_HEADERS_SEARCH_PATHS = "\"${PODS_ROOT}/BuildHeaders\" \"${PODS_ROOT}/BuildHeaders/AFDownloadRequestOperation\" \"${PODS_ROOT}/BuildHeaders/AFNetworking\" \"${PODS_ROOT}/BuildHeaders/OCHamcrest\" \"${PODS_ROOT}/BuildHeaders/OCMock\"";
+				PODS_HEADERS_SEARCH_PATHS = "${PODS_PUBLIC_HEADERS_SEARCH_PATHS}";
+				PODS_PUBLIC_HEADERS_SEARCH_PATHS = "\"${PODS_ROOT}/Headers\" \"${PODS_ROOT}/Headers/AFDownloadRequestOperation\" \"${PODS_ROOT}/Headers/AFNetworking\" \"${PODS_ROOT}/Headers/OCHamcrest\" \"${PODS_ROOT}/Headers/OCMock\"";
+				PODS_ROOT = "${SRCROOT}/Pods";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		AB098765171C3A560060E191 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "TMGeneralApp/TMGeneralApp-Prefix.pch";
+				HEADER_SEARCH_PATHS = "${PODS_HEADERS_SEARCH_PATHS}";
+				INFOPLIST_FILE = "TMGeneralApp/TMGeneralApp-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PODS_BUILD_HEADERS_SEARCH_PATHS = "\"${PODS_ROOT}/BuildHeaders\" \"${PODS_ROOT}/BuildHeaders/AFDownloadRequestOperation\" \"${PODS_ROOT}/BuildHeaders/AFNetworking\" \"${PODS_ROOT}/BuildHeaders/OCHamcrest\" \"${PODS_ROOT}/BuildHeaders/OCMock\"";
+				PODS_HEADERS_SEARCH_PATHS = "${PODS_PUBLIC_HEADERS_SEARCH_PATHS}";
+				PODS_PUBLIC_HEADERS_SEARCH_PATHS = "\"${PODS_ROOT}/Headers\" \"${PODS_ROOT}/Headers/AFDownloadRequestOperation\" \"${PODS_ROOT}/Headers/AFNetworking\" \"${PODS_ROOT}/Headers/OCHamcrest\" \"${PODS_ROOT}/Headers/OCMock\"";
+				PODS_ROOT = "${SRCROOT}/Pods";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		AB098766171C3A560060E191 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/TMGeneralApp.app/TMGeneralApp";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "TMGeneralApp/TMGeneralApp-Prefix.pch";
+				HEADER_SEARCH_PATHS = "${PODS_HEADERS_SEARCH_PATHS}";
+				INFOPLIST_FILE = "TMGeneralAppTests/TMGeneralAppTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				PODS_BUILD_HEADERS_SEARCH_PATHS = "\"${PODS_ROOT}/BuildHeaders\" \"${PODS_ROOT}/BuildHeaders/AFDownloadRequestOperation\" \"${PODS_ROOT}/BuildHeaders/AFNetworking\" \"${PODS_ROOT}/BuildHeaders/OCHamcrest\" \"${PODS_ROOT}/BuildHeaders/OCMock\"";
+				PODS_HEADERS_SEARCH_PATHS = "${PODS_PUBLIC_HEADERS_SEARCH_PATHS}";
+				PODS_PUBLIC_HEADERS_SEARCH_PATHS = "\"${PODS_ROOT}/Headers\" \"${PODS_ROOT}/Headers/AFDownloadRequestOperation\" \"${PODS_ROOT}/Headers/AFNetworking\" \"${PODS_ROOT}/Headers/OCHamcrest\" \"${PODS_ROOT}/Headers/OCMock\"";
+				PODS_ROOT = "${SRCROOT}/Pods";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		AB098767171C3A560060E191 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/TMGeneralApp.app/TMGeneralApp";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "TMGeneralApp/TMGeneralApp-Prefix.pch";
+				HEADER_SEARCH_PATHS = "${PODS_HEADERS_SEARCH_PATHS}";
+				INFOPLIST_FILE = "TMGeneralAppTests/TMGeneralAppTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				PODS_BUILD_HEADERS_SEARCH_PATHS = "\"${PODS_ROOT}/BuildHeaders\" \"${PODS_ROOT}/BuildHeaders/AFDownloadRequestOperation\" \"${PODS_ROOT}/BuildHeaders/AFNetworking\" \"${PODS_ROOT}/BuildHeaders/OCHamcrest\" \"${PODS_ROOT}/BuildHeaders/OCMock\"";
+				PODS_HEADERS_SEARCH_PATHS = "${PODS_PUBLIC_HEADERS_SEARCH_PATHS}";
+				PODS_PUBLIC_HEADERS_SEARCH_PATHS = "\"${PODS_ROOT}/Headers\" \"${PODS_ROOT}/Headers/AFDownloadRequestOperation\" \"${PODS_ROOT}/Headers/AFNetworking\" \"${PODS_ROOT}/Headers/OCHamcrest\" \"${PODS_ROOT}/Headers/OCMock\"";
+				PODS_ROOT = "${SRCROOT}/Pods";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
 			};
 			name = Release;
@@ -663,6 +1065,22 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		AB098768171C3A560060E191 /* Build configuration list for PBXNativeTarget "TMGeneralApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AB098764171C3A560060E191 /* Debug */,
+				AB098765171C3A560060E191 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		AB098769171C3A560060E191 /* Build configuration list for PBXNativeTarget "TMGeneralAppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AB098766171C3A560060E191 /* Debug */,
+				AB098767171C3A560060E191 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		AB4D7B1B1658B0F300B5A2C3 /* Build configuration list for PBXProject "TMGeneral" */ = {
 			isa = XCConfigurationList;

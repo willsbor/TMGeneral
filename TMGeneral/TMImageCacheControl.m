@@ -11,7 +11,7 @@
 #import "TMTools.h"
 
 #import "TMImageCache.h"
-#import "AFNetworking.h"
+#import <AFNetworking/AFNetworking.h>
 
 #define _PRELOAD_TAG   @"2uh4u3h42@#$2"
 

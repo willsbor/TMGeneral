@@ -12,8 +12,6 @@
 #import "TMImageCacheControl.h"
 #import "TMUITools.h"
 
-#import <OCMock/OCMock.h>
-
 #import <objc/runtime.h>
 
 @interface TMGeneralDataManager (UTest)
