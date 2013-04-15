@@ -41,6 +41,7 @@
 		AB092959168219DA0039704D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB092958168219DA0039704D /* UIKit.framework */; };
 		AB09295D16821A420039704D /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB09295C16821A420039704D /* MobileCoreServices.framework */; };
 		AB09295E168220B50039704D /* TMGeneralResource.bundle in Resources */ = {isa = PBXBuildFile; fileRef = AB4D7B881658C8B700B5A2C3 /* TMGeneralResource.bundle */; };
+		AB0986F4171BD51F0060E191 /* GlobalModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AB0986F3171BD51F0060E191 /* GlobalModel.m */; };
 		AB4D7B251658B0F300B5A2C3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB4D7B241658B0F300B5A2C3 /* Foundation.framework */; };
 		AB4D7B2A1658B0F300B5A2C3 /* TMGeneral.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AB4D7B291658B0F300B5A2C3 /* TMGeneral.h */; };
 		AB4D7B2C1658B0F300B5A2C3 /* TMGeneral.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B2B1658B0F300B5A2C3 /* TMGeneral.m */; };
@@ -120,6 +121,7 @@
 		AB0929541682199B0039704D /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		AB092958168219DA0039704D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		AB09295C16821A420039704D /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		AB0986F3171BD51F0060E191 /* GlobalModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlobalModel.m; sourceTree = "<group>"; };
 		AB4D7B211658B0F300B5A2C3 /* libTMGeneral.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libTMGeneral.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB4D7B241658B0F300B5A2C3 /* Foundation.framework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		AB4D7B281658B0F300B5A2C3 /* TMGeneral-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TMGeneral-Prefix.pch"; sourceTree = "<group>"; };
@@ -218,6 +220,7 @@
 				AB0929201681C5E80039704D /* TMImageCacheControlTest.m */,
 				AB0929351681DB520039704D /* TMAPIWebModelTest.m */,
 				ABFC75E417140E7C000BA88E /* TMToolTest.m */,
+				AB0986F3171BD51F0060E191 /* GlobalModel.m */,
 				AB0929101681C52E0039704D /* Supporting Files */,
 			);
 			path = TMGeneralUnitTest;
@@ -542,6 +545,7 @@
 				ABE621AB16A682E70096C5A8 /* GTMBase64.m in Sources */,
 				ABE621AD16A682EC0096C5A8 /* GTMStringEncoding.m in Sources */,
 				ABFC75E517140E7C000BA88E /* TMToolTest.m in Sources */,
+				AB0986F4171BD51F0060E191 /* GlobalModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

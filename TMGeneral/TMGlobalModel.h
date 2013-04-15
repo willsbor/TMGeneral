@@ -21,6 +21,16 @@ typedef enum {
     TMGlobal_WaitingView_Animation_Direction_D2U,
 } TMGlobal_WaitingView_Animation_Direction;
 
+typedef enum {
+    TMGlobal_AppMode_Release = 0,
+    TMGlobal_AppMode_Develop = 1,
+    TMGlobal_AppMode_Test = 2,
+    TMGlobal_AppMode_Custome_1 = 3,
+    TMGlobal_AppMode_Custome_2 = 4,
+    TMGlobal_AppMode_Custome_3 = 5,
+    TMGlobal_AppMode_Num,
+} TMGlobal_AppMode;
+
 @interface TMGlobalModel : NSObject
 {
     
@@ -61,5 +71,28 @@ typedef enum {
  * 將一個flag 設定成 YES 且儲存在 UserDefault
  */
 - (void) setOneTimeTag:(NSString *)aDefineName;
+
+/**
+ * Mode 切換
+ */
+- (void) setAppMode:(TMGlobal_AppMode)aMode;
+
+- (TMGlobal_AppMode) appMode;
+
+- (void) setDefaultAppMode:(TMGlobal_AppMode)aMode;
+
+- (void) clearAppMode;
+
+/**
+ * ex: aModeDic = @{@"Parse":@[@"xxxxxxxxxxxx",
+ *                             @"yyyyyyyyyy",
+ *                             @"rrrrrrrrrr"],
+ *                  @"Flurry":@[@"xxxxxxxxxxxx",
+ *                             @"yyyyyyyyyy",
+ *                             @"rrrrrrrrrr"]}
+ */
+- (void) setModeDictionary:(NSDictionary *)aModeDic;
+
+- (id) objectOfClass:(NSString *)aClassName;
 
 @end

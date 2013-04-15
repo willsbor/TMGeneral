@@ -9,8 +9,20 @@
 #import "TMGlobalModel.h"
 #import <QuartzCore/QuartzCore.h>
 #import "TMUITools.h"
+#import "TMTools.h"
+
+const NSString *TMGlobalAppModeRelease = @"TMG_AppMode_Release";
+const NSString *TMGlobalAppModeTest = @"TMG_AppMode_Test";
+const NSString *TMGlobalAppModeDevelop = @"TMG_AppMode_Develop";
+const NSString *TMGlobalAppModeCustome1 = @"TMG_AppMode_Custome_1";
+const NSString *TMGlobalAppModeCustome2 = @"TMG_AppMode_Custome_2";
+const NSString *TMGlobalAppModeCustome3 = @"TMG_AppMode_Custome_3";
 
 @interface TMGlobalModel ()
+{
+    TMGlobal_AppMode _defaultAppMode;
+}
+@property (nonatomic, strong) NSDictionary *appModeValueMap;
 @property (nonatomic, strong) UIView *waitingView;
 @property (nonatomic, strong) NSTimer *waitingViewCloseTimer;
 @end
@@ -305,11 +317,95 @@ static TMGlobal_WaitingView_Animation_Direction g_waitingDirection = TMGlobal_Wa
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
+
+/**
+ * Mode 切換
+ */
+#define __UserDefault_Mode_Key_Format  @"%@, hi2,e@#4@#=="
+#define __UserDefault_Mode_Format @"%@=/=?=%@"
+
+- (void) setAppMode:(TMGlobal_AppMode)aMode
+{
+    NSAssert(aMode < TMGlobal_AppMode_Num, @"Not in the set of TMGlobal_AppMode");
+    NSAssert(aMode >= 0, @"Not in the set of TMGlobal_AppMode");
+    
+    NSString *bundle = [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString *)kCFBundleIdentifierKey];
+    NSArray *checkArray = @[TMGlobalAppModeRelease, TMGlobalAppModeDevelop, TMGlobalAppModeTest, TMGlobalAppModeCustome1, TMGlobalAppModeCustome2, TMGlobalAppModeCustome3];
+    
+    NSString *valid = tmStringFromMD5([NSString stringWithFormat:__UserDefault_Mode_Format, bundle, checkArray[aMode]]);
+    
+    [[NSUserDefaults standardUserDefaults] setObject:valid forKey:[NSString stringWithFormat:__UserDefault_Mode_Key_Format, bundle]];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (TMGlobal_AppMode) appMode
+{
+    NSString *bundle = [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString *)kCFBundleIdentifierKey];
+    NSLog(@"test : now bundle ID = %@", bundle);
+    
+    NSString *value = [[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:__UserDefault_Mode_Key_Format, bundle]];
+    
+    NSArray *checkArray = @[TMGlobalAppModeRelease, TMGlobalAppModeDevelop, TMGlobalAppModeTest, TMGlobalAppModeCustome1, TMGlobalAppModeCustome2, TMGlobalAppModeCustome3];
+    
+    for (int i = 0; i < [checkArray count]; ++i) {
+        NSString *key = checkArray[i];
+        NSString *valid = tmStringFromMD5([NSString stringWithFormat:__UserDefault_Mode_Format, bundle, key]);
+        if ([valid isEqualToString:value]) {
+            return i;
+        }
+    }
+    
+    return _defaultAppMode; 
+}
+
+- (void) setDefaultAppMode:(TMGlobal_AppMode)aMode
+{
+    _defaultAppMode = aMode;
+}
+
+- (void) clearAppMode
+{
+    NSString *bundle = [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString *)kCFBundleIdentifierKey];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:[NSString stringWithFormat:__UserDefault_Mode_Key_Format, bundle]];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+/**
+ * ex: aModeDic = @{@"Parse":@[@"xxxxxxxxxxxx",
+ *                             @"yyyyyyyyyy",
+ *                             @"rrrrrrrrrr"],
+ *                  @"Flurry":@[@"xxxxxxxxxxxx",
+ *                             @"yyyyyyyyyy",
+ *                             @"rrrrrrrrrr"]}
+ */
+- (void) setModeDictionary:(NSDictionary *)aModeDic
+{
+    self.appModeValueMap = [aModeDic copy];
+}
+
+- (id) objectOfClass:(NSString *)aClassName
+{
+    NSAssert(self.appModeValueMap != nil, @"self.appModeValueMap is nil");
+    
+    NSArray *array = [self.appModeValueMap objectForKey:aClassName];
+    NSAssert(array != nil, @"there is no \"%@\" setting", aClassName);
+    NSAssert([[array class] isSubclassOfClass:[NSArray class]], @"the items should be NSArray");
+    NSAssert([array count] <= TMGlobal_AppMode_Num, @"items data too many");
+    NSAssert([array count] >= 3, @"items data too less, (release, develop, test ....)");
+    
+    TMGlobal_AppMode nowMode = [self appMode];
+    NSAssert(nowMode < [array count], @"now mode is out of range");
+    
+    return [array objectAtIndex:nowMode];
+}
+
+
 - (id)init
 {
     self = [super init];
     if (self) {
         _mapKey = [[NSMutableDictionary alloc] init];
+        _defaultAppMode = TMGlobal_AppMode_Develop;
     }
     return self;
 }
