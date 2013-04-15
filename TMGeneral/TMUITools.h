@@ -40,6 +40,8 @@ extern UIView *tmViewCreateByDatas(NSArray *aDatas, float aWidth, float aLH, NSD
 
 extern CGSize tmStringSize(NSString *aString, UIFont *aFont, float aRefWidth);
 
+extern void tmModifyLabelSizeByFontSize(UILabel *aText, float aMaxFontSize, float aMinFontSize);
+
 extern void tmBringUIViewBehindAtY(UIView *aSecond, UIView *aRefView, float aOffset);
 
 extern void tmBringUIViewBehindAtX(UIView *aSecond, UIView *aRefView, float aOffset);

@@ -14,6 +14,9 @@
 
 #define TM_IMAGE_CACHE_NOTIFY_PRELOAD_FINISH   @"com.thinkermobile.image_cache.preload_finish"
 
+#define TM_IMAGE_CACHE_ERR_USERINFO_SERVER_ERROR_KEY @"ServerError"
+#define TM_IMAGE_CACHE_ERR_USERINFO_STATUS_CODE_KEY  @"ServerStatusCode"
+
 typedef enum
 {
     TMImageControl_Type_NoCache,  ///< 不做 cache
@@ -23,11 +26,13 @@ typedef enum
 
 typedef enum
 {
-    TMImageControl_Preload_Errcode_Success,
-    TMImageControl_Preload_Errcode_Failed,
-} TMImageControl_Preload_Errcode;
+    TMImageControl_Errcode_Success,
+    TMImageControl_Errcode_Failed,
+    TMImageControl_Errcode_No_Downlaod_URL,
+    TMImageControl_Errcode_ServerError,
+} TMImageControl_Errcode;
 
-typedef UIImage* (^TMICImageModify)(UIImage *);
+typedef UIImage* (^TMICImageModify)(UIImage *, NSError *);
 
 @class TMImageCacheControl;
 @protocol TMImageCacheControlPreloadProtocol <NSObject>
@@ -40,13 +45,14 @@ typedef UIImage* (^TMICImageModify)(UIImage *);
 @interface TMImageCacheControl : NSObject
 
 @property (nonatomic, strong) NSDictionary *defaultOptions;
-@property (nonatomic, strong) TMICImageModify ImageModify;
+@property (nonatomic, strong) TMICImageModify ImageModify;    ///< 圖片擷取後 （不論從網路還是cache）皆會經過此block做圖片修改 (修改圖片不會存入cache)
 
 + (TMImageCacheControl *) defaultTMImageCacheControl;
 
 //// for TMViewController
 - (void) removeListonImageViews:(NSArray *)aImageViews;
 - (void) removeListonImageView:(UIImageView *)aImageView;
+
 
 - (void) setImageURL:(NSString *)aURL toImageView:(UIImageView *)aImageView;
 - (void) setImageURL:(NSString *)aURL toImageView:(UIImageView *)aImageView withTag:(NSString *)aTag;
@@ -57,6 +63,15 @@ typedef UIImage* (^TMICImageModify)(UIImage *);
              withTag:(NSString *)aTag
              andType:(TMImageControl_Type)aType
           andOptions:(NSDictionary *)aOptions;
+
+/**
+ * 下面為擷取一個網址的圖片，結果會引到block，但是存取中的重複讀取(time issue) 尚未做最佳化與處理
+ * 並且沒有影響到上面to Image的function
+ */
+- (void) setImageURL:(NSString *)aURL toComplete:(void (^)(UIImage *aImage, NSError *error))aComplete;
+- (void) setImageURL:(NSString *)aURL withTag:(NSString *)aTag toComplete:(void (^)(UIImage *aImage, NSError *error))aComplete;
+- (void) setImageURL:(NSString *)aURL withType:(TMImageControl_Type)aType toComplete:(void (^)(UIImage *aImage, NSError *error))aComplete;
+- (void) setImageURL:(NSString *)aURL withTag:(NSString *)aTag andType:(TMImageControl_Type)aType toComplete:(void (^)(UIImage *aImage, NSError *error))aComplete;
 
 /// public
 - (void) addPreloadImageURL:(NSString *)aURL withTag:(NSString *)aTag andType:(TMImageControl_Type)aType;

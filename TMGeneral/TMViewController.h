@@ -65,4 +65,7 @@
              withMovingDistance:(float) aMovingDistance
            andModifyBySelectBar:(BOOL) aSelectBar ;
 
+- (IBAction)enterEngineerMode1:(id)sender;
+- (IBAction)enterEngineerMode2:(id)sender;
+- (void) activeEnterEngineerFunction;
 @end

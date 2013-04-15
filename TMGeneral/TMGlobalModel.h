@@ -21,9 +21,19 @@ typedef enum {
     TMGlobal_WaitingView_Animation_Direction_D2U,
 } TMGlobal_WaitingView_Animation_Direction;
 
+typedef enum {
+    TMGlobal_AppMode_Release = 0,
+    TMGlobal_AppMode_Develop = 1,
+    TMGlobal_AppMode_Test = 2,
+    TMGlobal_AppMode_Custome_1 = 3,
+    TMGlobal_AppMode_Custome_2 = 4,
+    TMGlobal_AppMode_Custome_3 = 5,
+    TMGlobal_AppMode_Num,
+} TMGlobal_AppMode;
+
 @interface TMGlobalModel : NSObject
 {
-
+    
 }
 
 @property (nonatomic, readonly) NSMutableDictionary* mapKey;
@@ -41,5 +51,48 @@ typedef enum {
 - (void) waitingViewShowAtPoint:(CGPoint)aPoint withText:(NSString *)aText;
 ///   aHiddenTime < =0 is show all the time
 - (void) waitingViewShowAtPoint:(CGPoint)aPoint withText:(NSString *)aText withDelayHidden:(NSTimeInterval)aHiddenTime;
+
+/**
+ * 設定 檢查一個flag 如果為nil or NO 則會執行 action 然後 將flag設定成 YES;
+ */
+- (void) setOneTimeForTag:(NSString *)aDefineName withAction:(void (^)(void))aAction;
+
+/**
+ * 將一個flag 如果他存在在UserDefault的話， 設定成 NO
+ */
+- (void) clearOneTimeTag:(NSString *)aDefineName;
+
+/**
+ * 設定 檢查一個flag 如果為nil or NO 則會執行 action 
+ */
+- (void) checkOneTimeForTag:(NSString *)aDefineName withAction:(void (^)(void))aAction;
+
+/**
+ * 將一個flag 設定成 YES 且儲存在 UserDefault
+ */
+- (void) setOneTimeTag:(NSString *)aDefineName;
+
+/**
+ * Mode 切換
+ */
+- (void) setAppMode:(TMGlobal_AppMode)aMode;
+
+- (TMGlobal_AppMode) appMode;
+
+- (void) setDefaultAppMode:(TMGlobal_AppMode)aMode;
+
+- (void) clearAppMode;
+
+/**
+ * ex: aModeDic = @{@"Parse":@[@"xxxxxxxxxxxx",
+ *                             @"yyyyyyyyyy",
+ *                             @"rrrrrrrrrr"],
+ *                  @"Flurry":@[@"xxxxxxxxxxxx",
+ *                             @"yyyyyyyyyy",
+ *                             @"rrrrrrrrrr"]}
+ */
+- (void) setModeDictionary:(NSDictionary *)aModeDic;
+
+- (id) objectOfClass:(NSString *)aClassName;
 
 @end

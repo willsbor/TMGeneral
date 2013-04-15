@@ -159,6 +159,12 @@ static dispatch_queue_t api_model_operation_processing_queue() {
 
 - (void) final
 {
+    //// 由於  deleteObject 會讓一個物件移除掉，如果此時CoreData restart 掉物件 就會讓這個物件進入flaut的狀態
+    //// 因此 set or get 會讓他flaut掉  (現在還找不到如何 Unit test)
+    if ([_actionItem isFault]) {
+        return;
+    }
+    
     if ([_actionItem.state intValue] == TMAPI_State_Finished) {
         return;
     }
@@ -194,6 +200,12 @@ static dispatch_queue_t api_model_operation_processing_queue() {
 
 - (void) cancel
 {
+    //// 由於  deleteObject 會讓一個物件移除掉，如果此時CoreData restart 掉物件 就會讓這個物件進入flaut的狀態
+    //// 因此 set or get 會讓他flaut掉  (現在還找不到如何 Unit test)
+    if ([_actionItem isFault]) {
+        return;
+    }
+    
     if ([_actionItem.state intValue] == TMAPI_State_Finished) {
         return;
     }
@@ -304,24 +316,22 @@ static dispatch_queue_t api_model_operation_processing_queue() {
         _thread = TMAPI_Thread_Type_Main;
         
         /// 創造一個新的資料物件
-        _actionItem = [[TMGeneralDataManager sharedInstance] createTMApiData];
+        _actionItem = [[TMGeneralDataManager sharedInstance] createTMApiDataWith:^(TMApiData *apidata) {
+            apidata.type = [NSNumber numberWithInt:TMAPI_Type_General];
+            apidata.content = [TMDataManager dataFromNSData:aInput];
+            apidata.cacheType = [NSNumber numberWithInt:TMAPI_Cache_Type_None];
+            apidata.state = [NSNumber numberWithInt:TMAPI_State_Init];
+            apidata.retryTimes = @3;
+            apidata.retryDelayTime = @TMAPIMODEL_DEFAULT_RETRY_DELAY_TIME;
+            apidata.mode = [NSNumber numberWithInt:TMAPI_Mode_Leave_With_Cancel];
+            
+            apidata.createTime = _actionItem.lastActionTime = [NSDate date];
+            apidata.objectName = NSStringFromClass([self class]);   ///< 返回執行時要啟動的 object
+            NSLog(@"TMAPIModel save in DB and target class : %@", apidata.objectName);
+            
+            apidata.identify = tmStringFromMD5([NSString stringWithFormat:@"%@", apidata.createTime]);
+        }];
         
-        _actionItem.type = [NSNumber numberWithInt:TMAPI_Type_General];
-        _actionItem.content = [TMDataManager dataFromNSData:aInput];
-        _actionItem.cacheType = [NSNumber numberWithInt:TMAPI_Cache_Type_None];
-        _actionItem.state = [NSNumber numberWithInt:TMAPI_State_Init];
-        _actionItem.retryTimes = @3;
-        _actionItem.retryDelayTime = @TMAPIMODEL_DEFAULT_RETRY_DELAY_TIME;
-        _actionItem.mode = [NSNumber numberWithInt:TMAPI_Mode_Leave_With_Cancel];
-        
-        _actionItem.createTime = _actionItem.lastActionTime = [NSDate date];
-        _actionItem.objectName = NSStringFromClass([self class]);   ///< 返回執行時要啟動的 object
-        NSLog(@"TMAPIModel save in DB and target class : %@", _actionItem.objectName);
-        
-        _actionItem.identify = tmStringFromMD5([NSString stringWithFormat:@"%@", _actionItem.createTime]);
-        
-        //[[TMGeneralDataManager sharedInstance] save];
-
     }
     return self;
 }
