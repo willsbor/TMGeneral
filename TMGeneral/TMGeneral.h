@@ -6,8 +6,25 @@
 //  Copyright (c) 2012年 thinkermobile. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <TMGeneral/TMImageCacheControl.h>
+#import <TMGeneral/TMViewController.h>
+#import <TMGeneral/TMTableViewController.h>
 
-@interface TMGeneral : NSObject
+#import <TMGeneral/TMDataManager.h>
+#import <TMGeneral/TMGeneralDataManager.h>
+#import <TMGeneral/TMApiData.h>
+#import <TMGeneral/TMImageCache.h>
 
-@end
+#import <TMGeneral/TMAPIDownloadModel.h>
+#import <TMGeneral/TMAPIModel.h>
+#import <TMGeneral/TMAPIWebModel.h>
+
+#import <TMGeneral/TMKeyboardController.h>
+#import <TMGeneral/TMTools.h>
+#import <TMGeneral/TMUITools.h>
+
+#import <TMGeneral/TMGlobalModel.h>
+
+#import <TMGeneral/GTMBase64.h>
+#import <TMGeneral/GTMDefines.h>
+#import <TMGeneral/GTMStringEncoding.h>

@@ -33,7 +33,6 @@
 		AB092953168219730039704D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB092952168219730039704D /* CoreGraphics.framework */; };
 		AB0929551682199B0039704D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB0929541682199B0039704D /* SystemConfiguration.framework */; };
 		AB092956168219A60039704D /* TMImageCacheControl.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B471658B3B700B5A2C3 /* TMImageCacheControl.m */; };
-		AB092957168219AF0039704D /* TMGeneral.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B2B1658B0F300B5A2C3 /* TMGeneral.m */; };
 		AB092959168219DA0039704D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB092958168219DA0039704D /* UIKit.framework */; };
 		AB09295D16821A420039704D /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB09295C16821A420039704D /* MobileCoreServices.framework */; };
 		AB09873B171C3A560060E191 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB092958168219DA0039704D /* UIKit.framework */; };
@@ -56,7 +55,6 @@
 		AB098772171C3B650060E191 /* TMImageCacheControlTest.m in Sources */ = {isa = PBXBuildFile; fileRef = AB09876D171C3B650060E191 /* TMImageCacheControlTest.m */; };
 		AB098773171C3B650060E191 /* TMToolTest.m in Sources */ = {isa = PBXBuildFile; fileRef = AB09876E171C3B650060E191 /* TMToolTest.m */; };
 		AB098774171C3B8B0060E191 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E02939F10EC6492BB21EECC9 /* libPods.a */; };
-		AB098775171C3BF80060E191 /* TMGeneral.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B2B1658B0F300B5A2C3 /* TMGeneral.m */; };
 		AB098776171C3BFB0060E191 /* TMImageCacheControl.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B471658B3B700B5A2C3 /* TMImageCacheControl.m */; };
 		AB098777171C3BFF0060E191 /* TMViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B4F1658B3B700B5A2C3 /* TMViewController.m */; };
 		AB098779171C3C080060E191 /* TMGeneralDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AB0928FE1681C4E30039704D /* TMGeneralDataManager.m */; };
@@ -85,7 +83,6 @@
 		AB098790171C3E640060E191 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB09295C16821A420039704D /* MobileCoreServices.framework */; };
 		AB098791171C3E640060E191 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB0929541682199B0039704D /* SystemConfiguration.framework */; };
 		AB098792171C3E650060E191 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB09295C16821A420039704D /* MobileCoreServices.framework */; };
-		AB098793171C3E860060E191 /* TMGeneral.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B2B1658B0F300B5A2C3 /* TMGeneral.m */; };
 		AB098794171C3E860060E191 /* TMImageCacheControl.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B471658B3B700B5A2C3 /* TMImageCacheControl.m */; };
 		AB098795171C3E860060E191 /* TMViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B4F1658B3B700B5A2C3 /* TMViewController.m */; };
 		AB098796171C3E8B0060E191 /* TMAPIDownloadModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B3A1658B3B700B5A2C3 /* TMAPIDownloadModel.m */; };
@@ -101,7 +98,6 @@
 		AB0987A0171C3F7B0060E191 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E02939F10EC6492BB21EECC9 /* libPods.a */; };
 		AB4D7B251658B0F300B5A2C3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB4D7B241658B0F300B5A2C3 /* Foundation.framework */; };
 		AB4D7B2A1658B0F300B5A2C3 /* TMGeneral.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AB4D7B291658B0F300B5A2C3 /* TMGeneral.h */; };
-		AB4D7B2C1658B0F300B5A2C3 /* TMGeneral.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B2B1658B0F300B5A2C3 /* TMGeneral.m */; };
 		AB4D7B371658B13200B5A2C3 /* TMApiData.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B341658B13200B5A2C3 /* TMApiData.m */; };
 		AB4D7B381658B13200B5A2C3 /* TMImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B361658B13200B5A2C3 /* TMImageCache.m */; };
 		AB4D7B501658B3B700B5A2C3 /* TMAPIDownloadModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B3A1658B3B700B5A2C3 /* TMAPIDownloadModel.m */; };
@@ -205,7 +201,6 @@
 		AB4D7B241658B0F300B5A2C3 /* Foundation.framework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		AB4D7B281658B0F300B5A2C3 /* TMGeneral-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TMGeneral-Prefix.pch"; sourceTree = "<group>"; };
 		AB4D7B291658B0F300B5A2C3 /* TMGeneral.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TMGeneral.h; sourceTree = "<group>"; };
-		AB4D7B2B1658B0F300B5A2C3 /* TMGeneral.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TMGeneral.m; sourceTree = "<group>"; };
 		AB4D7B331658B13200B5A2C3 /* TMApiData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMApiData.h; sourceTree = "<group>"; };
 		AB4D7B341658B13200B5A2C3 /* TMApiData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMApiData.m; sourceTree = "<group>"; };
 		AB4D7B351658B13200B5A2C3 /* TMImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMImageCache.h; sourceTree = "<group>"; };
@@ -425,7 +420,6 @@
 				AB4D7B5B1658B3DE00B5A2C3 /* ApiModel */,
 				AB4D7B321658B13200B5A2C3 /* Model */,
 				AB4D7B291658B0F300B5A2C3 /* TMGeneral.h */,
-				AB4D7B2B1658B0F300B5A2C3 /* TMGeneral.m */,
 				AB4D7B461658B3B700B5A2C3 /* TMImageCacheControl.h */,
 				AB4D7B471658B3B700B5A2C3 /* TMImageCacheControl.m */,
 				AB4D7B4E1658B3B700B5A2C3 /* TMViewController.h */,
@@ -703,7 +697,6 @@
 				AB09294716820C390039704D /* TMAPIDownloadModel.m in Sources */,
 				AB09294816820C3E0039704D /* TMGlobalModel.m in Sources */,
 				AB092956168219A60039704D /* TMImageCacheControl.m in Sources */,
-				AB092957168219AF0039704D /* TMGeneral.m in Sources */,
 				ABE621AB16A682E70096C5A8 /* GTMBase64.m in Sources */,
 				ABE621AD16A682EC0096C5A8 /* GTMStringEncoding.m in Sources */,
 			);
@@ -719,7 +712,6 @@
 				AB09877E171C3C100060E191 /* TMImageCache.m in Sources */,
 				AB09878D171C3E3C0060E191 /* TMGeneralDataModel.xcdatamodeld in Sources */,
 				AB09878E171C3E400060E191 /* TMGeneralDataManager.m in Sources */,
-				AB098793171C3E860060E191 /* TMGeneral.m in Sources */,
 				AB098794171C3E860060E191 /* TMImageCacheControl.m in Sources */,
 				AB098795171C3E860060E191 /* TMViewController.m in Sources */,
 				AB098796171C3E8B0060E191 /* TMAPIDownloadModel.m in Sources */,
@@ -745,7 +737,6 @@
 				AB098771171C3B650060E191 /* TMGeneralDataManagerTest.m in Sources */,
 				AB098772171C3B650060E191 /* TMImageCacheControlTest.m in Sources */,
 				AB098773171C3B650060E191 /* TMToolTest.m in Sources */,
-				AB098775171C3BF80060E191 /* TMGeneral.m in Sources */,
 				AB098776171C3BFB0060E191 /* TMImageCacheControl.m in Sources */,
 				AB098777171C3BFF0060E191 /* TMViewController.m in Sources */,
 				AB098779171C3C080060E191 /* TMGeneralDataManager.m in Sources */,
@@ -769,7 +760,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AB4D7B2C1658B0F300B5A2C3 /* TMGeneral.m in Sources */,
 				AB4D7B371658B13200B5A2C3 /* TMApiData.m in Sources */,
 				AB4D7B381658B13200B5A2C3 /* TMImageCache.m in Sources */,
 				AB4D7B501658B3B700B5A2C3 /* TMAPIDownloadModel.m in Sources */,
