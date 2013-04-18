@@ -28,15 +28,11 @@ UIImage *tmImageResizeAndCutCenter(UIImage *aOriImage, CGSize aTargetSize)
     /// Kang modify
     /// 直接把 fb近來的圖取最大的中央正方形
     
-    NSLog(@"aTargetSize = %@", NSStringFromCGSize(aTargetSize));
-    
     float realRatio = aTargetSize.width;
     realRatio /= aTargetSize.height;
-    NSLog(@"realRatio = %f", realRatio);
     
     float ratio = imageWidth;
     ratio /= imageHeight;
-    NSLog(@"ratio = %f", ratio);
     
     if (ratio > realRatio) {
         // 以高為主，切割畫面
@@ -59,8 +55,6 @@ UIImage *tmImageResizeAndCutCenter(UIImage *aOriImage, CGSize aTargetSize)
     // 裁減 UIImage
     CGRect clipRect = CGRectMake(tempImageX, tempImageY, imageWidth, imageHeight);
     
-    NSLog(@"clipRect = %@", NSStringFromCGRect(clipRect));
-    
     CGContextRef context;
     UIGraphicsBeginImageContext(CGSizeMake(tempImageWidth, tempImageHeight));
     
@@ -72,6 +66,36 @@ UIImage *tmImageResizeAndCutCenter(UIImage *aOriImage, CGSize aTargetSize)
     imgThumb = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
 
+    return imgThumb;
+}
+
+UIImage *tmImageCutCenter(UIImage *aOriImage, CGSize aTargetSize)
+{
+    if (aTargetSize.width >= aOriImage.size.width
+        && aTargetSize.height >= aOriImage.size.height) {
+        return aOriImage;
+    }
+    
+    aTargetSize.width = MIN(aTargetSize.width, aOriImage.size.width);
+    aTargetSize.height = MIN(aTargetSize.height, aOriImage.size.height);
+    
+    float tempImageX = (aOriImage.size.width - aTargetSize.width) / 2;
+    float tempImageY = (aOriImage.size.height - aTargetSize.height) / 2;
+    
+    // 裁減 UIImage
+    CGRect clipRect = CGRectMake(tempImageX, tempImageY, aTargetSize.width, aTargetSize.height);
+    
+    CGContextRef context;
+    UIGraphicsBeginImageContext(aTargetSize);
+    
+    context = UIGraphicsGetCurrentContext();
+    CGContextScaleCTM(context, 1, -1);
+    CGContextTranslateCTM(context, 0, -aTargetSize.height);
+    CGContextDrawImage(context, clipRect, aOriImage.CGImage);
+    
+    __autoreleasing UIImage *imgThumb = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
     return imgThumb;
 }
 
