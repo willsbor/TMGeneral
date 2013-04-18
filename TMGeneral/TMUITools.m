@@ -79,11 +79,11 @@ UIImage *tmImageCutCenter(UIImage *aOriImage, CGSize aTargetSize)
     aTargetSize.width = MIN(aTargetSize.width, aOriImage.size.width);
     aTargetSize.height = MIN(aTargetSize.height, aOriImage.size.height);
     
-    float tempImageX = (aOriImage.size.width - aTargetSize.width) / 2;
-    float tempImageY = (aOriImage.size.height - aTargetSize.height) / 2;
+    float tempImageX = -(aOriImage.size.width - aTargetSize.width) / 2;
+    float tempImageY = -(aOriImage.size.height - aTargetSize.height) / 2;
     
     // 裁減 UIImage
-    CGRect clipRect = CGRectMake(tempImageX, tempImageY, aTargetSize.width, aTargetSize.height);
+    CGRect clipRect = CGRectMake(tempImageX, tempImageY, aOriImage.size.width, aOriImage.size.height);
     
     CGContextRef context;
     UIGraphicsBeginImageContext(aTargetSize);
