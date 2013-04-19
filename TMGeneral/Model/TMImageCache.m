@@ -2,8 +2,8 @@
 //  TMImageCache.m
 //  TMGeneral
 //
-//  Created by mac on 12/10/14.
-//  Copyright (c) 2012年 ThinkerMobile. All rights reserved.
+//  Created by willsborKang on 13/4/19.
+//  Copyright (c) 2013年 thinkermobile. All rights reserved.
 //
 
 #import "TMImageCache.h"
