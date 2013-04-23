@@ -10,6 +10,7 @@
 #import <AFNetworking/AFNetworking.h>
 #import "TMApiData.h"
 #import "AFHTTPRequestOperation.h"
+#import "TMGeneralDataManager.h"
 
 typedef void(^WebSuccess)(AFHTTPRequestOperation *operation, id responseObject);
 typedef void(^WebFailed)(AFHTTPRequestOperation *operation, NSError *error);
@@ -25,7 +26,7 @@ typedef void(^WebFailed)(AFHTTPRequestOperation *operation, NSError *error);
 
 - (void) main
 {
-
+    
     NSString *strBaseURL = [self.inputParam objectForKey:TMAPI_WEB_BASEURL];
     NSAssert(strBaseURL != nil, @"BaseURL shouldn't be nil");
     
@@ -94,7 +95,7 @@ typedef void(^WebFailed)(AFHTTPRequestOperation *operation, NSError *error);
 }
 
 - (void) final
-{    
+{
     _operation = nil;
     [super final];
 }
@@ -110,7 +111,9 @@ typedef void(^WebFailed)(AFHTTPRequestOperation *operation, NSError *error);
 {
     self = [super initWithInput:aInput];
     if (self) {
-        _actionItem.type = [NSNumber numberWithInt:TMAPI_Type_Web_Api];
+        [[TMGeneralDataManager sharedInstance] changeApiData:_actionItem With:^(TMApiData *apidata) {
+            apidata.type = [NSNumber numberWithInt:TMAPI_Type_Web_Api];
+        }];
     }
     
     return self;

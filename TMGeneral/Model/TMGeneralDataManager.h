@@ -27,6 +27,7 @@
 
 - (TMApiData *) createTMApiData;
 - (TMApiData *) createTMApiDataWith:(void (^)(TMApiData *apidata))aSetting;
+- (void) changeApiData:(TMApiData *)aData With:(void (^)(TMApiData *apidata))aSetting;
 - (void) changeApiData:(TMApiData *)aData Status:(NSInteger) aState;
 - (void) changeApiData:(TMApiData *)aData CacheType:(NSInteger)aCacheType;
 - (void) changeApiData:(TMApiData *)aData RetryTimes:(NSInteger)aRetryTimes;

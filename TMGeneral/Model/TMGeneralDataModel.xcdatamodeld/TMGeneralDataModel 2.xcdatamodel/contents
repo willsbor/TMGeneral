@@ -14,7 +14,7 @@
         <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
     </entity>
     <entity name="TMImageCache" representedClassName="TMImageCache" syncable="YES">
-        <attribute name="data" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="data" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
         <attribute name="identify" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="lastDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="tag" optional="YES" attributeType="String" syncable="YES"/>

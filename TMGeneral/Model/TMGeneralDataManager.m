@@ -97,7 +97,7 @@ static NSTimer *g_checkCacheAPITimer = nil;
             object.state = [NSNumber numberWithInt:TMAPI_State_Stop];
         }
     }];
-
+    
 }
 
 - (void) removeAllFinishAPIData
@@ -195,14 +195,23 @@ static NSTimer *g_checkCacheAPITimer = nil;
                                                     inManagedObjectContext:manaedObjectContext];
         
         aSetting(_actionItem);
+        
+        //[self save];
     }];
     
     return _actionItem;
 }
 
+- (void) changeApiData:(TMApiData *)aData With:(void (^)(TMApiData *apidata))aSetting
+{
+    [self executeBlock:^{
+        aSetting(aData);
+    }];
+}
+
 - (void) changeApiData:(TMApiData *)aData Status:(NSInteger) aState
 {
-    [self executeBlock:^{        
+    [self executeBlock:^{
         aData.state = [NSNumber numberWithInteger:aState];
     }];
 }
@@ -250,7 +259,7 @@ static NSTimer *g_checkCacheAPITimer = nil;
             
             NSManagedObjectContext *manaedObjectContext = self.managedObjectContext;
             _actionItem = [NSEntityDescription insertNewObjectForEntityForName:@"TMImageCache"
-                                                 inManagedObjectContext:manaedObjectContext];
+                                                        inManagedObjectContext:manaedObjectContext];
             _actionItem.tag = aTagMD5;
             _actionItem.identify = tmStringFromMD5([NSString stringWithFormat:@"%@%f", aTagMD5, [[NSDate date] timeIntervalSince1970]]);
             _actionItem.type = [NSNumber numberWithInt:aType];
