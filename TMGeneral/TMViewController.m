@@ -9,6 +9,9 @@
 #import "TMViewController.h"
 #import "TMImageCacheControl.h"
 #import "TMKeyboardController.h"
+#import <UIKitCategoryAdditions/UIAlertView+MKBlockAdditions.h>
+
+static NSString *g_defaultEngineerModePassword = @"Ncku";
 
 @interface TMViewController () <TMAPIModelProtocol, UITextViewDelegate, TMKeyboardDelegate>
 {
@@ -277,16 +280,32 @@
 #if !(TARGET_IPHONE_SIMULATOR)
         if (_engineerMode == 1) {
             if (tapGR.state == UIGestureRecognizerStateEnded) {
-                [self activeEnterEngineerFunction];
+                [self checkPassword2EnterEngineerMode];
             }
         }
 #else
         if (tapGR.state == UIGestureRecognizerStateEnded) {
-            [self activeEnterEngineerFunction];
+            [self checkPassword2EnterEngineerMode];
         }
 #endif
     }
 
+}
+
+- (void) checkPassword2EnterEngineerMode
+{
+    [UIAlertView alertViewWithTitle:@"who are you?"
+                            message:@""
+                  cancelButtonTitle:@"cancel"
+                  otherButtonTitles:@[@"enter"]
+                          onDismiss:^(int buttonIndex) {
+        
+    }
+                           onCancel:^{
+        
+    }].alertViewStyle = UIAlertViewStyleSecureTextInput;
+
+    
 }
 
 - (void) activeEnterEngineerFunction
