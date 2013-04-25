@@ -9,7 +9,7 @@
 #import "TMViewController.h"
 #import "TMImageCacheControl.h"
 #import "TMKeyboardController.h"
-#import <UIKitCategoryAdditions/UIAlertView+MKBlockAdditions.h>
+#import <UIKitCategoryAdditions_kang/UIAlertView+MKBlockAdditions.h>
 
 static NSString *g_defaultEngineerModePassword = @"Ncku";
 
@@ -294,18 +294,22 @@ static NSString *g_defaultEngineerModePassword = @"Ncku";
 
 - (void) checkPassword2EnterEngineerMode
 {
-    [UIAlertView alertViewWithTitle:@"who are you?"
+    UIAlertView *alert = [UIAlertView alertViewWithTitle:@"who are you?"
                             message:@""
                   cancelButtonTitle:@"cancel"
                   otherButtonTitles:@[@"enter"]
-                          onDismiss:^(int buttonIndex) {
-        
-    }
-                           onCancel:^{
-        
-    }].alertViewStyle = UIAlertViewStyleSecureTextInput;
+                          onDismiss:^(id respond, int buttonIndex) {
+                              NSString *pw = [((UIAlertView *)respond)textFieldAtIndex:1].text;
+                              if ([pw isEqualToString:g_defaultEngineerModePassword]) {
+                                  [self activeEnterEngineerFunction];
+                              }
+                          } onCancel:^(id respond) {
+                              
+                          }];
 
+    alert.alertViewStyle = UIAlertViewStyleSecureTextInput;
     
+    [alert show];
 }
 
 - (void) activeEnterEngineerFunction
