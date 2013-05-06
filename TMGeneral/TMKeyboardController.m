@@ -62,6 +62,11 @@
         g_KBMs = [[NSMutableDictionary alloc] init];
     }
     
+    if ([g_KBMs objectForKey:aKey] != nil) {
+        [self unregister:aKBM];
+        [g_KBMs removeObjectForKey:aKey];
+    }
+    
     [g_KBMs setObject:aKBM forKey:aKey];
     [self registerItem:aKBM];
 }
@@ -383,8 +388,6 @@
 
 - (void) registerItem:(TMKeyboardItem *) aItem
 {
-    [self unregister:aItem];
-    
     if (aItem.targetTextField != nil) {
         [aItem.targetTextField addTarget:self action:@selector(beginEdit:) forControlEvents:(UIControlEventEditingDidBegin)];
         
