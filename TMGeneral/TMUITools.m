@@ -447,6 +447,16 @@ void tmResizeBtnSize(UIButton *aBtn, float aWidthBuffer)
     aBtn.frame = f;
 }
 
+extern void tmResizeBtnSizeRefRight(UIButton *aBtn, float aWidthBuffer)
+{
+    CGSize s = tmStringSize(aBtn.titleLabel.text, aBtn.titleLabel.font, MAXFLOAT);
+    CGRect f = aBtn.frame;
+    CGFloat w = MAX(f.size.width, s.width + aWidthBuffer);
+    f.origin.x -= (w - f.size.width);
+    f.size.width = w;
+    aBtn.frame = f;
+}
+
 void tmResetBtnBackgroundImage(UIButton *aBtn, UIEdgeInsets capInsets, UIControlState aForState)
 {
     UIImage *image = [aBtn backgroundImageForState:aForState];
