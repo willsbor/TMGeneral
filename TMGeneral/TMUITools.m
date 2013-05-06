@@ -446,3 +446,9 @@ void tmResizeBtnSize(UIButton *aBtn, float aWidthBuffer)
     f.size.width = s.width + aWidthBuffer;
     aBtn.frame = f;
 }
+
+void tmResetBtnBackgroundImage(UIButton *aBtn, UIEdgeInsets capInsets, UIControlState aForState)
+{
+    UIImage *image = [aBtn backgroundImageForState:aForState];
+    [aBtn setBackgroundImage:[image resizableImageWithCapInsets:capInsets] forState:aForState];
+}

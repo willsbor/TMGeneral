@@ -70,4 +70,5 @@ extern UIImage *tmImageWithColor(UIColor *color);
  */
 extern void tmResizeBtnSize(UIButton *aBtn, float aWidthBuffer);
 
+extern void tmResetBtnBackgroundImage(UIButton *aBtn, UIEdgeInsets capInsets, UIControlState aForState);
 #endif
