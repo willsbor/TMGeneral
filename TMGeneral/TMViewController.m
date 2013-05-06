@@ -108,8 +108,8 @@ static NSString *g_defaultEngineerModePassword = @"Ncku";
     TMImageCacheControl *ICC = [TMImageCacheControl defaultTMImageCacheControl];
     NSDictionary *option;
     if (aPlaceholder != nil) {
-       option = @{TM_IMAGE_CACHE_ACTIVITY_INDICATOR: @YES,
-                  TM_IMAGE_CACHE_PLACEHOLDER_IMAGE: aPlaceholder};
+        option = @{TM_IMAGE_CACHE_ACTIVITY_INDICATOR: @YES,
+                   TM_IMAGE_CACHE_PLACEHOLDER_IMAGE: aPlaceholder};
     } else {
         option = @{TM_IMAGE_CACHE_ACTIVITY_INDICATOR: @YES};
     }
@@ -181,7 +181,7 @@ static NSString *g_defaultEngineerModePassword = @"Ncku";
 }
 
 - (NSString *) registerTextView:(UITextView *) aTargetTextView
-                     toMoveViews:(NSArray *)aMovedViews
+                    toMoveViews:(NSArray *)aMovedViews
              withMovingDistance:(float) aMovingDistance
            andModifyBySelectBar:(BOOL) aSelectBar
                       andOption:(NSDictionary *)aOptions
@@ -211,7 +211,7 @@ static NSString *g_defaultEngineerModePassword = @"Ncku";
 }
 
 - (NSString *) registerTextView:(UITextView *) aTargetTextView
-                     toMoveViews:(NSArray *)aMovedViews
+                    toMoveViews:(NSArray *)aMovedViews
              withMovingDistance:(float) aMovingDistance
            andModifyBySelectBar:(BOOL) aSelectBar
 {
@@ -222,16 +222,16 @@ static NSString *g_defaultEngineerModePassword = @"Ncku";
 
 #pragma mark - TMKeyboardDelegate
 /*
-- (void) keyboard:(TMKeyboardController *)aKeyControl didModifySelectHigh:(CGFloat)aKeyBoardHeight OfItem:(TMKeyboardItem *)aKeyItem
-{
-    
-}
-
-- (void) keyboard:(TMKeyboardController *)aKeyControl willModifySelectHigh:(CGFloat)aKeyBoardHeight OfItem:(TMKeyboardItem *)aKeyItem
-{
-    
-}
-*/
+ - (void) keyboard:(TMKeyboardController *)aKeyControl didModifySelectHigh:(CGFloat)aKeyBoardHeight OfItem:(TMKeyboardItem *)aKeyItem
+ {
+ 
+ }
+ 
+ - (void) keyboard:(TMKeyboardController *)aKeyControl willModifySelectHigh:(CGFloat)aKeyBoardHeight OfItem:(TMKeyboardItem *)aKeyItem
+ {
+ 
+ }
+ */
 
 #pragma mark - TMAPIModelProtocol
 
@@ -257,7 +257,7 @@ static NSString *g_defaultEngineerModePassword = @"Ncku";
     }
 }
 
-#pragma mark - engineer 
+#pragma mark - engineer
 
 - (IBAction)enterEngineerMode1:(id)sender {
     if ([[sender class] isSubclassOfClass:[UILongPressGestureRecognizer class]]) {
@@ -289,7 +289,7 @@ static NSString *g_defaultEngineerModePassword = @"Ncku";
         }
 #endif
     }
-
+    
 }
 
 - (void) checkPassword2EnterEngineerMode
@@ -324,7 +324,7 @@ static NSString *g_defaultEngineerModePassword = @"Ncku";
 - (void) viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-
+    
     //// 離開View時  取消需要取消的api
     //// 不需要取消的則會繼續執行 但是delegate清掉
     for (TMAPIModel *object in [self.activeAPIs allValues]) {
@@ -342,7 +342,8 @@ static NSString *g_defaultEngineerModePassword = @"Ncku";
     for (NSString *key in self.keyboardWatchList) {
         [[TMKeyboardController defaultTMKeyboardController] removeWithKey:key];
     }
-    
+    [self.keyboardWatchList removeAllObjects];
+    self.keyboardWatchList = nil;
 }
 
 - (id) initWithUniversal
@@ -432,6 +433,7 @@ static NSString *g_defaultEngineerModePassword = @"Ncku";
         //// 移除 all url -> iv 的連結 (但是圖片還是會繼續下載到Cache中)
         [[TMImageCacheControl defaultTMImageCacheControl] removeListonImageViews:self.loadingImageViews];
         self.loadingImageViews = nil;
+        
         
         self.view = nil;
     }
