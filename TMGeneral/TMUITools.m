@@ -443,7 +443,7 @@ void tmResizeBtnSize(UIButton *aBtn, float aWidthBuffer)
 {
     CGSize s = tmStringSize(aBtn.titleLabel.text, aBtn.titleLabel.font, MAXFLOAT);
     CGRect f = aBtn.frame;
-    f.size.width = s.width + aWidthBuffer;
+    f.size.width = MAX(f.size.width, s.width + aWidthBuffer);
     aBtn.frame = f;
 }
 
