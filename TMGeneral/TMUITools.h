@@ -65,4 +65,9 @@ extern void tmBringUIViewBehindAtX(UIView *aSecond, UIView *aRefView, float aOff
  */
 extern UIImage *tmImageWithColor(UIColor *color);
 
+/**
+ * resize btn size for text
+ */
+extern void tmResizeBtnSize(UIButton *aBtn, float aWidthBuffer);
+
 #endif

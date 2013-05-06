@@ -439,3 +439,10 @@ UIImage *tmImageWithColor(UIColor *color) {
     return image;
 }
 
+void tmResizeBtnSize(UIButton *aBtn, float aWidthBuffer)
+{
+    CGSize s = tmStringSize(aBtn.titleLabel.text, aBtn.titleLabel.font, MAXFLOAT);
+    CGRect f = aBtn.frame;
+    f.size.width = s.width + aWidthBuffer;
+    aBtn.frame = f;
+}

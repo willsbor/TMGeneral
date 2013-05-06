@@ -46,7 +46,9 @@ typedef void(^WebFailed)(AFHTTPRequestOperation *operation, NSError *error);
         request.timeoutInterval = [timout intValue];
     }
     
+#ifdef DEBUG
     NSLog(@"url = %@", request.URL.absoluteString);
+#endif
     
     __unsafe_unretained TMAPIWebModel *selfItem = self;
     _operation = [_httpClient HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
