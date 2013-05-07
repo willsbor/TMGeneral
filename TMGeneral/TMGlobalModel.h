@@ -45,6 +45,7 @@ typedef enum {
 
 + (void) setWaitingViewBaseView:(UIView *)aView;
 + (void) setWaitingViewAnimationDirection:(TMGlobal_WaitingView_Animation_Direction)aDirection;
++ (void) setWaitingViewWidthMargin:(CGFloat)aWidthMargin;
 - (void) cleanWaitingViewForLang;
 - (BOOL) isWaitingViewDisplay;
 - (void) waitingViewHidden;

@@ -31,6 +31,7 @@ const NSString *TMGlobalAppModeCustome3 = @"TMG_AppMode_Custome_3";
 
 static __weak UIView *g_baseView = nil;
 static TMGlobal_WaitingView_Animation_Direction g_waitingDirection = TMGlobal_WaitingView_Animation_Direction_L2R;
+static CGFloat g_waitingWidthMargin = 0;
 
 + (void) setWaitingViewBaseView:(UIView *)aView
 {
@@ -40,6 +41,11 @@ static TMGlobal_WaitingView_Animation_Direction g_waitingDirection = TMGlobal_Wa
 + (void) setWaitingViewAnimationDirection:(TMGlobal_WaitingView_Animation_Direction)aDirection
 {
     g_waitingDirection = aDirection;
+}
+
++ (void) setWaitingViewWidthMargin:(CGFloat)aWidthMargin
+{
+    g_waitingWidthMargin = aWidthMargin;
 }
 
 - (void) cleanWaitingViewForLang
@@ -89,10 +95,10 @@ static TMGlobal_WaitingView_Animation_Direction g_waitingDirection = TMGlobal_Wa
         return;
     }
     
+    CGSize screenSize = [[ UIScreen mainScreen ] bounds ].size;
     UIFont *font = [UIFont systemFontOfSize:12.0];
-    CGSize textSize = tmStringSize(aText, font, [[ UIScreen mainScreen ] bounds ].size.width
+    CGSize textSize = tmStringSize(aText, font, screenSize.width - g_waitingWidthMargin
                                    - (defaultActivityIndWidth + cBuffer * 3 + tBuffer));
-    NSLog(@"textSize = %@", NSStringFromCGSize(textSize));
     
     UIActivityIndicatorView *pV;
     UILabel *text;
@@ -106,8 +112,7 @@ static TMGlobal_WaitingView_Animation_Direction g_waitingDirection = TMGlobal_Wa
             aPoint.y = 240;
         }
         
-        CGFloat height = [[ UIScreen mainScreen ] bounds ].size.height;
-        self.waitingView = [[UIView alloc] initWithFrame:CGRectMake(0, height - 60, 130, textSize.height + upBottomBuffer + upBottomBuffer)];
+        self.waitingView = [[UIView alloc] initWithFrame:CGRectMake(0, screenSize.height - 60, 130, textSize.height + upBottomBuffer + upBottomBuffer)];
         self.waitingView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.5];
         [self.waitingView.layer setCornerRadius:4.0f];
         [self.waitingView.layer setMasksToBounds:YES];
@@ -186,10 +191,10 @@ static TMGlobal_WaitingView_Animation_Direction g_waitingDirection = TMGlobal_Wa
         newf = f;
     }
     
-    if (self.waitingView.alpha == 0) {
-        self.waitingView.transform = CGAffineTransformMakeTranslation(0, 0);
-        self.waitingView.frame = newf;
-    }
+    //if (self.waitingView.alpha == 0) {
+    self.waitingView.transform = CGAffineTransformMakeTranslation(0, 0);
+    self.waitingView.frame = newf;
+    //}
     
     CGFloat nextx, nexty;
     switch (g_waitingDirection) {
@@ -354,7 +359,7 @@ static TMGlobal_WaitingView_Animation_Direction g_waitingDirection = TMGlobal_Wa
         }
     }
     
-    return _defaultAppMode; 
+    return _defaultAppMode;
 }
 
 - (void) setDefaultAppMode:(TMGlobal_AppMode)aMode
