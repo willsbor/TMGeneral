@@ -40,36 +40,36 @@ typedef enum
     
     NSMutableURLRequest *request;
     /*
-    NSString *strBaseURL = [self.inputParam objectForKey:TMAPI_WEB_BASEURL];
-    if (strBaseURL != nil) {
-        if (_httpClient == nil)
-            _httpClient = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:strBaseURL]];
-        
-        NSString *method = @"GET";
-        if (nil != [self.inputParam objectForKey:TMAPI_WEB_METHOD]) {
-            method = [self.inputParam objectForKey:TMAPI_WEB_METHOD];
-        }
-        NSString *path = [self.inputParam objectForKey:TMAPI_WEB_PATH];
-        NSAssert(path != nil, @"path shouldn't be nil");
-        NSDictionary *param = [self.inputParam objectForKey:TMAPI_WEB_PARAM];
-        request = [_httpClient requestWithMethod:method path:path parameters:param];
-        NSNumber *timout = [self.inputParam objectForKey:TMAPI_WEB_TIMEOUT];
-        if (timout!= nil) {
-            request.timeoutInterval = [timout intValue];
-        }
-    } else {*/
-        NSString *path = [self.inputParam objectForKey:TMAPI_DOWNLOAD_SOURCE_URL];
-        NSAssert(path != nil, @"TMAPIDownloadModel path shouldn't be nil");
-        request = [NSURLRequest requestWithURL:[NSURL URLWithString:path]];
+     NSString *strBaseURL = [self.inputParam objectForKey:TMAPI_WEB_BASEURL];
+     if (strBaseURL != nil) {
+     if (_httpClient == nil)
+     _httpClient = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:strBaseURL]];
+     
+     NSString *method = @"GET";
+     if (nil != [self.inputParam objectForKey:TMAPI_WEB_METHOD]) {
+     method = [self.inputParam objectForKey:TMAPI_WEB_METHOD];
+     }
+     NSString *path = [self.inputParam objectForKey:TMAPI_WEB_PATH];
+     NSAssert(path != nil, @"path shouldn't be nil");
+     NSDictionary *param = [self.inputParam objectForKey:TMAPI_WEB_PARAM];
+     request = [_httpClient requestWithMethod:method path:path parameters:param];
+     NSNumber *timout = [self.inputParam objectForKey:TMAPI_WEB_TIMEOUT];
+     if (timout!= nil) {
+     request.timeoutInterval = [timout intValue];
+     }
+     } else {*/
+    NSString *path = [self.inputParam objectForKey:TMAPI_DOWNLOAD_SOURCE_URL];
+    NSAssert(path != nil, @"TMAPIDownloadModel path shouldn't be nil");
+    request = [NSURLRequest requestWithURL:[NSURL URLWithString:path]];
     //}
     
     NSLog(@"TMAPIDownloadModel url = %@", request.URL.absoluteString);
     
     NSString *tempfile = [self.inputParam objectForKey:TMAPI_DOWNLOAD_TARGET_PATH];
     
-     _operation = nil;
+    _operation = nil;
     _operation = [[AFDownloadRequestOperation alloc] initWithRequest:request targetPath:tempfile shouldResume:YES];
-
+    
     
     //_operation.outputStream = [NSOutputStream outputStreamToFileAtPath:tempfile append:NO];
     
@@ -107,10 +107,7 @@ typedef enum
         [selfItem webFailed:operation error:error];
         
         
-        if ([selfItem checkRetry]) {
-            [selfItem retry];
-        } else
-            [selfItem final];
+        [selfItem checkRetryAndDoRetryOrFinal];
     }];
     
     
@@ -155,7 +152,7 @@ typedef enum
 
 - (void) final
 {
-     _operation = nil;
+    _operation = nil;
     [super final];
 }
 
@@ -178,7 +175,7 @@ typedef enum
 {
     
     [_operation cancel];
-     _operation = nil;
+    _operation = nil;
     [super cancel];
 }
 

@@ -36,33 +36,33 @@ static dispatch_queue_t api_model_operation_processing_queue() {
 #pragma mark - private
 
 /*
-- (void) _threadMain
-{
-
-    else if (_thread == TMAPI_Thread_Type_Background) {
-     UIApplication *application = [UIApplication sharedApplication]; //Get the shared application instance
-     
-     __block UIBackgroundTaskIdentifier background_task; //Create a task object
-     
-     
-     background_task = [application beginBackgroundTaskWithExpirationHandler: ^ {
-     
-     [application endBackgroundTask: background_task]; //Tell the system that we are done with the tasks
-     background_task = UIBackgroundTaskInvalid; //Set the task to be invalid
-     
-     //System will be shutting down the app at any point in time now
-     }];
-     
-     //Background tasks require you to use asyncrous tasks
-     
-     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-     //Perform your tasks that your application requires
-     
-     [application endBackgroundTask: background_task]; //End the task so the system knows that you are done with what you need to perform
-     background_task = UIBackgroundTaskInvalid; //Invalidate the background_task
-     });
-     }
-}*/
+ - (void) _threadMain
+ {
+ 
+ else if (_thread == TMAPI_Thread_Type_Background) {
+ UIApplication *application = [UIApplication sharedApplication]; //Get the shared application instance
+ 
+ __block UIBackgroundTaskIdentifier background_task; //Create a task object
+ 
+ 
+ background_task = [application beginBackgroundTaskWithExpirationHandler: ^ {
+ 
+ [application endBackgroundTask: background_task]; //Tell the system that we are done with the tasks
+ background_task = UIBackgroundTaskInvalid; //Set the task to be invalid
+ 
+ //System will be shutting down the app at any point in time now
+ }];
+ 
+ //Background tasks require you to use asyncrous tasks
+ 
+ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+ //Perform your tasks that your application requires
+ 
+ [application endBackgroundTask: background_task]; //End the task so the system knows that you are done with what you need to perform
+ background_task = UIBackgroundTaskInvalid; //Invalidate the background_task
+ });
+ }
+ }*/
 
 #pragma mark - public
 
@@ -74,12 +74,12 @@ static dispatch_queue_t api_model_operation_processing_queue() {
     //_actionItem.state = [NSNumber numberWithInt:TMAPI_State_Doing];
     [[TMGeneralDataManager sharedInstance] changeApiData:_actionItem Status:TMAPI_State_Doing];
     
-    _retryCount = [_actionItem.retryTimes intValue];  ///<開始重新設定retry 次數 
+    _retryCount = [_actionItem.retryTimes intValue];  ///<開始重新設定retry 次數
     
     //// 如果要背景重傳 .... 就 先存入DB
     if (( [_actionItem.cacheType intValue] == TMAPI_Cache_Type_ThisActive
          || [_actionItem.cacheType intValue] == TMAPI_Cache_Type_EveryActive)) {
-
+        
         //[[TMGeneralDataManager sharedInstance] save];
     }
     
@@ -99,10 +99,20 @@ static dispatch_queue_t api_model_operation_processing_queue() {
     }
 }
 
+- (void) checkRetryAndDoRetryOrFinal
+{
+    if ([self checkRetry]) {
+        [self retry];
+    } else {
+        _errcode = TMAPI_Errcode_Failed;
+        [self final];
+    }
+}
+
 - (BOOL) retry
 {
     if (_retryCount <= 0) {
-///#warning final?!
+        ///#warning final?!
         /// 應該不需要final 外面會給
         return NO;
     }
@@ -177,9 +187,9 @@ static dispatch_queue_t api_model_operation_processing_queue() {
         }
     }
     
-   
+    
     if(_errcode == TMAPI_Errcode_Success || _errcode == TMAPI_Errcode_Cancel) {
-         //_actionItem.state = [NSNumber numberWithInt:TMAPI_State_Finished];
+        //_actionItem.state = [NSNumber numberWithInt:TMAPI_State_Finished];
         [[TMGeneralDataManager sharedInstance] changeApiData:_actionItem Status:TMAPI_State_Finished];
     } else {
         /// 這次流程失敗 包含重試... 所以... 記錄狀態成 TMAPI_State_Pending
@@ -212,7 +222,7 @@ static dispatch_queue_t api_model_operation_processing_queue() {
     
     [myLock lock];
     
-
+    
     if (_delegate != nil) {
         if ([_delegate respondsToSelector:@selector(apiModel:finishWithErrcode:AndParam:)] ) {
             [_delegate apiModel:self finishWithErrcode:TMAPI_Errcode_Cancel AndParam:_outputParam];
@@ -233,7 +243,7 @@ static dispatch_queue_t api_model_operation_processing_queue() {
 
 - (NSDictionary *) inputParam
 {
-
+    
     if (_inputParam != nil) {
         return _inputParam;
     }

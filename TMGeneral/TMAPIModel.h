@@ -52,8 +52,8 @@ typedef enum
 {
     TMAPI_Thread_Type_Main,           ///<  第一次執行時，會做 synchronous，如果retry 則會做 Asynchronous
     TMAPI_Thread_Type_MainThread,
-    TMAPI_Thread_Type_SubThread, 
-//    TMAPI_Thread_Type_Background,   ///< 跟UIApplication 有關 先不放裡面
+    TMAPI_Thread_Type_SubThread,
+    //    TMAPI_Thread_Type_Background,   ///< 跟UIApplication 有關 先不放裡面
 } TMAPI_Thread_Type;
 
 @class TMAPIModel;
@@ -72,7 +72,7 @@ typedef enum
  */
 @interface TMAPIModel : NSObject
 {
-    @protected
+@protected
     TMApiData *_actionItem;
 }
 /**
@@ -84,7 +84,7 @@ typedef enum
 @property (nonatomic, unsafe_unretained)   id<TMAPIModelProtocol> delegate;
 @property (nonatomic)           int errcode;
 @property (nonatomic, strong)   NSString *key;
-@property (nonatomic          ) TMAPI_Thread_Type thread;   
+@property (nonatomic          ) TMAPI_Thread_Type thread;
 
 //// Data
 @property (nonatomic, readonly) TMApiData *actionItem;
@@ -106,6 +106,8 @@ typedef enum
 - (BOOL) checkRetry;
 
 - (BOOL) retry;
+
+- (void) checkRetryAndDoRetryOrFinal;
 
 /// overwite
 - (void) main;

@@ -67,11 +67,7 @@ typedef void(^WebFailed)(AFHTTPRequestOperation *operation, NSError *error);
             _failedResponse(operation, error);
         }
         
-        if ([selfItem checkRetry]) {
-            [selfItem retry];
-        } else
-            [selfItem final];
-        
+        [selfItem checkRetryAndDoRetryOrFinal];
     } ];
     
     [_operation start];
