@@ -216,7 +216,8 @@ static dispatch_queue_t api_model_operation_processing_queue() {
         return;
     }
     
-    if ([_actionItem.state intValue] == TMAPI_State_Finished) {
+    if ([_actionItem.state intValue] == TMAPI_State_Finished
+        || [_actionItem.state intValue] == TMAPI_State_Failed) {
         return;
     }
     
