@@ -36,6 +36,10 @@
 	NSUInteger saveCount;
 	
 	dispatch_queue_t storageQueue;
+    
+    BOOL autoAllowExternalBinaryDataStorage;
+	void *storageQueueTag;
+    
 }
 
 /**

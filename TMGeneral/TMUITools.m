@@ -221,7 +221,7 @@ UIView *tmViewCreateByDatas(NSArray *aDatas, float aWidth, float aLH, NSDictiona
                         tmpL.text = cutString;
                         tmpL.backgroundColor = [UIColor clearColor];
                         tmpL.textColor = label.textColor;
-                        tmpL.textAlignment = UITextAlignmentLeft;
+                        tmpL.textAlignment = NSTextAlignmentLeft;
                         //tmpL.lineBreakMode = label.lineBreakMode;
                         //HiiirLog(@"cutString :[%@][%d/%d]", cutString, [cutString length], [label.text length]);
                         
@@ -246,7 +246,7 @@ UIView *tmViewCreateByDatas(NSArray *aDatas, float aWidth, float aLH, NSDictiona
                     
                 } else {
                     [paper addSubview:label];
-                    label.textAlignment = UITextAlignmentLeft;
+                    label.textAlignment = NSTextAlignmentLeft;
                     label.frame = CGRectMake(offset.x + markPositionX, offset.y + (aLH * (lineCount)) - _size.height, _size.width, _size.height);
                     markPositionX += _size.width;
                     
@@ -303,7 +303,7 @@ CGSize tmStringSize(NSString *aString, UIFont *aFont, float aRefWidth)
     CGSize maximumLabelSize = CGSizeMake(aRefWidth,MAXFLOAT);
     CGSize expectedLabelSize = [aString sizeWithFont:aFont
                                    constrainedToSize:maximumLabelSize
-                                       lineBreakMode:UILineBreakModeWordWrap];
+                                       lineBreakMode:NSLineBreakByWordWrapping];
     
     return expectedLabelSize;
 }

@@ -63,7 +63,7 @@ static NSMutableSet *databaseFileNames;
 {
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		
+        
 		databaseFileNames = [[NSMutableSet alloc] init];
 	});
 }
@@ -71,7 +71,7 @@ static NSMutableSet *databaseFileNames;
 + (BOOL)registerDatabaseFileName:(NSString *)dbFileName
 {
 	BOOL result = NO;
-	
+    
 	@synchronized(databaseFileNames)
 	{
 		if (![databaseFileNames containsObject:dbFileName])
@@ -80,7 +80,7 @@ static NSMutableSet *databaseFileNames;
 			result = YES;
 		}
 	}
-	
+    
 	return result;
 }
 
@@ -225,10 +225,10 @@ static NSString *g_defaultProjectName = nil;
 	// E.g., if your subclass was named "XMPPExtensionCoreDataStorage", then this method would return "XMPPExtension".
 	//
 	// Note that a file extension should NOT be included.
-	
+    
 	NSString *className = NSStringFromClass([self class]);
 	NSString *suffix = @"CoreDataStorage";
-	
+    
 	if ([className hasSuffix:suffix] && ([className length] > [suffix length]))
 	{
 		return [className substringToIndex:([className length] - [suffix length])];
@@ -246,7 +246,7 @@ static NSString *g_defaultProjectName = nil;
 	// This method is queried if the initWithDatabaseFileName method is invoked with a nil parameter.
 	//
 	// You are encouraged to use the sqlite file extension.
-	
+    
 	return [NSString stringWithFormat:@"%@.sqlite", [self managedObjectModelName]];
 }
 
@@ -272,19 +272,19 @@ static NSString *g_defaultProjectName = nil;
 	// If this instance was created via initWithInMemoryStore, then the storePath parameter will be nil.
     
     NSPersistentStore *persistentStore;
-	
+    
 	if (storePath)
 	{
 		// SQLite persistent store
-		
+        
 		NSURL *storeUrl = [NSURL fileURLWithPath:storePath];
-		
+        
 		// Default support for automatic lightweight migrations
 		NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
 		                         [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
 		                         [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption,
 		                         nil];
-		
+        
 		persistentStore = [persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType
 		                                                           configuration:nil
 		                                                                     URL:storeUrl
@@ -294,14 +294,14 @@ static NSString *g_defaultProjectName = nil;
 	else
 	{
 		// In-Memory persistent store
-		
+        
 		persistentStore = [persistentStoreCoordinator addPersistentStoreWithType:NSInMemoryStoreType
 		                                                           configuration:nil
 		                                                                     URL:nil
 		                                                                 options:nil
 		                                                                   error:errorPtr];
 	}
-	
+    
     return persistentStore != nil;
 }
 
@@ -368,9 +368,6 @@ static NSString *g_defaultProjectName = nil;
 	// This method is invoked on the main thread.
 }
 
-#pragma mark -  private
-
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark Setup
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -380,10 +377,14 @@ static NSString *g_defaultProjectName = nil;
 - (void)commonInit
 {
 	saveThreshold = 500;
+    
 	storageQueue = dispatch_queue_create(class_getName([self class]), NULL);
-	
+    
+	storageQueueTag = &storageQueueTag;
+	dispatch_queue_set_specific(storageQueue, storageQueueTag, storageQueueTag, NULL);
+    
 	//myJidCache = [[NSMutableDictionary alloc] init];
-	
+    
 	/*[[NSNotificationCenter defaultCenter] addObserver:self
 	                                         selector:@selector(updateJidCache:)
 	                                             name:XMPPStreamDidChangeMyJIDNotification
@@ -403,12 +404,12 @@ static NSString *g_defaultProjectName = nil;
 			databaseFileName = [aDatabaseFileName copy];
 		else
 			databaseFileName = [[self defaultDatabaseFileName] copy];
-		
+        
 		if (![[self class] registerDatabaseFileName:databaseFileName])
 		{
 			return nil;
 		}
-		
+        
 		[self commonInit];
 		NSAssert(storageQueue != NULL, @"Subclass forgot to invoke [super commonInit]");
 	}
@@ -431,36 +432,36 @@ static NSString *g_defaultProjectName = nil;
 	//
 	// Feel free to override this method if needed,
 	// and just invoke super at some point to make sure everything is kosher at this level as well.
-	
+    
 	NSParameterAssert(aParent != nil);
 	NSParameterAssert(queue != NULL);
-	
+    
 	if (queue == storageQueue)
 	{
 		// This class is designed to be run on a separate dispatch queue from its parent.
 		// This allows us to optimize the database save operations by buffering them,
 		// and executing them when demand on the storage instance is low.
-		
+        
 		return NO;
 	}
-	
+    
 	return YES;
 }
 
 - (NSUInteger)saveThreshold
 {
-	if (dispatch_get_current_queue() == storageQueue)
+	if (dispatch_get_specific(storageQueueTag))
 	{
 		return saveThreshold;
 	}
 	else
 	{
 		__block NSUInteger result;
-		
+        
 		dispatch_sync(storageQueue, ^{
 			result = saveThreshold;
 		});
-		
+        
 		return result;
 	}
 }
@@ -470,8 +471,8 @@ static NSString *g_defaultProjectName = nil;
 	dispatch_block_t block = ^{
 		saveThreshold = newSaveThreshold;
 	};
-	
-	if (dispatch_get_current_queue() == storageQueue)
+    
+	if (dispatch_get_specific(storageQueueTag))
 		block();
 	else
 		dispatch_async(storageQueue, block);
@@ -485,27 +486,27 @@ static NSString *g_defaultProjectName = nil;
 {
 	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
     NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : NSTemporaryDirectory();
-	
+    
 	// Attempt to find a name for this application
 	NSString *appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
 	if (appName == nil) {
 		appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
 	}
-	
+    
 	if (appName == nil) {
 		appName = @"xmppframework";
 	}
-	
-	
+    
+    
 	NSString *result = [basePath stringByAppendingPathComponent:appName];
-	
+    
 	NSFileManager *fileManager = [NSFileManager defaultManager];
-	
+    
 	if (![fileManager fileExistsAtPath:result])
 	{
 		[fileManager createDirectoryAtPath:result withIntermediateDirectories:YES attributes:nil error:nil];
 	}
-	
+    
     return result;
 }
 
@@ -513,25 +514,26 @@ static NSString *g_defaultProjectName = nil;
 {
 	// This is a public method.
 	// It may be invoked on any thread/queue.
-	
+    
 	__block NSManagedObjectModel *result = nil;
-	
+    
 	dispatch_block_t block = ^{ @autoreleasepool {
-		
+        
 		if (managedObjectModel)
 		{
 			result = managedObjectModel;
 			return;
 		}
-		
+        
 		NSString *momName = [self managedObjectModelName];
-		
+        
 		//XMPPLogVerbose(@"%@: Creating managedObjectModel (%@)", [self class], momName);
-		NSBundle *bundle = [NSBundle mainBundle];
+        NSBundle *bundle = [NSBundle mainBundle];
         if ([self managedObjectBundleName]) {
             NSString *bundlePath = [[NSBundle mainBundle] pathForResource:[self managedObjectBundleName] ofType:@"bundle"];
             bundle = [NSBundle bundleWithPath:bundlePath];
         }
+        
         
 		NSString *momPath = [bundle pathForResource:momName ofType:@"mom"];
 		if (momPath == nil)
@@ -543,24 +545,48 @@ static NSString *g_defaultProjectName = nil;
 		if (momPath)
 		{
 			// If path is nil, then NSURL or NSManagedObjectModel will throw an exception
-			
+            
 			NSURL *momUrl = [NSURL fileURLWithPath:momPath];
-			
-			managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:momUrl];
+            
+			managedObjectModel = [[[NSManagedObjectModel alloc] initWithContentsOfURL:momUrl] copy];
 		}
 		else
 		{
 			//XMPPLogWarn(@"%@: Couldn't find managedObjectModel file - %@", [self class], momName);
 		}
-		
+        
+        if([NSAttributeDescription instancesRespondToSelector:@selector(setAllowsExternalBinaryDataStorage:)])
+        {
+            if(autoAllowExternalBinaryDataStorage)
+            {
+                NSArray *entities = [managedObjectModel entities];
+                
+                for(NSEntityDescription *entity in entities)
+                {
+                    NSDictionary *attributesByName = [entity attributesByName];
+                    
+                    [attributesByName enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+                        
+                        if([obj attributeType] == NSBinaryDataAttributeType)
+                        {
+                            [obj setAllowsExternalBinaryDataStorage:YES];
+                        }
+                        
+                    }];
+                }
+                
+            }
+            
+        }
+        
 		result = managedObjectModel;
 	}};
-	
-	if (dispatch_get_current_queue() == storageQueue)
+    
+	if (dispatch_get_specific(storageQueueTag))
 		block();
 	else
 		dispatch_sync(storageQueue, block);
-	
+    
 	return result;
 }
 
@@ -568,39 +594,39 @@ static NSString *g_defaultProjectName = nil;
 {
 	// This is a public method.
 	// It may be invoked on any thread/queue.
-	
+    
 	__block NSPersistentStoreCoordinator *result = nil;
-	
+    
 	dispatch_block_t block = ^{ @autoreleasepool {
-		
+        
 		if (persistentStoreCoordinator)
 		{
 			result = persistentStoreCoordinator;
 			return;
 		}
-		
+        
 		NSManagedObjectModel *mom = [self managedObjectModel];
 		if (mom == nil)
 		{
 			return;
 		}
-		
+        
 		//XMPPLogVerbose(@"%@: Creating persistentStoreCoordinator", [self class]);
-		
+        
 		persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:mom];
-		
+        
 		if (databaseFileName)
 		{
 			// SQLite persistent store
-			
+            
 			NSString *docsPath = [self persistentStoreDirectory];
 			NSString *storePath = [docsPath stringByAppendingPathComponent:databaseFileName];
 			if (storePath)
 			{
 				// If storePath is nil, then NSURL will throw an exception
-				
+                
 				[self willCreatePersistentStoreWithPath:storePath];
-				
+                
 				NSError *error = nil;
 				if (![self addPersistentStoreWithPath:storePath error:&error])
 				{
@@ -615,21 +641,21 @@ static NSString *g_defaultProjectName = nil;
 		else
 		{
 			// In-Memory persistent store
-			
+            
 			[self willCreatePersistentStoreWithPath:nil];
-			
+            
 			NSError *error = nil;
 			if (![self addPersistentStoreWithPath:nil error:&error])
 			{
 				[self didNotAddPersistentStoreWithPath:nil error:error];
 			}
 		}
-		
+        
 		result = persistentStoreCoordinator;
-		
+        
 	}};
-	
-	if (dispatch_get_current_queue() == storageQueue)
+    
+	if (dispatch_get_specific(storageQueueTag))
 		block();
 	else
 		dispatch_sync(storageQueue, block);
@@ -655,34 +681,34 @@ static NSString *g_defaultProjectName = nil;
 	// then you need to go read the documentation for core data,
 	// specifically the section entitled "Concurrency with Core Data".
 	//
-	NSAssert(dispatch_get_current_queue() == storageQueue, @"Invoked on incorrect queue");
+	NSAssert(dispatch_get_specific(storageQueueTag), @"Invoked on incorrect queue");
 	//
 	// Do NOT remove the assert statment above!
 	// Read the comments above!
 	//
-	
+    
 	if (managedObjectContext)
 	{
 		return managedObjectContext;
 	}
-	
+    
 	NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
 	if (coordinator)
 	{
 		//XMPPLogVerbose(@"%@: Creating managedObjectContext", [self class]);
-		
+        
 		if ([NSManagedObjectContext instancesRespondToSelector:@selector(initWithConcurrencyType:)])
 			managedObjectContext =
             [[NSManagedObjectContext alloc] initWithConcurrencyType:NSConfinementConcurrencyType];
 		else
 			managedObjectContext = [[NSManagedObjectContext alloc] init];
-		
+        
 		managedObjectContext.persistentStoreCoordinator = coordinator;
 		managedObjectContext.undoManager = nil;
-		
+        
 		[self didCreateManagedObjectContext];
 	}
-	
+    
 	return managedObjectContext;
 }
 
@@ -700,58 +726,87 @@ static NSString *g_defaultProjectName = nil;
 	// then you need to go read the documentation for core data,
 	// specifically the section entitled "Concurrency with Core Data".
 	//
-	NSAssert(dispatch_get_current_queue() == dispatch_get_main_queue(), @"Context reserved for main thread only");
+	NSAssert([NSThread isMainThread], @"Context reserved for main thread only");
 	//
 	// Do NOT remove the assert statment above!
 	// Read the comments above!
 	//
-	
+    
 	if (mainThreadManagedObjectContext)
 	{
 		return mainThreadManagedObjectContext;
 	}
-	
+    
 	NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
 	if (coordinator)
 	{
 		//XMPPLogVerbose(@"%@: Creating mainThreadManagedObjectContext", [self class]);
-		
+        
 		if ([NSManagedObjectContext instancesRespondToSelector:@selector(initWithConcurrencyType:)])
 			mainThreadManagedObjectContext =
             [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
 		else
 			mainThreadManagedObjectContext = [[NSManagedObjectContext alloc] init];
-		
+        
 		mainThreadManagedObjectContext.persistentStoreCoordinator = coordinator;
 		mainThreadManagedObjectContext.undoManager = nil;
-		
+        
 		[[NSNotificationCenter defaultCenter] addObserver:self
 		                                         selector:@selector(managedObjectContextDidSave:)
 		                                             name:NSManagedObjectContextDidSaveNotification
 		                                           object:nil];
-		
+        
 		// Todo: If we knew that our private managedObjectContext was going to be the only one writing to the database,
 		// then a small optimization would be to use it as the object when registering above.
 	}
-	
+    
 	return mainThreadManagedObjectContext;
 }
 
 - (void)managedObjectContextDidSave:(NSNotification *)notification
 {
 	NSManagedObjectContext *sender = (NSManagedObjectContext *)[notification object];
-	
+    
 	if ((sender != mainThreadManagedObjectContext) &&
 	    (sender.persistentStoreCoordinator == mainThreadManagedObjectContext.persistentStoreCoordinator))
 	{
 		//XMPPLogVerbose(@"%@: %@ - Merging changes into mainThreadManagedObjectContext", THIS_FILE, THIS_METHOD);
-		
+        
 		dispatch_async(dispatch_get_main_queue(), ^{
-			
+            
 			[mainThreadManagedObjectContext mergeChangesFromContextDidSaveNotification:notification];
 			[self mainThreadManagedObjectContextDidMergeChanges];
 		});
     }
+}
+
+
+- (BOOL)autoAllowExternalBinaryDataStorage
+{
+	__block BOOL result = NO;
+    
+	dispatch_block_t block = ^{ @autoreleasepool {
+		result = autoAllowExternalBinaryDataStorage;
+	}};
+    
+	if (dispatch_get_specific(storageQueueTag))
+		block();
+	else
+		dispatch_sync(storageQueue, block);
+    
+	return result;
+}
+
+- (void)setAutoAllowExternalBinaryDataStorage:(BOOL)flag
+{
+	dispatch_block_t block = ^{
+		autoAllowExternalBinaryDataStorage = flag;
+	};
+    
+	if (dispatch_get_specific(storageQueueTag))
+		block();
+	else
+		dispatch_sync(storageQueue, block);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -761,12 +816,12 @@ static NSString *g_defaultProjectName = nil;
 - (NSUInteger)numberOfUnsavedChanges
 {
 	NSManagedObjectContext *moc = [self managedObjectContext];
-	
+    
 	NSUInteger unsavedCount = 0;
 	unsavedCount += [[moc updatedObjects] count];
 	unsavedCount += [[moc insertedObjects] count];
 	unsavedCount += [[moc deletedObjects] count];
-	
+    
 	return unsavedCount;
 }
 
@@ -776,9 +831,9 @@ static NSString *g_defaultProjectName = nil;
 	// internally checks to see if it has anything to save before it actually does anthing.
 	// So there's no need for us to do it here, especially since this method is usually
 	// called from maybeSave below, which already does this check.
-	
+    
 	[self willSaveManagedObjectContext];
-	
+    
 	NSError *error = nil;
 	if ([[self managedObjectContext] save:&error])
 	{
@@ -788,22 +843,22 @@ static NSString *g_defaultProjectName = nil;
 	else
 	{
 		//XMPPLogWarn(@"%@: Error saving - %@ %@", [self class], error, [error userInfo]);
-		
+        
 		[[self managedObjectContext] rollback];
 	}
 }
 
 - (void)maybeSave:(int32_t)currentPendingRequests
 {
-	NSAssert(dispatch_get_current_queue() == storageQueue, @"Invoked on incorrect queue");
-	
-	
+	NSAssert(dispatch_get_specific(storageQueueTag), @"Invoked on incorrect queue");
+    
+    
 	if ([[self managedObjectContext] hasChanges])
 	{
 		if (currentPendingRequests == 0)
 		{
 			//XMPPLogVerbose(@"%@: Triggering save (pendingRequests=%i)", [self class], currentPendingRequests);
-			
+            
 			[self save];
 		}
 		else
@@ -812,7 +867,7 @@ static NSString *g_defaultProjectName = nil;
 			if (unsavedCount >= saveThreshold)
 			{
 				//XMPPLogVerbose(@"%@: Triggering save (unsavedCount=%lu)", [self class], (unsigned long)unsavedCount);
-				
+                
 				[self save];
 			}
 		}
@@ -822,7 +877,7 @@ static NSString *g_defaultProjectName = nil;
 - (void)maybeSave
 {
 	// Convenience method in the very rare case that a subclass would need to invoke maybeSave manually.
-	
+    
 	[self maybeSave:OSAtomicAdd32(0, &pendingRequests)];
 }
 
@@ -833,26 +888,26 @@ static NSString *g_defaultProjectName = nil;
 	// If you remove the assert statement below, you are destroying the sole purpose for this class,
 	// which is to optimize the disk IO by buffering save operations.
 	//
-	NSAssert(dispatch_get_current_queue() != storageQueue, @"Invoked on incorrect queue");
+	NSAssert(!dispatch_get_specific(storageQueueTag), @"Invoked on incorrect queue");
 	//
 	// For a full discussion of this method, please see XMPPCoreDataStorageProtocol.h
 	//
 	// dispatch_Sync
 	//          ^
-	
+    
 	OSAtomicIncrement32(&pendingRequests);
 	dispatch_sync(storageQueue, ^{ @autoreleasepool {
-		
+        
 		block();
-		
+        
 		// Since this is a synchronous request, we want to return as quickly as possible.
 		// So we delay the maybeSave operation til later.
-		
+        
 		dispatch_async(storageQueue, ^{ @autoreleasepool {
-			
+            
 			[self maybeSave:OSAtomicDecrement32(&pendingRequests)];
 		}});
-		
+        
 	}});
 }
 
@@ -863,16 +918,16 @@ static NSString *g_defaultProjectName = nil;
 	// If you remove the assert statement below, you are destroying the sole purpose for this class,
 	// which is to optimize the disk IO by buffering save operations.
 	//
-	NSAssert(dispatch_get_current_queue() != storageQueue, @"Invoked on incorrect queue");
+	NSAssert(!dispatch_get_specific(storageQueueTag), @"Invoked on incorrect queue");
 	//
 	// For a full discussion of this method, please see XMPPCoreDataStorageProtocol.h
 	//
 	// dispatch_Async
 	//          ^
-	
+    
 	OSAtomicIncrement32(&pendingRequests);
 	dispatch_async(storageQueue, ^{ @autoreleasepool {
-		
+        
 		block();
 		[self maybeSave:OSAtomicDecrement32(&pendingRequests)];
 	}});
@@ -885,13 +940,13 @@ static NSString *g_defaultProjectName = nil;
 - (void)dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	
+    
 	if (databaseFileName)
 	{
 		[[self class] unregisterDatabaseFileName:databaseFileName];
 	}
-	
-#if NEEDS_DISPATCH_RETAIN_RELEASE
+    
+#if !OS_OBJECT_USE_OBJC
 	if (storageQueue)
 		dispatch_release(storageQueue);
 #endif
