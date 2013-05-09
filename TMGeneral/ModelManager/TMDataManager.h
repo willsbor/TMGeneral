@@ -116,6 +116,8 @@
                                                                       andSorts:(NSArray *)sorts
                                                                   andCacheName:(NSString *)aCacheName;
 
++ (void) setAppName:(NSString *)aAppName;
+
 //// overrite me If need
 - (NSString *)managedObjectModelName;
 
