@@ -7,30 +7,6 @@
 //
 
 #import "TMDataManager.h"
-/*
-typedef void (^TMDataManagerErrorBlock)(NSString *errorTag, NSError *error);
-
-NSString * const DataManagerDidSaveFailedTag = @"DataManagerDidSaveFailedTag";
-NSString * const DataManagerCreateDirectoryFailedTag = @"DataManagerCreateDirectoryFailedTag";
-NSString * const DataManagerFatalErrorCreatePersistentStoreTag = @"DataManagerFatalErrorCreatePersistentStoreTag";
-
-NSString * const DataManagerDidSaveNotification = @"DataManagerDidSaveNotification";
-NSString * const DataManagerDidSaveFailedNotification = @"DataManagerDidSaveFailedNotification";
-
-@interface TMDataManager () {
-    TMDataManagerErrorBlock _errorBlock;
-}
-
-- (NSString*)sharedDocumentsPath;
-
-@property (nonatomic, readonly, strong) NSPersistentStoreCoordinator *persistentStoreCoordinator;
-@property (nonatomic, readonly, strong) NSManagedObjectModel *objectModel;
-//@property (nonatomic, strong) NSString *kDataManagerBundleName;
-//@property (nonatomic, strong) NSString *kDataManagerModelName;
-//@property (nonatomic, strong) NSString *kDataManagerSQLiteName;
-
-@end
-*/
 
 
 #import <objc/runtime.h>
@@ -53,10 +29,7 @@ NSString * const DataManagerDidSaveFailedNotification = @"DataManagerDidSaveFail
 
 @implementation TMDataManager
 
-//@synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
-//@synthesize mainObjectContext = _mainObjectContext;
-//@synthesize objectModel = _objectModel;
-
+static NSString *g_appName = nil;
 static NSMutableSet *databaseFileNames;
 
 + (void)initialize
@@ -90,6 +63,14 @@ static NSMutableSet *databaseFileNames;
 	{
 		[databaseFileNames removeObject:dbFileName];
 	}
+}
+
++ (void) setAppName:(NSString *)aAppName
+{
+    @synchronized(g_appName)
+	{
+        g_appName = [aAppName copy];
+    }
 }
 
 #pragma mark - tool
@@ -141,70 +122,6 @@ static NSMutableSet *databaseFileNames;
     return object;
 }
 
-/*
-+ (TMDataManager *)sharedInstance {
-	static dispatch_once_t pred;
-	static TMDataManager *sharedInstance = nil;
-    
-	dispatch_once(&pred, ^{
-        sharedInstance = [[self alloc] init];
-        sharedInstance.kDataManagerBundleName = @"TMGeneralResource";
-        sharedInstance.kDataManagerModelName = @"TMGeneralDataModel";
-        sharedInstance.kDataManagerSQLiteName = @"TMGeneralDataSQL.sqlite";
-    });
-	return sharedInstance;
-}
-
-static NSString *g_defaultProjectName = nil;
-+ (void) setDefaultProjectModel:(NSString *)aProjectModel
-{
-    g_defaultProjectName = aProjectModel;
-}
-
-+ (TMDataManager *) defaultProjectDB
-{
-    static dispatch_once_t pred;
-	static TMDataManager *sharedInstance = nil;
-    
-	dispatch_once(&pred, ^{
-        sharedInstance = [[self alloc] init];
-        sharedInstance.kDataManagerBundleName = nil;
-        
-        if (g_defaultProjectName == nil) {
-            g_defaultProjectName = [NSString stringWithFormat:@"TMDataProject"];
-        }
-        
-        sharedInstance.kDataManagerModelName = g_defaultProjectName;
-        sharedInstance.kDataManagerSQLiteName = [NSString stringWithFormat:@"%@.sqlite", g_defaultProjectName];
-    });
-	return sharedInstance;
-}
-*/
-/*
-- (void) errorHandlerTarget:(void (^)(NSString *errorTag, NSError *error)) errorBlock
-{
-    _errorBlock = errorBlock;
-}
-
-- (BOOL)save {
-	if (![self.mainObjectContext hasChanges])
-		return YES;
-    
-	NSError *error = nil;
-	if (![self.mainObjectContext save:&error]) {
-		NSLog(@"Error while saving: %@\n%@", [error localizedDescription], [error userInfo]);
-		[[NSNotificationCenter defaultCenter] postNotificationName:DataManagerDidSaveFailedNotification
-                                                            object:error];
-        
-        if (_errorBlock) _errorBlock(DataManagerDidSaveFailedTag, error);
-		return NO;
-	}
-    
-	[[NSNotificationCenter defaultCenter] postNotificationName:DataManagerDidSaveNotification object:nil];
-	return YES;
-}
-*/
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark Override Me
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -212,22 +129,6 @@ static NSString *g_defaultProjectName = nil;
 - (NSString *)managedObjectBundleName
 {
     return nil;
-}
-
-- (NSString *)managedObjectAppName
-{
-    // Override me, if needed, to provide customized behavior.
-    
-    NSString *appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
-	if (appName == nil) {
-		appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
-	}
-    
-	if (appName == nil) {
-		appName = @"xmppframework";
-	}
-    
-    return appName;
 }
 
 - (NSString *)managedObjectModelName
@@ -504,9 +405,21 @@ static NSString *g_defaultProjectName = nil;
     NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : NSTemporaryDirectory();
     
 	// Attempt to find a name for this application
-	NSString *appName = [self managedObjectAppName];
+    @synchronized(g_appName)
+	{
+        if (g_appName == nil || [g_appName isEqualToString:@""]) {
+            g_appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
+            if (g_appName == nil) {
+                g_appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
+            }
+            
+            if (g_appName == nil) {
+                g_appName = @"xmppframework";
+            }
+        }
+    }
     
-	NSString *result = [basePath stringByAppendingPathComponent:appName];
+	NSString *result = [basePath stringByAppendingPathComponent:g_appName];
     
 	NSFileManager *fileManager = [NSFileManager defaultManager];
     

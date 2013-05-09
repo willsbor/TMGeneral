@@ -117,7 +117,6 @@
                                                                   andCacheName:(NSString *)aCacheName;
 
 //// overrite me If need
-- (NSString *)managedObjectAppName;
 - (NSString *)managedObjectModelName;
 
 @end
