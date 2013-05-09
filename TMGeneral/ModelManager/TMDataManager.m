@@ -214,6 +214,22 @@ static NSString *g_defaultProjectName = nil;
     return nil;
 }
 
+- (NSString *)managedObjectAppName
+{
+    // Override me, if needed, to provide customized behavior.
+    
+    NSString *appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
+	if (appName == nil) {
+		appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
+	}
+    
+	if (appName == nil) {
+		appName = @"xmppframework";
+	}
+    
+    return appName;
+}
+
 - (NSString *)managedObjectModelName
 {
 	// Override me, if needed, to provide customized behavior.
@@ -488,15 +504,7 @@ static NSString *g_defaultProjectName = nil;
     NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : NSTemporaryDirectory();
     
 	// Attempt to find a name for this application
-	NSString *appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
-	if (appName == nil) {
-		appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
-	}
-    
-	if (appName == nil) {
-		appName = @"xmppframework";
-	}
-    
+	NSString *appName = [self managedObjectAppName];
     
 	NSString *result = [basePath stringByAppendingPathComponent:appName];
     

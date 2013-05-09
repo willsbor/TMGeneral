@@ -116,36 +116,9 @@
                                                                       andSorts:(NSArray *)sorts
                                                                   andCacheName:(NSString *)aCacheName;
 
-@end
-/*
-@interface TMDataManager : NSObject
-
-//// mainObject
-@property (nonatomic, readonly, strong) NSManagedObjectContext *mainObjectContext;
-
-//// Tool
-+ (NSData *) dataFromNSData:(id)aObject;
-+ (id) objectFormNSData:(NSData *)aData;
-
-
-//+ (void) setDefaultProjectModel:(NSString *)aProjectModel;
-//+ (TMDataManager *) defaultProjectDB;
-//+ (TMDataManager *) sharedInstance;
-
-/// function
-- (void) errorHandlerTarget:(void (^)(NSString *errorTag, NSError *error)) errorBlock;
-
-- (BOOL)save;
-
-
-/// override function
-
-- (NSString *) dataManagerBundleName;
-
-- (NSString *) dataManagerModelName;
-
-- (NSString *) dataManagerSQLiteName;
+//// overrite me If need
+- (NSString *)managedObjectAppName;
+- (NSString *)managedObjectModelName;
 
 @end
 
-*/
