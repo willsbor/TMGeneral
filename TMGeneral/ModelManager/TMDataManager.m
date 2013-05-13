@@ -80,6 +80,15 @@ static NSMutableSet *databaseFileNames;
                                                                       andSorts:(NSArray *)sorts
                                                                   andCacheName:(NSString *)aCacheName
 {
+    return [self createFetchResultsControllerWithEntityForName:aEntity andPredicate:predicate andSorts:sorts andCacheName:aCacheName andSectionName:nil];
+}
+
+- (NSFetchedResultsController *) createFetchResultsControllerWithEntityForName:(NSString *)aEntity
+                                                                  andPredicate:(NSPredicate *)predicate
+                                                                      andSorts:(NSArray *)sorts
+                                                                  andCacheName:(NSString *)aCacheName
+                                                                andSectionName:(NSString *)aSectionName
+{
     __block NSFetchedResultsController *_resultsController = nil;
     
     [self executeBlock:^{
@@ -94,7 +103,7 @@ static NSMutableSet *databaseFileNames;
         
         _resultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request
                                                                  managedObjectContext:manaedObjectContext
-                                                                   sectionNameKeyPath:nil
+                                                                   sectionNameKeyPath:aSectionName
                                                                             cacheName:aCacheName];
     }];
     

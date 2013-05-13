@@ -114,6 +114,12 @@
 - (NSFetchedResultsController *) createFetchResultsControllerWithEntityForName:(NSString *)aEntity
                                                                   andPredicate:(NSPredicate *)predicate
                                                                       andSorts:(NSArray *)sorts
+                                                                  andCacheName:(NSString *)aCacheName
+                                                                andSectionName:(NSString *)aSectionName;
+
+- (NSFetchedResultsController *) createFetchResultsControllerWithEntityForName:(NSString *)aEntity
+                                                                  andPredicate:(NSPredicate *)predicate
+                                                                      andSorts:(NSArray *)sorts
                                                                   andCacheName:(NSString *)aCacheName;
 
 + (void) setAppName:(NSString *)aAppName;
