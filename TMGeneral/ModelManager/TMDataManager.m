@@ -111,6 +111,38 @@ static NSMutableSet *databaseFileNames;
     return _resultsController;
 }
 
+- (NSFetchedResultsController *) createFetchResultsControllerOnMainWithEntityForName:(NSString *)aEntity
+                                                                        andPredicate:(NSPredicate *)predicate
+                                                                            andSorts:(NSArray *)sorts
+                                                                        andCacheName:(NSString *)aCacheName
+                                                                      andSectionName:(NSString *)aSectionName
+{
+    NSFetchedResultsController *_resultsController = nil;
+    
+    NSManagedObjectContext *manaedObjectContext = self.mainThreadManagedObjectContext;
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entry = [NSEntityDescription entityForName:aEntity inManagedObjectContext:manaedObjectContext];
+    [request setEntity:entry];
+    
+    if (predicate) [request setPredicate:predicate];
+    if (sorts) [request setSortDescriptors:sorts];
+    
+    _resultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request
+                                                             managedObjectContext:manaedObjectContext
+                                                               sectionNameKeyPath:aSectionName
+                                                                        cacheName:aCacheName];
+    
+    return _resultsController;
+}
+
+- (NSFetchedResultsController *) createFetchResultsControllerOnMainWithEntityForName:(NSString *)aEntity
+                                                                        andPredicate:(NSPredicate *)predicate
+                                                                            andSorts:(NSArray *)sorts
+                                                                        andCacheName:(NSString *)aCacheName
+{
+    return [self createFetchResultsControllerOnMainWithEntityForName:aEntity andPredicate:predicate andSorts:sorts andCacheName:aCacheName andSectionName:nil];
+}
+
 + (NSData *) dataFromNSData:(id)aObject
 {
     NSMutableData *inputData = [[NSMutableData alloc] init];

@@ -122,6 +122,17 @@
                                                                       andSorts:(NSArray *)sorts
                                                                   andCacheName:(NSString *)aCacheName;
 
+- (NSFetchedResultsController *) createFetchResultsControllerOnMainWithEntityForName:(NSString *)aEntity
+                                                                  andPredicate:(NSPredicate *)predicate
+                                                                      andSorts:(NSArray *)sorts
+                                                                  andCacheName:(NSString *)aCacheName
+                                                                andSectionName:(NSString *)aSectionName;
+
+- (NSFetchedResultsController *) createFetchResultsControllerOnMainWithEntityForName:(NSString *)aEntity
+                                                                  andPredicate:(NSPredicate *)predicate
+                                                                      andSorts:(NSArray *)sorts
+                                                                  andCacheName:(NSString *)aCacheName;
+
 + (void) setAppName:(NSString *)aAppName;
 
 //// overrite me If need
