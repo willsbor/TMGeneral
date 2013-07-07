@@ -235,18 +235,9 @@ static TMGeneralDataManager *sharedInstance;
     NSManagedObjectContext *manaedObjectContext = self.managedObjectContext;
     NSFetchRequest *fetchReq = [[NSFetchRequest alloc]init];
     [fetchReq setEntity:[NSEntityDescription entityForName:@"TMApiData" inManagedObjectContext:manaedObjectContext]];
-    
-    NSArray *resultArray = [manaedObjectContext executeFetchRequest:fetchReq error:nil];
-    
-    NSLog(@"Debug =========");
-    for (TMApiData *object in resultArray) {
-        NSLog(@"Debug : id = %@", object.identify);
-    }
-    NSLog(@"Debug +++++++++");
-    
     [fetchReq setPredicate:[NSPredicate predicateWithFormat:@"identify == %@", aIdentify]];
     
-    resultArray = [manaedObjectContext executeFetchRequest:fetchReq error:nil];
+    NSArray *resultArray = [manaedObjectContext executeFetchRequest:fetchReq error:nil];
     
     TMApiData *result = nil;
     if ([resultArray count] == 1) {
