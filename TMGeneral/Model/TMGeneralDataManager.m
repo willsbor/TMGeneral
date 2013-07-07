@@ -237,10 +237,36 @@ static NSTimer *g_checkCacheAPITimer = nil;
     }];
 }
 
-- (TMImageCache *) createImageCacheFrom:(NSString *)aUrl withTagMD5:(NSString *)aTagMD5 andType:(TMImageControl_Type)aType;
+- (NSString *) createImageCacheFrom:(NSString *)aUrl withTagMD5:(NSString *)aTagMD5 andType:(TMImageControl_Type)aType
 {
-    __block TMImageCache *_actionItem = nil;
+    __block NSString *tag = nil;
     [self executeBlock:^{
+        TMImageCache *_actionItem = [self _imageCacheByTag:aTagMD5];
+        if (_actionItem) {
+
+        } else {
+            ///   == nil
+            NSManagedObjectContext *manaedObjectContext = self.managedObjectContext;
+            _actionItem = [NSEntityDescription insertNewObjectForEntityForName:@"TMImageCache"
+                                                        inManagedObjectContext:manaedObjectContext];
+            _actionItem.tag = aTagMD5;
+            _actionItem.identify = tmStringFromMD5([NSString stringWithFormat:@"%@%f", aTagMD5, [[NSDate date] timeIntervalSince1970]]);
+            _actionItem.type = [NSNumber numberWithInt:aType];
+            
+            [self save];
+        }
+        
+        tag = _actionItem.tag;
+    }];
+    
+    return tag;
+}
+
+- (NSData *) imageCacheImageDataByTag:(NSString *)aTagMD5
+{
+    __block NSData *imageData = nil;
+    [self executeBlock:^{
+        
         NSManagedObjectContext *manaedObjectContext = self.managedObjectContext;
         NSFetchRequest *fetchReq = [[NSFetchRequest alloc] init];
         [fetchReq setEntity:[NSEntityDescription entityForName:@"TMImageCache"
@@ -250,34 +276,78 @@ static NSTimer *g_checkCacheAPITimer = nil;
         
         NSArray *resultArray = [manaedObjectContext executeFetchRequest:fetchReq error:nil];
         
+        TMImageCache *_actionItem = nil;
         if ([resultArray count] == 1) {
             _actionItem = [resultArray objectAtIndex:0];
             
+            imageData = [_actionItem.data copy];
         } else if ([resultArray count] == 0) {
-            
-            
-            
-            NSManagedObjectContext *manaedObjectContext = self.managedObjectContext;
-            _actionItem = [NSEntityDescription insertNewObjectForEntityForName:@"TMImageCache"
-                                                        inManagedObjectContext:manaedObjectContext];
-            _actionItem.tag = aTagMD5;
-            _actionItem.identify = tmStringFromMD5([NSString stringWithFormat:@"%@%f", aTagMD5, [[NSDate date] timeIntervalSince1970]]);
-            _actionItem.type = [NSNumber numberWithInt:aType];
             
         } else {
             assert(@"重複");
         }
+        
+        [self save];
     }];
     
-    return _actionItem;
+    return imageData;
 }
 
-- (void) imageCache:(TMImageCache *)aImageCache setData:(NSData *)aImageData
+- (void) imageCache:(NSString *)aTagMD5 setData:(NSData *)aImageData
 {
     [self executeBlock:^{
-        aImageCache.data = aImageData;
-        aImageCache.lastDate = [NSDate date];
+
+        TMImageCache *_actionItem = [self _imageCacheByTag:aTagMD5];
+        if (_actionItem) {
+            _actionItem.data = aImageData;
+            _actionItem.lastDate = [NSDate date];
+            
+            [self save];
+        } 
+
     }];
+}
+
+- (BOOL) isHaveImageDataByTag:(NSString *)aTagMD5
+{
+    __block BOOL have = NO;
+    [self executeBlock:^{
+        
+        TMImageCache *_actionItem = [self _imageCacheByTag:aTagMD5];
+        if (_actionItem) {
+            if (_actionItem.data) {
+                have = YES;
+            }
+        }
+        
+    }];
+    
+    return have;
+}
+
+#pragma mark - private
+
+- (TMImageCache *) _imageCacheByTag:(NSString *)aTagMD5
+{
+    TMImageCache *_actionItem = nil;
+    NSManagedObjectContext *manaedObjectContext = self.managedObjectContext;
+    NSFetchRequest *fetchReq = [[NSFetchRequest alloc] init];
+    [fetchReq setEntity:[NSEntityDescription entityForName:@"TMImageCache"
+                                    inManagedObjectContext:manaedObjectContext]];
+    
+    [fetchReq setPredicate:[NSPredicate predicateWithFormat:@"tag == %@", aTagMD5]];
+    
+    NSArray *resultArray = [manaedObjectContext executeFetchRequest:fetchReq error:nil];
+    
+    if ([resultArray count] == 1) {
+        _actionItem = [resultArray objectAtIndex:0];
+    } else if ([resultArray count] == 0) {
+        
+    } else {
+        assert(@"重複");
+    }
+    
+    return _actionItem;
 }
 
 #pragma mark -

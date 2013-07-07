@@ -33,7 +33,10 @@
 - (void) changeApiData:(TMApiData *)aData RetryTimes:(NSInteger)aRetryTimes;
 - (void) changeApiData:(TMApiData *)aData RetryDelayTimes:(double)aRetryDelayTimes;
 
-- (TMImageCache *) createImageCacheFrom:(NSString *)aUrl withTagMD5:(NSString *)aTagMD5 andType:(TMImageControl_Type)aType;
-- (void) imageCache:(TMImageCache *)aImageCache setData:(NSData *)aImageData;
+- (NSString *) createImageCacheFrom:(NSString *)aUrl withTagMD5:(NSString *)aTagMD5 andType:(TMImageControl_Type)aType;;
+
+- (void) imageCache:(NSString *)aTagMD5 setData:(NSData *)aImageData;
+- (NSData *) imageCacheImageDataByTag:(NSString *)aTagMD5;
+- (BOOL) isHaveImageDataByTag:(NSString *)aTagMD5;
 
 @end

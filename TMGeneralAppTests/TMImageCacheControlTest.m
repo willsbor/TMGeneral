@@ -46,8 +46,8 @@
 @end
 
 @interface TMImageCacheControl ()
-- (NSError *) errorURLisNil;
-- (NSError *) errorServerErrorWithCode:(NSError *)aServerError andStatusCode:(NSInteger)aStatusCode;
+- (NSError *) _errorURLisNil;
+- (NSError *) _errorServerErrorWithCode:(NSError *)aServerError andStatusCode:(NSInteger)aStatusCode;
 @end
 
 @interface TMImageCacheControl (UTest)
@@ -58,30 +58,31 @@
 
 + (void) load
 {
-    Method origMethod = class_getInstanceMethod(self, @selector(getDataFrom:AndSaveIn:toComplete:));
+    Method origMethod = class_getInstanceMethod(self, @selector(_getDataFrom:AndSaveIn:toComplete:));
 	Method newMethod = class_getInstanceMethod(self, @selector(unitTest_getDataFrom:AndSaveIn:toComplete:));
     method_setImplementation(origMethod, method_getImplementation(newMethod));
 
 }
 
-- (void)unitTest_getDataFrom:(NSString *)aUrl AndSaveIn:(TMImageCache *)aItem toComplete:(void (^)(NSData *aImageNSData, NSError *error))aComplete
+- (void)unitTest_getDataFrom:(NSString *)aUrl AndSaveIn:(NSString *)aItem toComplete:(void (^)(NSData *aImageNSData, NSError *error))aComplete
 {
     /// 直接回應對應的網路圖片
     
     if (aUrl == nil || [aUrl length] == 0) {
-        if (aComplete) aComplete(nil, [self errorURLisNil]);
+        if (aComplete) aComplete(nil, [self _errorURLisNil]);
         return;
     }
     
     
     void (^success)(id responseObject) = ^(id responseObject) {
         [[TMGeneralDataManager sharedInstance] imageCache:aItem setData:responseObject];
-        if (aComplete) aComplete(aItem.data, nil);
+        NSData *imageData = [[TMGeneralDataManager sharedInstance] imageCacheImageDataByTag:aItem];
+        if (aComplete) aComplete(imageData, nil);
     };
     
     void (^failed)(id responseObject, NSInteger ServerErrcode) = ^(id responseObject, NSInteger ServerErrcode) {
             NSError *dummyError = [[NSError alloc] initWithDomain:@"UnitTest" code:1111 userInfo:nil];
-        if (aComplete) aComplete(nil, [self errorServerErrorWithCode:dummyError andStatusCode:ServerErrcode]);
+        if (aComplete) aComplete(nil, [self _errorServerErrorWithCode:dummyError andStatusCode:ServerErrcode]);
     };
     
     
