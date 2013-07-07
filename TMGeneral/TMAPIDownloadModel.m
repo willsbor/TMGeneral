@@ -11,6 +11,7 @@
 #import "TMApiData.h"
 #import "TMTools.h"
 #import "AFDownloadRequestOperation.h"
+#import "TMGeneralDataManager.h"
 
 #define EFFECT_TEMP_FILE     [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory,   NSUserDomainMask, YES) objectAtIndex:0] stringByAppendingPathComponent:@"download"]
 
@@ -183,7 +184,9 @@ typedef enum
 {
     self = [super initWithInput:aInput];
     if (self) {
-        _actionItem.type = [NSNumber numberWithInt:TMAPI_Type_Web_Api];
+        [[TMGeneralDataManager sharedInstance] changeApiData:_actionItem With:^(TMApiData *apidata) {
+            apidata.type = [NSNumber numberWithInt:TMAPI_Type_Web_Api];
+        }];
         self.thread = TMAPI_Thread_Type_SubThread;
     }
     

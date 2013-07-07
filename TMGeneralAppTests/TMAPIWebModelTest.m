@@ -38,7 +38,7 @@
 @end
 
 @interface TMGeneralDataManager ()
-- (void) _checkAPIAction:(id)sender;
+
 @end
 
 

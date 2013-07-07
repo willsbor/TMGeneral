@@ -488,7 +488,7 @@
 
 - (NSString *) _createCacheItemFrom:(NSString *)aUrl withTagMD5:(NSString *)aTagMD5 andType:(TMImageControl_Type)aType
 {
-    NSString *tag = [[TMGeneralDataManager sharedInstance] createImageCacheFrom:aUrl withTagMD5:aTagMD5 andType:aType];
+    NSString *tag = [[TMGeneralDataManager sharedInstance] createImageCacheWithTagMD5:aTagMD5 andType:aType];
     
     return tag;
 }

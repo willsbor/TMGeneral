@@ -10,33 +10,29 @@
 #import "TMImageCacheControl.h"
 
 @class TMApiData;
-@class TMImageCache;
 @interface TMGeneralDataManager : TMDataManager
-
-@property (nonatomic, readonly, strong) NSMutableArray *apiIdentifyList;
 
 + (TMGeneralDataManager *)sharedInstance;
 
-- (void) switchAPIDataStateFromInvalidDoing2Pending;
-- (void) switchAPIDataStateFromInvalid2Stop;
+- (NSString *) createTMApiDataWith:(void (^)(TMApiData *apidata))aSetting;
+- (void) changeApiData:(NSString *)aIdentify With:(void (^)(TMApiData *apidata))aSetting;
+- (void) changeApiData:(NSString *)aIdentify Status:(NSInteger) aState;
+- (void) changeApiData:(NSString *)aIdentify CacheType:(NSInteger)aCacheType;
+- (void) changeApiData:(NSString *)aIdentify RetryTimes:(NSInteger)aRetryTimes;
+- (void) changeApiData:(NSString *)aIdentify RetryDelayTimes:(double)aRetryDelayTimes;
 
-- (void) startCheckCacheAPI;
-- (void) stopCheckCacheAPI;
+- (id) returnObjectByKey:(NSString *)aKey OfIdentify:(NSString *)aIdentify;
 
-- (void) removeAllFinishAPIData;
+//- (TMApiData *) getTMApiDataOnMainByID:(NSString *)aIdentify;
 
-- (TMApiData *) createTMApiData;
-- (TMApiData *) createTMApiDataWith:(void (^)(TMApiData *apidata))aSetting;
-- (void) changeApiData:(TMApiData *)aData With:(void (^)(TMApiData *apidata))aSetting;
-- (void) changeApiData:(TMApiData *)aData Status:(NSInteger) aState;
-- (void) changeApiData:(TMApiData *)aData CacheType:(NSInteger)aCacheType;
-- (void) changeApiData:(TMApiData *)aData RetryTimes:(NSInteger)aRetryTimes;
-- (void) changeApiData:(TMApiData *)aData RetryDelayTimes:(double)aRetryDelayTimes;
-
-- (NSString *) createImageCacheFrom:(NSString *)aUrl withTagMD5:(NSString *)aTagMD5 andType:(TMImageControl_Type)aType;;
-
+- (NSString *) createImageCacheWithTagMD5:(NSString *)aTagMD5 andType:(TMImageControl_Type)aType;
 - (void) imageCache:(NSString *)aTagMD5 setData:(NSData *)aImageData;
 - (NSData *) imageCacheImageDataByTag:(NSString *)aTagMD5;
 - (BOOL) isHaveImageDataByTag:(NSString *)aTagMD5;
+
+- (void) switchAPIDataStateFromInvalidDoing2Pending:(BOOL (^)(NSString *identify))isIdentifyInTempList;
+- (void) switchAPIDataStateFromInvalid2Stop;
+- (void) removeAllFinishAPIData;
+- (void) _checkAPIAction:(void (^)(TMApiData *object))aActionBlock;
 
 @end

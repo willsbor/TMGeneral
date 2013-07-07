@@ -7,9 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
-#define TMAPIMODEL_DEFAULT_RETRY_DELAY_TIME   5.0  /// sec
-#define TMAPIMODEL_DEFAULT_CHECK_API_DURATION   30.0 ///< sec
+#import "TMApiData+Plus.h"
 
 typedef enum
 {
@@ -21,35 +19,6 @@ typedef enum
 
 typedef enum
 {
-    TMAPI_Mode_Leave_With_Cancel,
-    TMAPI_Mode_Leave_Without_Cancel,
-} TMAPI_Mode;
-
-typedef enum
-{
-    TMAPI_State_Init,
-    TMAPI_State_Doing,
-    TMAPI_State_Finished,
-    TMAPI_State_Pending,  ///< retry : 中途的狀態
-    TMAPI_State_Failed,   ///< retry 到最後失敗
-    TMAPI_State_Stop,   ///< 被系統強制換狀態
-} TMAPI_State;
-
-typedef enum
-{
-    TMAPI_Type_General,
-    TMAPI_Type_Web_Api,
-} TMAPI_Type;
-
-typedef enum
-{
-    TMAPI_Cache_Type_None,
-    TMAPI_Cache_Type_ThisActive,
-    TMAPI_Cache_Type_EveryActive,
-} TMAPI_Cache_Type;
-
-typedef enum
-{
     TMAPI_Thread_Type_Main,           ///<  第一次執行時，會做 synchronous，如果retry 則會做 Asynchronous
     TMAPI_Thread_Type_MainThread,
     TMAPI_Thread_Type_SubThread,
@@ -57,7 +26,7 @@ typedef enum
 } TMAPI_Thread_Type;
 
 @class TMAPIModel;
-@class TMApiData;
+//@class TMApiData;
 @protocol TMAPIModelProtocol <NSObject>
 
 @optional
@@ -73,7 +42,8 @@ typedef enum
 @interface TMAPIModel : NSObject
 {
 @protected
-    TMApiData *_actionItem;
+    //TMApiData *_actionItem;
+    NSString *_actionItem;  ///< identify
 }
 /**
  * 如果用這個方法修改Diction內的資料可能無法正確更新到DB中
@@ -87,7 +57,7 @@ typedef enum
 @property (nonatomic          ) TMAPI_Thread_Type thread;
 
 //// Data
-@property (nonatomic, readonly) TMApiData *actionItem;
+@property (nonatomic, readonly) NSString *actionItem;
 @property (nonatomic, readonly) TMAPI_Mode  mode;
 @property (nonatomic, readonly) TMAPI_State state;
 @property (nonatomic)           TMAPI_Cache_Type cacheType;
@@ -95,18 +65,38 @@ typedef enum
 @property (nonatomic)           double      retryDelayTime;
 
 
++ (void) switchAPIDataStateFromInvalidDoing2Pending;
++ (void) switchAPIDataStateFromInvalid2Stop;
+
++ (void) startCheckCacheAPI;
++ (void) stopCheckCacheAPI;
+
++ (void) removeAllFinishAPIData;
+
 //// public
 
-- (id) initFromAction:(TMApiData *)aAction;
+/**
+ * initial object by special tag
+ * \param aAction special tag
+ */
+- (id) initFromAction:(NSString *)aAction;
 
+/**
+ * initial object by customize input content
+ * \param aInput customize input content
+ */
 - (id) initWithInput:(NSDictionary *)aInput;
 
+/**
+ * start to execute the api object, start to execute main function
+ * \param aDelegate set the delegate for respone
+ */
 - (void) startWithDelegate:(id<TMAPIModelProtocol>)aDelegate;
 
-- (BOOL) checkRetry;
-
-- (BOOL) retry;
-
+/**
+ * check the retry times and to do retry function or final function
+ *
+ */
 - (void) checkRetryAndDoRetryOrFinal;
 
 /// overwite

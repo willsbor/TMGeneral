@@ -122,6 +122,9 @@
 		AB5B0A5F1744A518002800E0 /* 33.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AB5B0A5E1744A518002800E0 /* 33.jpg */; };
 		AB5B0A621744A599002800E0 /* ImageTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB5B0A611744A599002800E0 /* ImageTestViewController.m */; };
 		AB5B0A641744A87D002800E0 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB5B0A631744A87D002800E0 /* CoreImage.framework */; };
+		AB932F4917895A5B00FB33E2 /* TMApiData+Plus.m in Sources */ = {isa = PBXBuildFile; fileRef = AB932F4817895A5B00FB33E2 /* TMApiData+Plus.m */; };
+		AB932F4A17895A5B00FB33E2 /* TMApiData+Plus.m in Sources */ = {isa = PBXBuildFile; fileRef = AB932F4817895A5B00FB33E2 /* TMApiData+Plus.m */; };
+		AB932F4B17895A5B00FB33E2 /* TMApiData+Plus.m in Sources */ = {isa = PBXBuildFile; fileRef = AB932F4817895A5B00FB33E2 /* TMApiData+Plus.m */; };
 		ABE621AB16A682E70096C5A8 /* GTMBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = ABFE8F87168803DF00649E88 /* GTMBase64.m */; };
 		ABE621AD16A682EC0096C5A8 /* GTMStringEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = ABFE8F841688034700649E88 /* GTMStringEncoding.m */; };
 		ABE6227416A9A5CE0096C5A8 /* TMTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ABE6227316A9A5CE0096C5A8 /* TMTableViewController.m */; };
@@ -236,6 +239,8 @@
 		AB5B0A601744A599002800E0 /* ImageTestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageTestViewController.h; sourceTree = "<group>"; };
 		AB5B0A611744A599002800E0 /* ImageTestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageTestViewController.m; sourceTree = "<group>"; };
 		AB5B0A631744A87D002800E0 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
+		AB932F4717895A5B00FB33E2 /* TMApiData+Plus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TMApiData+Plus.h"; sourceTree = "<group>"; };
+		AB932F4817895A5B00FB33E2 /* TMApiData+Plus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "TMApiData+Plus.m"; sourceTree = "<group>"; };
 		ABE6227216A9A5CE0096C5A8 /* TMTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMTableViewController.h; sourceTree = "<group>"; };
 		ABE6227316A9A5CE0096C5A8 /* TMTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMTableViewController.m; sourceTree = "<group>"; };
 		ABFE8F831688034700649E88 /* GTMStringEncoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMStringEncoding.h; sourceTree = "<group>"; };
@@ -469,6 +474,8 @@
 				AB0988B3172178EF0060E191 /* TMImageCache.m */,
 				AB4D7B331658B13200B5A2C3 /* TMApiData.h */,
 				AB4D7B341658B13200B5A2C3 /* TMApiData.m */,
+				AB932F4717895A5B00FB33E2 /* TMApiData+Plus.h */,
+				AB932F4817895A5B00FB33E2 /* TMApiData+Plus.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -747,6 +754,7 @@
 				AB09879E171C3E990060E191 /* TMDataManager.m in Sources */,
 				AB09879F171C3E990060E191 /* TMGlobalModel.m in Sources */,
 				AB5B0A621744A599002800E0 /* ImageTestViewController.m in Sources */,
+				AB932F4A17895A5B00FB33E2 /* TMApiData+Plus.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -776,6 +784,7 @@
 				AB098787171C3C340060E191 /* GTMBase64.m in Sources */,
 				AB098788171C3C340060E191 /* GTMStringEncoding.m in Sources */,
 				AB098893171FE4760060E191 /* TMUIToolTest.m in Sources */,
+				AB932F4B17895A5B00FB33E2 /* TMApiData+Plus.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -800,6 +809,7 @@
 				ABFE8F89168803DF00649E88 /* GTMBase64.m in Sources */,
 				ABE6227416A9A5CE0096C5A8 /* TMTableViewController.m in Sources */,
 				AB0988B4172178EF0060E191 /* TMImageCache.m in Sources */,
+				AB932F4917895A5B00FB33E2 /* TMApiData+Plus.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
