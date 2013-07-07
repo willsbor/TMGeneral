@@ -30,9 +30,9 @@
 - (NSData *) imageCacheImageDataByTag:(NSString *)aTagMD5;
 - (BOOL) isHaveImageDataByTag:(NSString *)aTagMD5;
 
-- (void) switchAPIDataStateFromInvalidDoing2Pending:(BOOL (^)(NSString *identify))isIdentifyInTempList;
-- (void) switchAPIDataStateFromInvalid2Stop;
+- (void) switchAPIDataStateFromInvalidDoing2Pending:(BOOL (^)(NSString *identify))isIdentifyInTempList; ///< need Unit test
+- (void) switchAPIDataStateFromInvalid2Stop; ///< need Unit test
 - (void) removeAllFinishAPIData;
-- (void) _checkAPIAction:(void (^)(TMApiData *object))aActionBlock;
+- (void) _checkAPIAction:(void (^)(TMApiData *object))aActionBlock;  ///< need Unit test
 
 @end

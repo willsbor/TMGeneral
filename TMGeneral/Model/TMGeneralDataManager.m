@@ -290,7 +290,7 @@ static TMGeneralDataManager *sharedInstance;
     
     [self executeBlock:^{
         NSManagedObjectContext *manaedObjectContext = self.managedObjectContext;
-        NSFetchRequest *fetchReq = [[NSFetchRequest alloc]init];
+        NSFetchRequest *fetchReq = [[NSFetchRequest alloc] init];
         [fetchReq setEntity:[NSEntityDescription entityForName:@"TMApiData" inManagedObjectContext:manaedObjectContext]];
         [fetchReq setPredicate:[NSPredicate predicateWithFormat:@"(cacheType == %d) AND (state == %d OR state == %d)",
                                 TMAPI_Cache_Type_EveryActive,
@@ -317,7 +317,7 @@ static TMGeneralDataManager *sharedInstance;
     
     [self executeBlock:^{
         NSManagedObjectContext *manaedObjectContext = self.managedObjectContext;
-        NSFetchRequest *fetchReq = [[NSFetchRequest alloc]init];
+        NSFetchRequest *fetchReq = [[NSFetchRequest alloc] init];
         [fetchReq setEntity:[NSEntityDescription entityForName:@"TMApiData" inManagedObjectContext:manaedObjectContext]];
         [fetchReq setPredicate:[NSPredicate predicateWithFormat:@"(state == %d or state == %d)",
                                 TMAPI_State_Init,
@@ -337,8 +337,8 @@ static TMGeneralDataManager *sharedInstance;
 {
     [self executeBlock:^{
         NSManagedObjectContext *manaedObjectContext = self.managedObjectContext;
-        NSFetchRequest *fetchReq = [[NSFetchRequest alloc]init];
-        [fetchReq setEntity:[NSEntityDescription entityForName:@"TMApiData" inManagedObjectContext:manaedObjectContext]];
+        NSFetchRequest *fetchReq = [[NSFetchRequest alloc] init];
+        [fetchReq setEntity:[NSEntityDescription entityForName:@"TMApiData" inManagedObjectContext:manaedObjectContext]];        
         [fetchReq setPredicate:[NSPredicate predicateWithFormat:@"(state == %d or state == %d)",
                                 TMAPI_State_Finished,
                                 TMAPI_State_Stop]];
@@ -349,6 +349,8 @@ static TMGeneralDataManager *sharedInstance;
         {
             [manaedObjectContext deleteObject:object];
         }
+        
+        [self save];
     }];
     
 }
@@ -357,7 +359,7 @@ static TMGeneralDataManager *sharedInstance;
 {
     [self executeBlock:^{
         NSManagedObjectContext *manaedObjectContext = self.managedObjectContext;
-        NSFetchRequest *fetchReq = [[NSFetchRequest alloc]init];
+        NSFetchRequest *fetchReq = [[NSFetchRequest alloc] init];
         [fetchReq setEntity:[NSEntityDescription entityForName:@"TMApiData" inManagedObjectContext:manaedObjectContext]];
         [fetchReq setPredicate:[NSPredicate predicateWithFormat:@"(cacheType == %d OR cacheType == %d) AND (state == %d)",
                                 TMAPI_Cache_Type_EveryActive,

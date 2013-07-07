@@ -99,7 +99,9 @@
 - (void) testActiveApiAndThenDeleteFromDBAndCancel
 {
     
-    TMAPIModel *api = [[TMAPIModel alloc] initWithInput:@{}];
+    TMAPIModelTest *api = [[TMAPIModelTest alloc] initWithInput:@{}];
+    NSString *actiontag = api.actionItem;
+    NSLog(@"Debug : actiontag = %@", actiontag); 
     
     TMViewController *testVC = [[TMViewController alloc] init];
     [testVC executeAPI:api];
@@ -109,13 +111,26 @@
 		[[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:asyncWaitUntil];
 	}
 
+    [[TMGeneralDataManager sharedInstance] executeBlock:^{
+        TMApiData *apiData = [[TMGeneralDataManager sharedInstance] _getApiDataByIdentify:actiontag];
+        
+        STAssertNotNil(apiData.identify, @"");
+    }];
+
+    
     [TMAPIModel removeAllFinishAPIData];
     
-    asyncWaitUntil = [NSDate dateWithTimeIntervalSinceNow:1];
-    while ( [asyncWaitUntil timeIntervalSinceNow] > 0) {
-		[[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:asyncWaitUntil];
-	}
+    //asyncWaitUntil = [NSDate dateWithTimeIntervalSinceNow:1];
+    //while ( [asyncWaitUntil timeIntervalSinceNow] > 0) {
+	//	[[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:asyncWaitUntil];
+	//}
 
+    [[TMGeneralDataManager sharedInstance] executeBlock:^{
+        TMApiData *apiData = [[TMGeneralDataManager sharedInstance] _getApiDataByIdentify:actiontag];
+        
+        STAssertNil(apiData, @"");
+    }];
+    
     [testVC viewWillDisappear:YES];
 }
 
