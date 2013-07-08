@@ -396,6 +396,56 @@
     
 }
 
+- (AFHTTPRequestOperation *) setImageOperationByImageURL:(NSString *)aURL withTag:(NSString *)aTag andType:(TMImageControl_Type)aType toComplete:(void (^)(UIImage *aImage, NSError *error))aComplete
+{
+    NSString *aTagMD5 = tmStringFromMD5([self _tagByInputTag:aTag andInputUrl:aURL]);
+    
+    NSString *cacheItemTag = [self _createCacheItemFrom:aURL withTagMD5:aTagMD5 andType:aType];
+    
+    
+    void (^getDataFinishBlock)(NSData *aImageNSData, NSError *error) = ^(NSData *aImageNSData, NSError *error) {
+        UIImage *resultI = [UIImage imageWithData:aImageNSData];
+        if (self.ImageModify != nil) resultI = _ImageModify(resultI, error);
+        if (aComplete) aComplete(resultI, error);
+    };
+    
+    if (cacheItemTag == nil) {
+        /// 理論上不可能到這裡
+        NSAssert(FALSE, @"there must be a item");
+    } else {
+        //////// 有圖的話
+        ////////// 顯示
+        
+        if ([[TMGeneralDataManager sharedInstance] isHaveImageDataByTag:cacheItemTag]) {
+            if (aType == TMImageControl_Type_FirstTime
+                || aType == TMImageControl_Type_UpdateEveryTime) {
+                NSData *imageData = [[TMGeneralDataManager sharedInstance] imageCacheImageDataByTag:cacheItemTag];
+                getDataFinishBlock(imageData, nil);
+                
+                return nil;
+            }
+        }
+    }
+    
+    if (aType == TMImageControl_Type_UpdateEveryTime
+        || aType == TMImageControl_Type_NoCache
+        || (aType == TMImageControl_Type_FirstTime && NO == [[TMGeneralDataManager sharedInstance] isHaveImageDataByTag:cacheItemTag])) {
+        
+        if (aURL == nil || [aURL length] == 0) {
+            
+            //[self finishAndUpdateImage:nil WithTagMD5:aItem.tag];
+            if (aComplete) aComplete(nil, [self _errorURLisNil]);
+            return nil;
+        }
+        
+        AFHTTPRequestOperation *operation = [self _getOperationFrom:aURL AndSaveIn:cacheItemTag toComplete:getDataFinishBlock];
+        
+        return operation;
+    }
+    
+    return nil;
+}
+
 #pragma mark - private
 
 - (NSString *) _tagByInputTag:(NSString *)aTag andInputUrl:(NSString *)aURL
@@ -459,8 +509,26 @@
     return error;
 }
 
+- (AFHTTPRequestOperation *) _getOperationFrom:(NSString *)aUrl AndSaveIn:(NSString *)aItemTag toComplete:(void (^)(NSData *aImageNSData, NSError *error))aComplete
+{
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:aUrl]];
+    [request setHTTPShouldHandleCookies:NO];
+    [request setHTTPShouldUsePipelining:YES];
+    [request addValue:@"image/*" forHTTPHeaderField:@"Accept"];
+    
+    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [[TMGeneralDataManager sharedInstance] imageCache:aItemTag setData:responseObject];
+        NSData *imageData = [[TMGeneralDataManager sharedInstance] imageCacheImageDataByTag:aItemTag];
+        if (aComplete) aComplete(imageData, nil);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        if (aComplete) aComplete(nil, [self _errorServerErrorWithCode:error andStatusCode:operation.response.statusCode]);
+    }];
+    
+    return operation;
+}
 
-- (void) _getDataFrom:(NSString *)aUrl AndSaveIn:(NSString *)aItem toComplete:(void (^)(NSData *aImageNSData, NSError *error))aComplete
+- (void) _getDataFrom:(NSString *)aUrl AndSaveIn:(NSString *)aItemTag toComplete:(void (^)(NSData *aImageNSData, NSError *error))aComplete
 {
     if (aUrl == nil || [aUrl length] == 0) {
         
@@ -469,20 +537,7 @@
         return;
     }
     
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:aUrl]];
-    [request setHTTPShouldHandleCookies:NO];
-    [request setHTTPShouldUsePipelining:YES];
-    [request addValue:@"image/*" forHTTPHeaderField:@"Accept"];
-    
-    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
-    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-        [[TMGeneralDataManager sharedInstance] imageCache:aItem setData:responseObject];
-        NSData *imageData = [[TMGeneralDataManager sharedInstance] imageCacheImageDataByTag:aItem];
-        if (aComplete) aComplete(imageData, nil);
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        if (aComplete) aComplete(nil, [self _errorServerErrorWithCode:error andStatusCode:operation.response.statusCode]);
-    }];
-    
+    AFHTTPRequestOperation *operation = [self _getOperationFrom:aUrl AndSaveIn:aItemTag toComplete:aComplete];
     [operation start];
 }
 

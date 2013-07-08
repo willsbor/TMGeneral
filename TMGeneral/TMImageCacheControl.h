@@ -35,6 +35,7 @@ typedef enum
 typedef UIImage* (^TMICImageModify)(UIImage *, NSError *);
 
 @class TMImageCacheControl;
+@class AFHTTPRequestOperation;
 @protocol TMImageCacheControlPreloadProtocol <NSObject>
 
 @optional
@@ -63,6 +64,8 @@ typedef UIImage* (^TMICImageModify)(UIImage *, NSError *);
              withTag:(NSString *)aTag
              andType:(TMImageControl_Type)aType
           andOptions:(NSDictionary *)aOptions;
+
+- (AFHTTPRequestOperation *) setImageOperationByImageURL:(NSString *)aURL withTag:(NSString *)aTag andType:(TMImageControl_Type)aType toComplete:(void (^)(UIImage *aImage, NSError *error))aComplete;
 
 /**
  * 下面為擷取一個網址的圖片，結果會引到block，但是存取中的重複讀取(time issue) 尚未做最佳化與處理
