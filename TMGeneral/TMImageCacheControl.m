@@ -420,8 +420,9 @@
             if (aType == TMImageControl_Type_FirstTime
                 || aType == TMImageControl_Type_UpdateEveryTime) {
                 NSData *imageData = [[TMGeneralDataManager sharedInstance] imageCacheImageDataByTag:cacheItemTag];
-                getDataFinishBlock(imageData, nil);
-                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    getDataFinishBlock(imageData, nil);
+                });
                 return nil;
             }
         }
@@ -434,7 +435,9 @@
         if (aURL == nil || [aURL length] == 0) {
             
             //[self finishAndUpdateImage:nil WithTagMD5:aItem.tag];
-            if (aComplete) aComplete(nil, [self _errorURLisNil]);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (aComplete) aComplete(nil, [self _errorURLisNil]);
+            });
             return nil;
         }
         
