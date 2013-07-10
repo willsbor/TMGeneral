@@ -53,6 +53,10 @@ typedef enum {
 ///   aHiddenTime < =0 is show all the time
 - (void) waitingViewShowAtPoint:(CGPoint)aPoint withText:(NSString *)aText withDelayHidden:(NSTimeInterval)aHiddenTime;
 
+- (void) waitingViewShowAtPoint:(CGPoint)aPoint withText:(NSString *)aText withBtnAction:(void (^)(void))aAction;
+///   aHiddenTime < =0 is show all the time
+- (void) waitingViewShowAtPoint:(CGPoint)aPoint withText:(NSString *)aText withDelayHidden:(NSTimeInterval)aHiddenTime withBtnAction:(void (^)(void))aAction;
+
 /**
  * 設定 檢查一個flag 如果為nil or NO 則會執行 action 然後 將flag設定成 YES;
  */

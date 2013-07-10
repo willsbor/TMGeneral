@@ -21,10 +21,12 @@ const NSString *TMGlobalAppModeCustome3 = @"TMG_AppMode_Custome_3";
 @interface TMGlobalModel ()
 {
     TMGlobal_AppMode _defaultAppMode;
+    
 }
 @property (nonatomic, strong) NSDictionary *appModeValueMap;
 @property (nonatomic, strong) UIView *waitingView;
 @property (nonatomic, strong) NSTimer *waitingViewCloseTimer;
+@property (nonatomic, copy) void (^waitingViewAction)(void);
 @end
 
 @implementation TMGlobalModel
@@ -48,6 +50,18 @@ static CGFloat g_waitingWidthMargin = 0;
     g_waitingWidthMargin = aWidthMargin;
 }
 
+// Load the framework bundle.
+- (NSBundle *)frameworkBundle {
+    static NSBundle* frameworkBundle = nil;
+    static dispatch_once_t predicate;
+    dispatch_once(&predicate, ^{
+        NSString* mainBundlePath = [[NSBundle mainBundle] resourcePath];
+        NSString* frameworkBundlePath = [mainBundlePath stringByAppendingPathComponent:@"TMGeneralResource.bundle"];
+        frameworkBundle = [NSBundle bundleWithPath:frameworkBundlePath];
+    });
+    return frameworkBundle;
+}
+
 - (void) cleanWaitingViewForLang
 {
     [self.waitingView removeFromSuperview];
@@ -62,10 +76,7 @@ static CGFloat g_waitingWidthMargin = 0;
         return NO;
 }
 
-- (void) waitingViewShowAtPoint:(CGPoint)aPoint withText:(NSString *)aText
-{
-    [self waitingViewShowAtPoint:aPoint withText:aText withDelayHidden:-1];
-}
+
 
 - (void) waitingViewHidden
 {
@@ -84,16 +95,42 @@ static CGFloat g_waitingWidthMargin = 0;
     }
 }
 
+- (void) waitingViewShowAtPoint:(CGPoint)aPoint withText:(NSString *)aText
+{
+    [self waitingViewShowAtPoint:aPoint withText:aText withDelayHidden:-1 withBtnAction:nil];
+}
+
+- (void) waitingViewShowAtPoint:(CGPoint)aPoint withText:(NSString *)aText withBtnAction:(void (^)(void))aAction
+{
+    [self waitingViewShowAtPoint:aPoint withText:aText withDelayHidden:-1 withBtnAction:aAction];
+}
+
 - (void) waitingViewShowAtPoint:(CGPoint)aPoint withText:(NSString *)aText withDelayHidden:(NSTimeInterval)aHiddenTime
+{
+    [self waitingViewShowAtPoint:aPoint withText:aText withDelayHidden:aHiddenTime withBtnAction:nil];
+}
+
+- (IBAction)clickActionBtn:(id)sender
+{
+    if (_waitingViewAction) _waitingViewAction();
+}
+
+- (void) waitingViewShowAtPoint:(CGPoint)aPoint withText:(NSString *)aText withDelayHidden:(NSTimeInterval)aHiddenTime withBtnAction:(void (^)(void))aAction
 {
     static CGFloat upBottomBuffer = 8;
     static CGFloat defaultActivityIndWidth = 20.0;   /*activityIndicator 要預留的寬度*/
     static CGFloat cBuffer = 5.0;
     static CGFloat tBuffer = 4.0;  ///< 我也忘了這是什麼
+    static CGFloat actionBtnWidth = 30.0;
+    static CGFloat actionBtnHeight = 30.0;
+    static CGFloat actionBtnImgWidth = 19.0;
+    //static CGFloat actionBtnImgHeight = 19.0;
     
     if (g_baseView == nil) {
         return;
     }
+    
+    self.waitingViewAction = aAction;
     
     CGSize screenSize = [[ UIScreen mainScreen ] bounds ].size;
     UIFont *font = [UIFont systemFontOfSize:12.0];
@@ -102,6 +139,7 @@ static CGFloat g_waitingWidthMargin = 0;
     
     UIActivityIndicatorView *pV;
     UILabel *text;
+    UIButton *actionBtn;
     if (self.waitingView == nil) {
         if (aText == nil) {
             aText = @" ";
@@ -136,12 +174,21 @@ static CGFloat g_waitingWidthMargin = 0;
         text.tag = 24632;
         [self.waitingView addSubview:text];
         
+        actionBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
+        actionBtn.tag = 24633;
+        actionBtn.frame = CGRectMake(text.frame.origin.x + text.frame.size.width, 0, actionBtnWidth, actionBtnHeight);
+        UIImage *image = [UIImage imageWithContentsOfFile:[[self frameworkBundle] pathForResource:@"x" ofType:@"png"]];
+        [actionBtn setImage:image forState:(UIControlStateNormal)];
+        [actionBtn addTarget:self action:@selector(clickActionBtn:) forControlEvents:(UIControlEventTouchUpInside)];
+        [self.waitingView addSubview:actionBtn];
+        
         [g_baseView addSubview:self.waitingView];
         
         self.waitingView.alpha = 0.0;
     } else {
         text = (UILabel *)[self.waitingView viewWithTag:24632];
         pV = (UIActivityIndicatorView *)[self.waitingView viewWithTag:3233];
+        actionBtn = (UIButton *)[self.waitingView viewWithTag:24633];
     }
     
     [self.waitingViewCloseTimer invalidate];
@@ -155,13 +202,27 @@ static CGFloat g_waitingWidthMargin = 0;
         text.frame = f;
         
         f = self.waitingView.frame;
-        f.size.width = cBuffer + defaultActivityIndWidth + cBuffer + text.frame.size.width + cBuffer;
+        if (self.waitingViewAction) {
+            f.size.width = cBuffer + defaultActivityIndWidth + cBuffer + text.frame.size.width + cBuffer + actionBtnImgWidth;
+        } else
+            f.size.width = cBuffer + defaultActivityIndWidth + cBuffer + text.frame.size.width + cBuffer;
+        
         f.size.height = textSize.height + upBottomBuffer * 2;
         newf = f;
         
         f = pV.frame;
         f.origin.y = (newf.size.height - f.size.height) / 2;
         pV.frame = f;
+        
+        if (self.waitingViewAction) {
+            f = actionBtn.frame;
+            f.origin.x = text.frame.origin.x + text.frame.size.width - (actionBtnWidth - actionBtnImgWidth) / 2;
+            f.origin.y = (newf.size.height - f.size.height) / 2;
+            actionBtn.frame = f;
+            actionBtn.alpha = 1.0;
+        } else {
+            actionBtn.alpha = 0.0;
+        }
     }
     
     if (!(aPoint.x == -3333 && aPoint.y == -3333)) {
