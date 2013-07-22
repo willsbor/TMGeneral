@@ -527,6 +527,10 @@
             
             
             [item.targetTextField resignFirstResponder];
+            if (item.delegate != nil && [item.delegate respondsToSelector:@selector(keyboard:didCloseKeyboard:)]) {
+                [item.delegate keyboard:self didCloseKeyboard:item];
+            }
+            
         } else
             _isShowKB = NO;
     } else if (item.tartgetTextView != nil) {
@@ -551,6 +555,10 @@
             
             
             [item.tartgetTextView resignFirstResponder];
+            if (item.delegate != nil && [item.delegate respondsToSelector:@selector(keyboard:didCloseKeyboard:)]) {
+                [item.delegate keyboard:self didCloseKeyboard:item];
+            }
+            
         } else
             _isShowKB = NO;
     } else

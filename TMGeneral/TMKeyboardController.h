@@ -38,8 +38,8 @@
 @optional
 - (void) keyboard:(TMKeyboardController *)aKeyControl willModifySelectOfItem:(TMKeyboardItem *)aKeyItem ;
 - (void) keyboard:(TMKeyboardController *)aKeyControl didModifySelectOfItem:(TMKeyboardItem *)aKeyItem;
-
 - (void) keyboard:(TMKeyboardController *)aKeyControl changeInputAndWithSelectBarHeight:(CGFloat)aSelectBarHeight andKeyBoardHeight:(CGFloat)aKeyboardHeight;
+- (void) keyboard:(TMKeyboardController *)aKeyControl didCloseKeyboard:(TMKeyboardItem *)aKeyItem;
 
 @end
 
