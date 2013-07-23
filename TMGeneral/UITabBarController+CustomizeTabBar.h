@@ -1,7 +1,7 @@
 /*
  UITabBarController+CustomizeTabBar.h
  
- Copyright (c) 2012 willsbor Kang at ThinkerMobile
+ Copyright (c) 2012 willsbor Kang
  
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -25,9 +25,11 @@
 
 #import <UIKit/UIKit.h>
 
-#define CUSTOMIZE_TABBAR_VIEW_BASE_TAG_VALUE  65534
+//#define CUSTOMIZE_TABBAR_VIEW_BASE_TAG_VALUE  65534
 
 @interface UITabBarController (CustomizeTabBar)
+
+@property (nonatomic, readonly) UIView *customTabView;
 
 /**
  * @brief 客製化tabbar  輸入要使用的 view + button

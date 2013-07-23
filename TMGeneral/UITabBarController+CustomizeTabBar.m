@@ -1,7 +1,7 @@
 /*
  UITabBarController+CustomizeTabBar.m
  
- Copyright (c) 2012 willsbor Kang at ThinkerMobile
+ Copyright (c) 2012 willsbor Kang
  
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -23,8 +23,27 @@
  */
 
 #import "UITabBarController+CustomizeTabBar.h"
+#import <objc/runtime.h>
+
+static char UITABBAR_IDENTIFER;
 
 @implementation UITabBarController (CustomizeTabBar)
+@dynamic customTabView;
+
+- (UIView *) customTabView
+{
+    return objc_getAssociatedObject(self, &UITABBAR_IDENTIFER);
+}
+
+- (void) setCustomTabView:(UIView *)customTabView
+{
+    objc_setAssociatedObject(self, &UITABBAR_IDENTIFER, customTabView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (void)dealloc
+{
+    [self setCustomTabView:nil];
+}
 
 - (void)hideExistingTabBar
 {
@@ -90,15 +109,16 @@
     //// 
     //  如果 aView 用同一個 多次載入  可能會造成 crash  還找不到原因
     ////
-    [aView removeFromSuperview];
+    [self.customTabView removeFromSuperview];
+    self.customTabView = aView;
     
-    aView.tag = CUSTOMIZE_TABBAR_VIEW_BASE_TAG_VALUE;
+    //aView.tag = CUSTOMIZE_TABBAR_VIEW_BASE_TAG_VALUE;
     
-    aView.frame = aRectFrame;
+    self.customTabView.frame = aRectFrame;
 
     // GET ALL UIButton
     
-	for(UIView *bv in aView.subviews)
+	for(UIView *bv in self.customTabView.subviews)
 	{
 		if([bv isKindOfClass:[UIButton class]])
 		{
@@ -112,7 +132,7 @@
 		}
 	}
 
-    [self.view addSubview:aView];
+    [self.view addSubview:self.customTabView];
     [self hideExistingTabBar];
 }
 
