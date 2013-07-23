@@ -26,9 +26,11 @@
 #import <objc/runtime.h>
 
 static char UITABBAR_IDENTIFER;
+static char UITABBAR_BUTTONS_IDENTIFER;
 
 @implementation UITabBarController (CustomizeTabBar)
 @dynamic customTabView;
+@dynamic customButtonArrays;
 
 - (UIView *) customTabView
 {
@@ -40,9 +42,20 @@ static char UITABBAR_IDENTIFER;
     objc_setAssociatedObject(self, &UITABBAR_IDENTIFER, customTabView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
+- (NSArray *) customButtonArrays
+{
+    return objc_getAssociatedObject(self, &UITABBAR_BUTTONS_IDENTIFER);
+}
+
+- (void) setCustomButtonArrays:(NSArray *)buttonArrays
+{
+    objc_setAssociatedObject(self, &UITABBAR_BUTTONS_IDENTIFER, buttonArrays, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
 - (void)dealloc
 {
     [self setCustomTabView:nil];
+    [self setCustomButtonArrays:nil];
 }
 
 - (void)hideExistingTabBar
@@ -78,33 +91,25 @@ static char UITABBAR_IDENTIFER;
     
     if (sender != nil)
     {
-        //HiiirLog(@"adsdf %d", ((UIButton *)sender).tag );
+        UIButton *prevBtn = [self.customButtonArrays objectAtIndex:self.selectedIndex];
+        prevBtn.selected = NO;
         
-        if (((UIButton *)sender).tag < [self.viewControllers count])
-        {
-            ///workaround
-            UIView *superview = ((UIButton *)sender).superview;
-            ((UIButton *)[superview viewWithTag:self.selectedIndex]).selected = NO;
-            ////
-            
-            self.selectedIndex = ((UIButton *)sender).tag;
-            ((UIButton *)sender).selected = YES;
-            
-        }
+        NSInteger nowIndex = [self.customButtonArrays indexOfObject:sender];
+        self.selectedIndex = nowIndex;
+        ((UIButton *)sender).selected = YES;
     }
     processing = NO;
 }
 
-
-
--(void) loadCustomTab:(UIView *)aView
+- (void) loadDefaultPositionCustomTab:(UIView *)aView AndButtons:(NSArray *)aButtons
 {
+    aView.frame = CGRectMake(0, self.view.frame.size.height - aView.frame.size.height,aView.frame.size.width, aView.frame.size.height);
     aView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
     
-    [self loadCustomTab:aView AtRect:CGRectMake(0, self.view.frame.size.height - aView.frame.size.height,aView.frame.size.width, aView.frame.size.height)];
+    [self loadCustomTab:aView AndButtons:aButtons];
 }
 
-- (void) loadCustomTab:(UIView *)aView AtRect:(CGRect)aRectFrame
+- (void) loadCustomTab:(UIView *)aView AndButtons:(NSArray *)aButtons
 {
     //// 
     //  如果 aView 用同一個 多次載入  可能會造成 crash  還找不到原因
@@ -112,28 +117,36 @@ static char UITABBAR_IDENTIFER;
     [self.customTabView removeFromSuperview];
     self.customTabView = aView;
     
-    //aView.tag = CUSTOMIZE_TABBAR_VIEW_BASE_TAG_VALUE;
+    self.customButtonArrays = aButtons;
     
-    self.customTabView.frame = aRectFrame;
+    //aView.tag = CUSTOMIZE_TABBAR_VIEW_BASE_TAG_VALUE;
 
     // GET ALL UIButton
     
-	for(UIView *bv in self.customTabView.subviews)
+	for(UIButton *bv in self.customButtonArrays)
 	{
-		if([bv isKindOfClass:[UIButton class]])
-		{
-            [((UIButton *)bv) removeTarget:self action:@selector(click:) forControlEvents:(UIControlEventTouchUpInside)];
-			[(UIButton *)bv addTarget:self action:@selector(click:) forControlEvents:(UIControlEventTouchUpInside)];
-            
-            if (bv.tag == self.selectedIndex)
-            {
-                ((UIButton *)bv).selected = YES;
-            }
-		}
+        [((UIButton *)bv) removeTarget:self action:@selector(click:) forControlEvents:(UIControlEventTouchUpInside)];
+        [(UIButton *)bv addTarget:self action:@selector(click:) forControlEvents:(UIControlEventTouchUpInside)];
+        
+        if (bv.tag == self.selectedIndex)
+        {
+            (bv).selected = YES;
+        }
 	}
 
     [self.view addSubview:self.customTabView];
     [self hideExistingTabBar];
+}
+
+- (void) customTabbarHidden:(BOOL)aHidden animation:(BOOL)animation
+{
+    if (animation) {
+        [UIView animateWithDuration:0.3 animations:^{
+            self.customTabView.alpha = (aHidden) ? 0.0 : 1.0;
+        }];
+    } else
+        self.customTabView.alpha = (aHidden) ? 0.0 : 1.0;
+
 }
 
 @end

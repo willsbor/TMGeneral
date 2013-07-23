@@ -30,6 +30,7 @@
 @interface UITabBarController (CustomizeTabBar)
 
 @property (nonatomic, readonly) UIView *customTabView;
+@property (nonatomic, readonly) NSArray *customButtonArrays;
 
 /**
  * @brief 客製化tabbar  輸入要使用的 view + button
@@ -39,16 +40,10 @@
  * @param aView 欲使用的UIView
  * @see - (void) loadCustomTab:(UIView *)aView AtCenter:(CGPoint)aCenter;
 */
-- (void) loadCustomTab:(UIView *)aView;
+- (void) loadCustomTab:(UIView *)aView AndButtons:(NSArray *)aButtons;
 
-/**
- * @brief 客製化tabbar  輸入要使用的 view + button
- * 
- * 要對  裡面的 UIButton  設定其 tag value from 0 to N  且位於 UIView的第一層
- * 其餘物件的tag  不可落在 0 ~ N 之間
- * @param aView 欲使用的UIView
- * @param aRectFrame Custume tabbar 要放置的中心位置
- */
-- (void) loadCustomTab:(UIView *)aView AtRect:(CGRect)aRectFrame;
+- (void) loadDefaultPositionCustomTab:(UIView *)aView AndButtons:(NSArray *)aButtons;
+
+- (void) customTabbarHidden:(BOOL)aHidden animation:(BOOL)animation;
 
 @end
