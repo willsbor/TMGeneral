@@ -8,14 +8,12 @@
 
 #import "TMGeneralDataManager.h"
 #import "TMDataManager+Protected.h"
-#import "TMAPIModel.h"
-#import "TMApiData.h"
+#import "TMApiData+Plus.h"
 #import "TMImageCache.h"
 
 #import "TMTools.h"
 
 @implementation TMGeneralDataManager
-@synthesize apiIdentifyList = _apiIdentifyList;
 
 static TMGeneralDataManager *sharedInstance;
 
@@ -31,20 +29,257 @@ static TMGeneralDataManager *sharedInstance;
 	return sharedInstance;
 }
 
-static NSTimer *g_checkCacheAPITimer = nil;
-
-- (BOOL) isIdentifyInTempList:(NSString *)aIdentify
+- (NSString *)managedObjectModelName
 {
-    for (TMAPIModel *object in self.apiIdentifyList) {
-        if ([object.actionItem.identify isEqualToString:aIdentify]) {
-            return YES;
-        }
-    }
-    
-    return NO;
+    return @"TMGeneralDataModel";
 }
 
-- (void) switchAPIDataStateFromInvalidDoing2Pending
+#pragma mark -
+
+- (NSString *) createTMApiDataWith:(void (^)(TMApiData *apidata))aSetting
+{
+    __block NSString *_itemID;
+    /// 創造一個新的資料物件
+    [self executeBlock:^{
+        NSManagedObjectContext *manaedObjectContext = self.managedObjectContext;
+        TMApiData *_actionItem = [NSEntityDescription insertNewObjectForEntityForName:@"TMApiData"
+                                                    inManagedObjectContext:manaedObjectContext];
+        
+        _actionItem.objectName = NSStringFromClass([self class]);   ///< 返回執行時要啟動的 object
+        NSLog(@"TMAPIModel save in DB and target class [inside] : %@", _actionItem.objectName);
+        _actionItem.createTime = _actionItem.lastActionTime = [NSDate date];
+        _actionItem.identify = tmStringFromMD5([NSString stringWithFormat:@"%f", [_actionItem.createTime timeIntervalSince1970]]);
+        
+        _actionItem.retryDelayTime = @TMAPIMODEL_DEFAULT_RETRY_DELAY_TIME;
+        _actionItem.type = [NSNumber numberWithInt:TMAPI_Type_General];
+        _actionItem.cacheType = [NSNumber numberWithInt:TMAPI_Cache_Type_None];
+        _actionItem.state = [NSNumber numberWithInt:TMAPI_State_Init];
+        _actionItem.retryTimes = @3;
+        _actionItem.mode = [NSNumber numberWithInt:TMAPI_Mode_Leave_With_Cancel];
+        
+        if (aSetting) aSetting(_actionItem);
+        
+        //[self save];
+        _itemID = [_actionItem.identify copy];
+        
+        [self save];
+    }];
+    
+    return _itemID;
+}
+
+- (void) changeApiData:(NSString *)aIdentify With:(void (^)(TMApiData *apidata))aSetting
+{
+    [self executeBlock:^{
+         TMApiData *aData = [self _getApiDataByIdentify:aIdentify];
+        aSetting(aData);
+    }];
+}
+
+- (void) changeApiData:(NSString *)aIdentify Status:(NSInteger) aState
+{
+    [self changeApiData:aIdentify With:^(TMApiData *apidata) {
+        apidata.state = [NSNumber numberWithInteger:aState];
+    }];
+}
+
+- (void) changeApiData:(NSString *)aIdentify CacheType:(NSInteger)aCacheType
+{
+    [self changeApiData:aIdentify With:^(TMApiData *apidata) {
+        apidata.cacheType = [NSNumber numberWithInteger:aCacheType];
+    }];
+}
+
+- (void) changeApiData:(NSString *)aIdentify RetryTimes:(NSInteger)aRetryTimes
+{
+    [self changeApiData:aIdentify With:^(TMApiData *apidata) {
+        apidata.retryTimes = [NSNumber numberWithInteger:aRetryTimes];
+    }];
+}
+
+- (void) changeApiData:(NSString *)aIdentify  RetryDelayTimes:(double)aRetryDelayTimes
+{
+    [self changeApiData:aIdentify With:^(TMApiData *apidata) {
+        apidata.retryDelayTime = [NSNumber numberWithDouble:aRetryDelayTimes];
+    }];
+}
+
+- (id) returnObjectByKey:(NSString *)aKey OfIdentify:(NSString *)aIdentify
+{
+    __block id result = nil;
+    [self executeBlock:^{
+        TMApiData *api = [self _getApiDataByIdentify:aIdentify];
+        
+        result = [[api valueForKey:aKey] copy];
+    }];
+    
+    return result;
+}
+
+/// FAILED FUNCTION
+- (TMApiData *) getTMApiDataOnMainByID:(NSString *)aIdentify
+{
+    NSManagedObjectContext *manaedObjectContext = self.mainThreadManagedObjectContext;
+    NSFetchRequest *fetchReq = [[NSFetchRequest alloc]init];
+    [fetchReq setEntity:[NSEntityDescription entityForName:@"TMApiData" inManagedObjectContext:manaedObjectContext]];
+    [fetchReq setPredicate:[NSPredicate predicateWithFormat:@"identify == %@", aIdentify]];
+    
+    NSArray *resultArray = [manaedObjectContext executeFetchRequest:fetchReq error:nil];
+    
+    TMApiData *result = nil;
+    if ([resultArray count] == 1) {
+        result = [resultArray objectAtIndex:0];
+    }
+    else if ([resultArray count] == 0) {
+        
+    } else {
+        assert(@"重複");
+    }
+    
+    return result;
+}
+
+- (NSString *) createImageCacheWithTagMD5:(NSString *)aTagMD5 andType:(TMImageControl_Type)aType
+{
+    __block NSString *tag = nil;
+    [self executeBlock:^{
+        TMImageCache *_actionItem = [self _imageCacheByTag:aTagMD5];
+        if (_actionItem) {
+
+        } else {
+            ///   == nil
+            NSManagedObjectContext *manaedObjectContext = self.managedObjectContext;
+            _actionItem = [NSEntityDescription insertNewObjectForEntityForName:@"TMImageCache"
+                                                        inManagedObjectContext:manaedObjectContext];
+            _actionItem.tag = aTagMD5;
+            _actionItem.identify = tmStringFromMD5([NSString stringWithFormat:@"%@%f", aTagMD5, [[NSDate date] timeIntervalSince1970]]);
+            _actionItem.type = [NSNumber numberWithInt:aType];
+            
+            [self save];
+        }
+        
+        tag = _actionItem.tag;
+    }];
+    
+    return tag;
+}
+
+- (NSData *) imageCacheImageDataByTag:(NSString *)aTagMD5
+{
+    __block NSData *imageData = nil;
+    [self executeBlock:^{
+        
+        NSManagedObjectContext *manaedObjectContext = self.managedObjectContext;
+        NSFetchRequest *fetchReq = [[NSFetchRequest alloc] init];
+        [fetchReq setEntity:[NSEntityDescription entityForName:@"TMImageCache"
+                                        inManagedObjectContext:manaedObjectContext]];
+        
+        [fetchReq setPredicate:[NSPredicate predicateWithFormat:@"tag == %@", aTagMD5]];
+        
+        NSArray *resultArray = [manaedObjectContext executeFetchRequest:fetchReq error:nil];
+        
+        TMImageCache *_actionItem = nil;
+        if ([resultArray count] == 1) {
+            _actionItem = [resultArray objectAtIndex:0];
+            
+            imageData = [_actionItem.data copy];
+        } else if ([resultArray count] == 0) {
+            
+        } else {
+            assert(@"重複");
+        }
+        
+        [self save];
+    }];
+    
+    return imageData;
+}
+
+- (void) imageCache:(NSString *)aTagMD5 setData:(NSData *)aImageData
+{
+    [self executeBlock:^{
+
+        TMImageCache *_actionItem = [self _imageCacheByTag:aTagMD5];
+        if (_actionItem) {
+            _actionItem.data = aImageData;
+            _actionItem.lastDate = [NSDate date];
+            
+            [self save];
+        } 
+
+    }];
+}
+
+- (BOOL) isHaveImageDataByTag:(NSString *)aTagMD5
+{
+    __block BOOL have = NO;
+    [self executeBlock:^{
+        
+        TMImageCache *_actionItem = [self _imageCacheByTag:aTagMD5];
+        if (_actionItem) {
+            if (_actionItem.data) {
+                have = YES;
+            }
+        }
+        
+    }];
+    
+    return have;
+}
+
+#pragma mark - private
+
+- (TMApiData *) _getApiDataByIdentify:(NSString *)aIdentify
+{
+    
+    NSManagedObjectContext *manaedObjectContext = self.managedObjectContext;
+    NSFetchRequest *fetchReq = [[NSFetchRequest alloc]init];
+    [fetchReq setEntity:[NSEntityDescription entityForName:@"TMApiData" inManagedObjectContext:manaedObjectContext]];
+    [fetchReq setPredicate:[NSPredicate predicateWithFormat:@"identify == %@", aIdentify]];
+    
+    NSArray *resultArray = [manaedObjectContext executeFetchRequest:fetchReq error:nil];
+    
+    TMApiData *result = nil;
+    if ([resultArray count] == 1) {
+        result = [resultArray objectAtIndex:0];
+    }
+    else if ([resultArray count] == 0) {
+        
+    } else {
+        assert(@"重複");
+    }
+    
+    return result;
+}
+
+- (TMImageCache *) _imageCacheByTag:(NSString *)aTagMD5
+{
+    TMImageCache *_actionItem = nil;
+    NSManagedObjectContext *manaedObjectContext = self.managedObjectContext;
+    NSFetchRequest *fetchReq = [[NSFetchRequest alloc] init];
+    [fetchReq setEntity:[NSEntityDescription entityForName:@"TMImageCache"
+                                    inManagedObjectContext:manaedObjectContext]];
+    
+    [fetchReq setPredicate:[NSPredicate predicateWithFormat:@"tag == %@", aTagMD5]];
+    
+    NSArray *resultArray = [manaedObjectContext executeFetchRequest:fetchReq error:nil];
+    
+    if ([resultArray count] == 1) {
+        _actionItem = [resultArray objectAtIndex:0];
+    } else if ([resultArray count] == 0) {
+        
+    } else {
+        assert(@"重複");
+    }
+    
+    return _actionItem;
+}
+
+
+
+#pragma mark - 
+
+- (void) switchAPIDataStateFromInvalidDoing2Pending:(BOOL (^)(NSString *identify))isIdentifyInTempList
 {
     /// 將 不在執行列表中的物件 且 cachetype 是 TMAPI_Cache_Type_EveryActive
     /// 狀態如果是doing 就轉換成 pending  (先不包含 TMAPI_State_Init)
@@ -55,7 +290,7 @@ static NSTimer *g_checkCacheAPITimer = nil;
     
     [self executeBlock:^{
         NSManagedObjectContext *manaedObjectContext = self.managedObjectContext;
-        NSFetchRequest *fetchReq = [[NSFetchRequest alloc]init];
+        NSFetchRequest *fetchReq = [[NSFetchRequest alloc] init];
         [fetchReq setEntity:[NSEntityDescription entityForName:@"TMApiData" inManagedObjectContext:manaedObjectContext]];
         [fetchReq setPredicate:[NSPredicate predicateWithFormat:@"(cacheType == %d) AND (state == %d OR state == %d)",
                                 TMAPI_Cache_Type_EveryActive,
@@ -66,7 +301,7 @@ static NSTimer *g_checkCacheAPITimer = nil;
         
         for (TMApiData *object in resultArray)
         {
-            if (NO == [self isIdentifyInTempList:object.identify]) {
+            if (NO == isIdentifyInTempList(object.identify)) {
                 /// 表示在 cache中  但是不再現在的正在執行列表裡  所以要將 doing & pending -> failed
                 object.state = [NSNumber numberWithInt:TMAPI_State_Failed];
             }
@@ -74,17 +309,15 @@ static NSTimer *g_checkCacheAPITimer = nil;
     }];
 }
 
+
 - (void) switchAPIDataStateFromInvalid2Stop
 {
     /// 這個不會管 有沒有正在執行
     /// 會將所有 state != pending 都 將 state 轉換成 stop
     
-    /// 所以要先檢查一些不合法的doing 轉成 pending
-    [self  switchAPIDataStateFromInvalidDoing2Pending];
-    
     [self executeBlock:^{
         NSManagedObjectContext *manaedObjectContext = self.managedObjectContext;
-        NSFetchRequest *fetchReq = [[NSFetchRequest alloc]init];
+        NSFetchRequest *fetchReq = [[NSFetchRequest alloc] init];
         [fetchReq setEntity:[NSEntityDescription entityForName:@"TMApiData" inManagedObjectContext:manaedObjectContext]];
         [fetchReq setPredicate:[NSPredicate predicateWithFormat:@"(state == %d or state == %d)",
                                 TMAPI_State_Init,
@@ -97,15 +330,15 @@ static NSTimer *g_checkCacheAPITimer = nil;
             object.state = [NSNumber numberWithInt:TMAPI_State_Stop];
         }
     }];
-
+    
 }
 
 - (void) removeAllFinishAPIData
 {
     [self executeBlock:^{
         NSManagedObjectContext *manaedObjectContext = self.managedObjectContext;
-        NSFetchRequest *fetchReq = [[NSFetchRequest alloc]init];
-        [fetchReq setEntity:[NSEntityDescription entityForName:@"TMApiData" inManagedObjectContext:manaedObjectContext]];
+        NSFetchRequest *fetchReq = [[NSFetchRequest alloc] init];
+        [fetchReq setEntity:[NSEntityDescription entityForName:@"TMApiData" inManagedObjectContext:manaedObjectContext]];        
         [fetchReq setPredicate:[NSPredicate predicateWithFormat:@"(state == %d or state == %d)",
                                 TMAPI_State_Finished,
                                 TMAPI_State_Stop]];
@@ -116,31 +349,31 @@ static NSTimer *g_checkCacheAPITimer = nil;
         {
             [manaedObjectContext deleteObject:object];
         }
+        
+        [self save];
     }];
     
 }
 
-- (void) _checkAPIAction:(id)sender
+- (void) _checkAPIAction:(void (^)(TMApiData *object))aActionBlock
 {
-    @synchronized(self) {
-        g_checkCacheAPITimer = nil;
-    }
-    
-    __block NSArray *resultArray;
-    
     [self executeBlock:^{
         NSManagedObjectContext *manaedObjectContext = self.managedObjectContext;
-        NSFetchRequest *fetchReq = [[NSFetchRequest alloc]init];
+        NSFetchRequest *fetchReq = [[NSFetchRequest alloc] init];
         [fetchReq setEntity:[NSEntityDescription entityForName:@"TMApiData" inManagedObjectContext:manaedObjectContext]];
         [fetchReq setPredicate:[NSPredicate predicateWithFormat:@"(cacheType == %d OR cacheType == %d) AND (state == %d)",
                                 TMAPI_Cache_Type_EveryActive,
                                 TMAPI_Cache_Type_ThisActive,
                                 TMAPI_State_Failed]];
         
-        resultArray = [manaedObjectContext executeFetchRequest:fetchReq error:nil];
+        NSArray *resultArray = [manaedObjectContext executeFetchRequest:fetchReq error:nil];
+        
+        for (TMApiData *object in resultArray) {
+            aActionBlock(object);
+        }
     }];
     
-    
+    /*
     for (TMApiData *object in resultArray) {
         /// 設後不理
         ////  這裡一直執行可能會有行為上的問題  就是假設一直送不成功 ... 系統可能會很忙 or 煩
@@ -148,145 +381,9 @@ static NSTimer *g_checkCacheAPITimer = nil;
         id apiModel = [[apiClass alloc] initFromAction:object];
         ((TMAPIModel *)apiModel).thread = TMAPI_Thread_Type_SubThread;  ///< 如果做保證執行的動作 則讓他在sub thread 做
         [apiModel startWithDelegate:nil];
-    }
-    
-    [self startCheckCacheAPI];
+    }*/
 }
 
-- (void) startCheckCacheAPI
-{
-    @synchronized(self) {
-        if (g_checkCacheAPITimer != nil) {
-            return;
-        }
-        
-        g_checkCacheAPITimer = [NSTimer scheduledTimerWithTimeInterval:TMAPIMODEL_DEFAULT_CHECK_API_DURATION target:self selector:@selector(_checkAPIAction:) userInfo:nil repeats:NO];
-    }
-}
 
-- (void) stopCheckCacheAPI
-{
-    @synchronized(self) {
-        [g_checkCacheAPITimer invalidate];
-        g_checkCacheAPITimer = nil;
-    }
-}
-
-- (TMApiData *) createTMApiData
-{
-    __block TMApiData *_actionItem;
-    /// 創造一個新的資料物件
-    [self executeBlock:^{
-        NSManagedObjectContext *manaedObjectContext = self.managedObjectContext;
-        _actionItem = [NSEntityDescription insertNewObjectForEntityForName:@"TMApiData"
-                                                    inManagedObjectContext:manaedObjectContext];
-    }];
-    
-    return _actionItem;
-}
-
-- (TMApiData *) createTMApiDataWith:(void (^)(TMApiData *apidata))aSetting
-{
-    __block TMApiData *_actionItem;
-    /// 創造一個新的資料物件
-    [self executeBlock:^{
-        NSManagedObjectContext *manaedObjectContext = self.managedObjectContext;
-        _actionItem = [NSEntityDescription insertNewObjectForEntityForName:@"TMApiData"
-                                                    inManagedObjectContext:manaedObjectContext];
-        
-        aSetting(_actionItem);
-    }];
-    
-    return _actionItem;
-}
-
-- (void) changeApiData:(TMApiData *)aData Status:(NSInteger) aState
-{
-    [self executeBlock:^{        
-        aData.state = [NSNumber numberWithInteger:aState];
-    }];
-}
-
-- (void) changeApiData:(TMApiData *)aData CacheType:(NSInteger)aCacheType
-{
-    [self executeBlock:^{
-        aData.cacheType = [NSNumber numberWithInteger:aCacheType];
-    }];
-}
-
-- (void) changeApiData:(TMApiData *)aData RetryTimes:(NSInteger)aRetryTimes
-{
-    [self executeBlock:^{
-        aData.retryTimes = [NSNumber numberWithInteger:aRetryTimes];
-    }];
-}
-
-- (void) changeApiData:(TMApiData *)aData RetryDelayTimes:(double)aRetryDelayTimes
-{
-    [self executeBlock:^{
-        aData.retryDelayTime = [NSNumber numberWithDouble:aRetryDelayTimes];
-    }];
-}
-
-- (TMImageCache *) createImageCacheFrom:(NSString *)aUrl withTagMD5:(NSString *)aTagMD5 andType:(TMImageControl_Type)aType;
-{
-    __block TMImageCache *_actionItem = nil;
-    [self executeBlock:^{
-        NSManagedObjectContext *manaedObjectContext = self.managedObjectContext;
-        NSFetchRequest *fetchReq = [[NSFetchRequest alloc] init];
-        [fetchReq setEntity:[NSEntityDescription entityForName:@"TMImageCache"
-                                        inManagedObjectContext:manaedObjectContext]];
-        
-        [fetchReq setPredicate:[NSPredicate predicateWithFormat:@"tag == %@", aTagMD5]];
-        
-        NSArray *resultArray = [manaedObjectContext executeFetchRequest:fetchReq error:nil];
-        
-        if ([resultArray count] == 1) {
-            _actionItem = [resultArray objectAtIndex:0];
-            
-        } else if ([resultArray count] == 0) {
-            
-            
-            
-            NSManagedObjectContext *manaedObjectContext = self.managedObjectContext;
-            _actionItem = [NSEntityDescription insertNewObjectForEntityForName:@"TMImageCache"
-                                                 inManagedObjectContext:manaedObjectContext];
-            _actionItem.tag = aTagMD5;
-            _actionItem.identify = tmStringFromMD5([NSString stringWithFormat:@"%@%f", aTagMD5, [[NSDate date] timeIntervalSince1970]]);
-            _actionItem.type = [NSNumber numberWithInt:aType];
-            
-        } else {
-            assert(@"重複");
-        }
-    }];
-    
-    return _actionItem;
-}
-
-- (void) imageCache:(TMImageCache *)aImageCache setData:(NSData *)aImageData
-{
-    [self executeBlock:^{
-        aImageCache.data = aImageData;
-        aImageCache.lastDate = [NSDate date];
-    }];
-}
-
-#pragma mark -
-
-- (NSString *)managedObjectModelName
-{
-    return @"TMGeneralDataModel";
-}
-
-- (NSMutableArray *) apiIdentifyList
-{
-    if (_apiIdentifyList) {
-        return _apiIdentifyList;
-    }
-    
-    _apiIdentifyList = [[NSMutableArray alloc] init];
-    
-    return _apiIdentifyList;
-}
 
 @end

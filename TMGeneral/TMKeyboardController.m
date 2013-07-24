@@ -1,10 +1,26 @@
-//
-//  TMKeyboardController.m
-//  TMGeneral
-//
-//  Created by mac on 12/10/16.
-//  Copyright (c) 2012年 ThinkerMobile. All rights reserved.
-//
+/*
+ TMKeyboardController.m
+ 
+ Copyright (c) 2012 willsbor Kang
+ 
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+ 
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
+ 
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+ */
 
 #import "TMKeyboardController.h"
 #import "TMTools.h"
@@ -60,6 +76,11 @@
 {
     if (g_KBMs == nil) {
         g_KBMs = [[NSMutableDictionary alloc] init];
+    }
+    
+    if ([g_KBMs objectForKey:aKey] != nil) {
+        [self unregister:aKBM];
+        [g_KBMs removeObjectForKey:aKey];
     }
     
     [g_KBMs setObject:aKBM forKey:aKey];
@@ -383,8 +404,6 @@
 
 - (void) registerItem:(TMKeyboardItem *) aItem
 {
-    [self unregister:aItem];
-    
     if (aItem.targetTextField != nil) {
         [aItem.targetTextField addTarget:self action:@selector(beginEdit:) forControlEvents:(UIControlEventEditingDidBegin)];
         
@@ -508,6 +527,10 @@
             
             
             [item.targetTextField resignFirstResponder];
+            if (item.delegate != nil && [item.delegate respondsToSelector:@selector(keyboard:didCloseKeyboard:)]) {
+                [item.delegate keyboard:self didCloseKeyboard:item];
+            }
+            
         } else
             _isShowKB = NO;
     } else if (item.tartgetTextView != nil) {
@@ -532,6 +555,10 @@
             
             
             [item.tartgetTextView resignFirstResponder];
+            if (item.delegate != nil && [item.delegate respondsToSelector:@selector(keyboard:didCloseKeyboard:)]) {
+                [item.delegate keyboard:self didCloseKeyboard:item];
+            }
+            
         } else
             _isShowKB = NO;
     } else

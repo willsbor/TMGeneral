@@ -37,13 +37,10 @@
 
 @end
 
-@interface TMGeneralDataManager (privateFunction)
-- (void) _checkAPIAction:(id)sender;
-@end
-
-@implementation TMGeneralDataManager (privateFunction)
+@interface TMGeneralDataManager ()
 
 @end
+
 
 @interface TMDataManager (UTest)
 

@@ -1,15 +1,32 @@
-//
-//  TMAPIWebModel.m
-//  TMGeneral
-//
-//  Created by mac on 12/10/10.
-//  Copyright (c) 2012年 ThinkerMobile. All rights reserved.
-//
+/*
+ TMAPIWebModel.m
+ 
+ Copyright (c) 2012 willsbor Kang
+ 
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+ 
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
+ 
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+ */
 
 #import "TMAPIWebModel.h"
 #import <AFNetworking/AFNetworking.h>
 #import "TMApiData.h"
 #import "AFHTTPRequestOperation.h"
+#import "TMGeneralDataManager.h"
 
 typedef void(^WebSuccess)(AFHTTPRequestOperation *operation, id responseObject);
 typedef void(^WebFailed)(AFHTTPRequestOperation *operation, NSError *error);
@@ -25,7 +42,7 @@ typedef void(^WebFailed)(AFHTTPRequestOperation *operation, NSError *error);
 
 - (void) main
 {
-
+    
     NSString *strBaseURL = [self.inputParam objectForKey:TMAPI_WEB_BASEURL];
     NSAssert(strBaseURL != nil, @"BaseURL shouldn't be nil");
     
@@ -45,7 +62,9 @@ typedef void(^WebFailed)(AFHTTPRequestOperation *operation, NSError *error);
         request.timeoutInterval = [timout intValue];
     }
     
+#ifdef DEBUG
     NSLog(@"url = %@", request.URL.absoluteString);
+#endif
     
     __unsafe_unretained TMAPIWebModel *selfItem = self;
     _operation = [_httpClient HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -64,11 +83,7 @@ typedef void(^WebFailed)(AFHTTPRequestOperation *operation, NSError *error);
             _failedResponse(operation, error);
         }
         
-        if ([selfItem checkRetry]) {
-            [selfItem retry];
-        } else
-            [selfItem final];
-        
+        [selfItem checkRetryAndDoRetryOrFinal];
     } ];
     
     [_operation start];
@@ -94,7 +109,7 @@ typedef void(^WebFailed)(AFHTTPRequestOperation *operation, NSError *error);
 }
 
 - (void) final
-{    
+{
     _operation = nil;
     [super final];
 }
@@ -110,7 +125,9 @@ typedef void(^WebFailed)(AFHTTPRequestOperation *operation, NSError *error);
 {
     self = [super initWithInput:aInput];
     if (self) {
-        _actionItem.type = [NSNumber numberWithInt:TMAPI_Type_Web_Api];
+        [[TMGeneralDataManager sharedInstance] changeApiData:_actionItem With:^(TMApiData *apidata) {
+            apidata.type = [NSNumber numberWithInt:TMAPI_Type_Web_Api];
+        }];
     }
     
     return self;

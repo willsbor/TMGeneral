@@ -1,10 +1,26 @@
-//
-//  TMAPIModel.m
-//  TMGeneral
-//
-//  Created by mac on 12/10/10.
-//  Copyright (c) 2012年 ThinkerMobile. All rights reserved.
-//
+/*
+ TMAPIModel.m
+ 
+ Copyright (c) 2012 willsbor Kang
+ 
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+ 
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
+ 
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+ */
 
 #import "TMAPIModel.h"
 #import "TMGeneralDataManager.h"
@@ -31,57 +47,121 @@ static dispatch_queue_t api_model_operation_processing_queue() {
 
 @implementation TMAPIModel
 @synthesize inputParam = _inputParam;
+static NSTimer *g_checkCacheAPITimer = nil;
 
+#pragma mark - static
+static NSMutableArray *g_apiIdentifyList = nil;
 
-#pragma mark - private
-
-/*
-- (void) _threadMain
++ (NSMutableArray *) apiIdentifyList
 {
+    if (g_apiIdentifyList) {
+        return g_apiIdentifyList;
+    }
+    
+    g_apiIdentifyList = [[NSMutableArray alloc] init];
+    return g_apiIdentifyList;
+}
 
-    else if (_thread == TMAPI_Thread_Type_Background) {
-     UIApplication *application = [UIApplication sharedApplication]; //Get the shared application instance
-     
-     __block UIBackgroundTaskIdentifier background_task; //Create a task object
-     
-     
-     background_task = [application beginBackgroundTaskWithExpirationHandler: ^ {
-     
-     [application endBackgroundTask: background_task]; //Tell the system that we are done with the tasks
-     background_task = UIBackgroundTaskInvalid; //Set the task to be invalid
-     
-     //System will be shutting down the app at any point in time now
-     }];
-     
-     //Background tasks require you to use asyncrous tasks
-     
-     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-     //Perform your tasks that your application requires
-     
-     [application endBackgroundTask: background_task]; //End the task so the system knows that you are done with what you need to perform
-     background_task = UIBackgroundTaskInvalid; //Invalidate the background_task
-     });
-     }
-}*/
++ (void) switchAPIDataStateFromInvalidDoing2Pending
+{
+    /// 將 不在執行列表中的物件 且 cachetype 是 TMAPI_Cache_Type_EveryActive
+    /// 狀態如果是doing 就轉換成 pending  (先不包含 TMAPI_State_Init)
+    
+    /// 因為程式有可能中途被強制中段 導致 DB內的狀態還停留在doing
+    /// 但是要保證 TMAPI_Cache_Type_EveryActive 能被送出
+    /// 所以這標要檢查表留需要被執行的命令
+    
+    [[TMGeneralDataManager sharedInstance] switchAPIDataStateFromInvalidDoing2Pending:^BOOL(NSString *identify) {
+        for (TMAPIModel *object in [[self class] apiIdentifyList]) {
+            if ([object.actionItem isEqualToString:identify]) {
+                return YES;
+            }
+        }
+        
+        return NO;
+    }];
+}
+
++ (void) switchAPIDataStateFromInvalid2Stop
+{
+    /// 這個不會管 有沒有正在執行
+    /// 會將所有 state != pending 都 將 state 轉換成 stop
+    
+    /// 所以要先檢查一些不合法的doing 轉成 pending
+    [self  switchAPIDataStateFromInvalidDoing2Pending];
+    
+    [[TMGeneralDataManager sharedInstance] switchAPIDataStateFromInvalid2Stop];
+    
+}
+
++ (void) removeAllFinishAPIData
+{
+    [[TMGeneralDataManager sharedInstance] removeAllFinishAPIData];
+}
+
++ (void) startCheckCacheAPI
+{
+    @synchronized(self) {
+        if (g_checkCacheAPITimer != nil) {
+            return;
+        }
+        
+        g_checkCacheAPITimer = [NSTimer scheduledTimerWithTimeInterval:TMAPIMODEL_DEFAULT_CHECK_API_DURATION
+                                                                target:[self class]
+                                                              selector:@selector(_checkAPIAction:)
+                                                              userInfo:nil
+                                                               repeats:NO];
+    }
+}
+
++ (void) stopCheckCacheAPI
+{
+    @synchronized(self) {
+        [g_checkCacheAPITimer invalidate];
+        g_checkCacheAPITimer = nil;
+    }
+}
+
+
++ (void) _checkAPIAction:(id)sender
+{
+    @synchronized(self) {
+        g_checkCacheAPITimer = nil;
+    }
+    
+   [[TMGeneralDataManager sharedInstance] _checkAPIAction:^(TMApiData *object) {
+       id apiClass = NSClassFromString(object.objectName);
+       id apiModel = [[apiClass alloc] initFromAction:object.identify];
+       ((TMAPIModel *)apiModel).thread = TMAPI_Thread_Type_SubThread;  ///< 如果做保證執行的動作 則讓他在sub thread 做
+       
+       dispatch_async(dispatch_get_main_queue(), ^{
+           [apiModel startWithDelegate:nil];
+       });
+   }];
+
+    
+    [[self class] startCheckCacheAPI];
+}
 
 #pragma mark - public
 
 - (void) startWithDelegate:(id)aDelegate
 {
-    [[TMGeneralDataManager sharedInstance].apiIdentifyList addObject:self];  ///< 加入執行列表
+    [[[self class] apiIdentifyList] addObject:self];  ///< 加入執行列表
     _delegate = aDelegate;
     _errcode = TMAPI_Errcode_Failed;
-    //_actionItem.state = [NSNumber numberWithInt:TMAPI_State_Doing];
+
     [[TMGeneralDataManager sharedInstance] changeApiData:_actionItem Status:TMAPI_State_Doing];
     
-    _retryCount = [_actionItem.retryTimes intValue];  ///<開始重新設定retry 次數 
+    NSNumber *retry = [[TMGeneralDataManager sharedInstance] returnObjectByKey:@"retryTimes" OfIdentify:_actionItem];
+    _retryCount = [retry intValue];  ///<開始重新設定retry 次數
     
     //// 如果要背景重傳 .... 就 先存入DB
-    if (( [_actionItem.cacheType intValue] == TMAPI_Cache_Type_ThisActive
-         || [_actionItem.cacheType intValue] == TMAPI_Cache_Type_EveryActive)) {
-
+    //if (( [_actionItem.cacheType intValue] == TMAPI_Cache_Type_ThisActive
+    //     || [_actionItem.cacheType intValue] == TMAPI_Cache_Type_EveryActive)) {
+        
         //[[TMGeneralDataManager sharedInstance] save];
-    }
+    //}
     
     
     if (_thread == TMAPI_Thread_Type_MainThread){
@@ -99,10 +179,20 @@ static dispatch_queue_t api_model_operation_processing_queue() {
     }
 }
 
+- (void) checkRetryAndDoRetryOrFinal
+{
+    if ([self checkRetry]) {
+        [self retry];
+    } else {
+        _errcode = TMAPI_Errcode_Failed;
+        [self final];
+    }
+}
+
 - (BOOL) retry
 {
     if (_retryCount <= 0) {
-///#warning final?!
+        ///#warning final?!
         /// 應該不需要final 外面會給
         return NO;
     }
@@ -117,8 +207,9 @@ static dispatch_queue_t api_model_operation_processing_queue() {
     //_actionItem.state = [NSNumber numberWithInt:TMAPI_State_Doing];
     [[TMGeneralDataManager sharedInstance] changeApiData:_actionItem Status:TMAPI_State_Doing];
     
+    NSNumber *retryDelayTime = [[TMGeneralDataManager sharedInstance] returnObjectByKey:@"retryDelayTime" OfIdentify:_actionItem];
     if (_thread == TMAPI_Thread_Type_SubThread){
-        int64_t delayInSeconds = [_actionItem.retryDelayTime doubleValue];
+        int64_t delayInSeconds = [retryDelayTime doubleValue];
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
         
         dispatch_after(popTime, api_model_operation_processing_queue(), ^(void){
@@ -127,7 +218,7 @@ static dispatch_queue_t api_model_operation_processing_queue() {
     }
     else {
         /// TMAPI_Thread_Type_Main or other
-        int64_t delayInSeconds = [_actionItem.retryDelayTime doubleValue];
+        int64_t delayInSeconds = [retryDelayTime doubleValue];
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
             [self main];
@@ -161,14 +252,17 @@ static dispatch_queue_t api_model_operation_processing_queue() {
 {
     //// 由於  deleteObject 會讓一個物件移除掉，如果此時CoreData restart 掉物件 就會讓這個物件進入flaut的狀態
     //// 因此 set or get 會讓他flaut掉  (現在還找不到如何 Unit test)
+//#warning todo  還沒有修正過
+#if 0
     if ([_actionItem isFault]) {
         return;
     }
+#endif
     
-    if ([_actionItem.state intValue] == TMAPI_State_Finished) {
+    NSNumber *state = [[TMGeneralDataManager sharedInstance] returnObjectByKey:@"state" OfIdentify:_actionItem];
+    if ([state intValue] == TMAPI_State_Finished) {
         return;
     }
-    
     [myLock lock];
     
     if (_delegate != nil) {
@@ -177,9 +271,9 @@ static dispatch_queue_t api_model_operation_processing_queue() {
         }
     }
     
-   
+    
     if(_errcode == TMAPI_Errcode_Success || _errcode == TMAPI_Errcode_Cancel) {
-         //_actionItem.state = [NSNumber numberWithInt:TMAPI_State_Finished];
+        //_actionItem.state = [NSNumber numberWithInt:TMAPI_State_Finished];
         [[TMGeneralDataManager sharedInstance] changeApiData:_actionItem Status:TMAPI_State_Finished];
     } else {
         /// 這次流程失敗 包含重試... 所以... 記錄狀態成 TMAPI_State_Pending
@@ -194,7 +288,7 @@ static dispatch_queue_t api_model_operation_processing_queue() {
     /// 存入DB
     //[[TMGeneralDataManager sharedInstance] save];
     
-    [[TMGeneralDataManager sharedInstance].apiIdentifyList removeObject:self];
+    [[[self class] apiIdentifyList] removeObject:self];
     [myLock unlock];
 }
 
@@ -202,17 +296,22 @@ static dispatch_queue_t api_model_operation_processing_queue() {
 {
     //// 由於  deleteObject 會讓一個物件移除掉，如果此時CoreData restart 掉物件 就會讓這個物件進入flaut的狀態
     //// 因此 set or get 會讓他flaut掉  (現在還找不到如何 Unit test)
+//#warning todo  還沒有修正過
+#if 0
     if ([_actionItem isFault]) {
         return;
     }
+#endif
     
-    if ([_actionItem.state intValue] == TMAPI_State_Finished) {
+    NSNumber *state = [[TMGeneralDataManager sharedInstance] returnObjectByKey:@"state" OfIdentify:_actionItem];
+    if ([state intValue] == TMAPI_State_Finished
+        || [state intValue] == TMAPI_State_Failed) {
         return;
     }
     
     [myLock lock];
     
-
+    
     if (_delegate != nil) {
         if ([_delegate respondsToSelector:@selector(apiModel:finishWithErrcode:AndParam:)] ) {
             [_delegate apiModel:self finishWithErrcode:TMAPI_Errcode_Cancel AndParam:_outputParam];
@@ -225,7 +324,7 @@ static dispatch_queue_t api_model_operation_processing_queue() {
     /// 修改DB暫存物件的狀態
     //[[TMGeneralDataManager sharedInstance] save];
     
-    [[TMGeneralDataManager sharedInstance].apiIdentifyList removeObject:self];
+    [[[self class] apiIdentifyList] removeObject:self];
     [myLock unlock];
 }
 
@@ -233,12 +332,13 @@ static dispatch_queue_t api_model_operation_processing_queue() {
 
 - (NSDictionary *) inputParam
 {
-
+    
     if (_inputParam != nil) {
         return _inputParam;
     }
     
-    _inputParam = [TMDataManager objectFormNSData:_actionItem.content];
+    NSData *content = [[TMGeneralDataManager sharedInstance] returnObjectByKey:@"content" OfIdentify:_actionItem];
+    _inputParam = [TMDataManager objectFormNSData:content];
     return _inputParam;
 }
 
@@ -248,7 +348,8 @@ static dispatch_queue_t api_model_operation_processing_queue() {
         return 0;
     }
     
-    return [_actionItem.mode intValue];
+    NSNumber *mode = [[TMGeneralDataManager sharedInstance] returnObjectByKey:@"mode" OfIdentify:_actionItem];
+    return [mode intValue];
 }
 
 - (TMAPI_State) state
@@ -257,7 +358,8 @@ static dispatch_queue_t api_model_operation_processing_queue() {
         return 0;
     }
     
-    return [_actionItem.state intValue];
+    NSNumber *state = [[TMGeneralDataManager sharedInstance] returnObjectByKey:@"state" OfIdentify:_actionItem];
+    return [state intValue];
 }
 
 - (TMAPI_Cache_Type) cacheType
@@ -266,7 +368,8 @@ static dispatch_queue_t api_model_operation_processing_queue() {
         return 0;
     }
     
-    return [_actionItem.cacheType intValue];
+    NSNumber *cacheType = [[TMGeneralDataManager sharedInstance] returnObjectByKey:@"cacheType" OfIdentify:_actionItem];
+    return [cacheType intValue];
 }
 
 - (void) setCacheType:(TMAPI_Cache_Type)cacheType
@@ -281,7 +384,8 @@ static dispatch_queue_t api_model_operation_processing_queue() {
         return 0;
     }
     
-    return [_actionItem.retryTimes intValue];
+    NSNumber *retryTimes = [[TMGeneralDataManager sharedInstance] returnObjectByKey:@"retryTimes" OfIdentify:_actionItem];
+    return [retryTimes intValue];
 }
 
 - (void) setRetryTimes:(int)retryTimes
@@ -296,7 +400,8 @@ static dispatch_queue_t api_model_operation_processing_queue() {
         return 0;
     }
     
-    return [_actionItem.retryDelayTime doubleValue];
+    NSNumber *retryDelayTime = [[TMGeneralDataManager sharedInstance] returnObjectByKey:@"retryDelayTime" OfIdentify:_actionItem];
+    return [retryDelayTime doubleValue];
 }
 
 - (void) setRetryDelayTime:(double)retryDelayTime
@@ -317,26 +422,17 @@ static dispatch_queue_t api_model_operation_processing_queue() {
         
         /// 創造一個新的資料物件
         _actionItem = [[TMGeneralDataManager sharedInstance] createTMApiDataWith:^(TMApiData *apidata) {
-            apidata.type = [NSNumber numberWithInt:TMAPI_Type_General];
             apidata.content = [TMDataManager dataFromNSData:aInput];
-            apidata.cacheType = [NSNumber numberWithInt:TMAPI_Cache_Type_None];
-            apidata.state = [NSNumber numberWithInt:TMAPI_State_Init];
-            apidata.retryTimes = @3;
-            apidata.retryDelayTime = @TMAPIMODEL_DEFAULT_RETRY_DELAY_TIME;
-            apidata.mode = [NSNumber numberWithInt:TMAPI_Mode_Leave_With_Cancel];
             
-            apidata.createTime = _actionItem.lastActionTime = [NSDate date];
             apidata.objectName = NSStringFromClass([self class]);   ///< 返回執行時要啟動的 object
-            NSLog(@"TMAPIModel save in DB and target class : %@", apidata.objectName);
-            
-            apidata.identify = tmStringFromMD5([NSString stringWithFormat:@"%@", apidata.createTime]);
+            NSLog(@"TMAPIModel save in DB and target class [outside] : %@", apidata.objectName);
         }];
         
     }
     return self;
 }
 
-- (id) initFromAction:(TMApiData *)aAction
+- (id) initFromAction:(NSString *)aAction
 {
     self = [super init];
     if (self) {
@@ -347,9 +443,10 @@ static dispatch_queue_t api_model_operation_processing_queue() {
         /// 因為是從 Action init 所以就直接設定
         _actionItem = aAction;
         
-        _actionItem.lastActionTime = [NSDate date];
+        [[TMGeneralDataManager sharedInstance] changeApiData:_actionItem With:^(TMApiData *apidata) {
+            apidata.lastActionTime = [NSDate date];
+        }];
         
-        //[[TMGeneralDataManager sharedInstance] save];
     }
     
     return self;

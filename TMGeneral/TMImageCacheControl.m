@@ -1,16 +1,31 @@
-//
-//  TMImageCacheControl.m
-//  TMGeneral
-//
-//  Created by mac on 12/10/14.
-//  Copyright (c) 2012年 ThinkerMobile. All rights reserved.
-//
+/*
+ TMImageCacheControl.m
+ 
+ Copyright (c) 2012 willsbor Kang
+ 
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+ 
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
+ 
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+ */
 
 #import "TMImageCacheControl.h"
 #import "TMGeneralDataManager.h"
 #import "TMTools.h"
 
-#import "TMImageCache.h"
 #import <AFNetworking/AFNetworking.h>
 
 #define _PRELOAD_TAG   @"2uh4u3h42@#$2"
@@ -55,29 +70,6 @@
 	return sharedInstance;
 }
 
-- (int) finishOnePreloadAndNotify:(NSString *)aTagMD5
-{
-    _preloadCounter++;
-    
-    if (preloadDelegate == nil) {
-        
-    }
-    else if (_preloadCounter == [_preloadArray count]) {
-        
-        if ([preloadDelegate respondsToSelector:@selector(tmImageCacheControl:PreloadFinish:)]) {
-            [preloadDelegate tmImageCacheControl:self PreloadFinish:TMImageControl_Errcode_Success];
-        }
-        
-        preloadDelegate = nil;
-    }
-    else if (_preloadCounter > [_preloadArray count])
-    {
-        NSAssert(FALSE, @"_preloadCounter > [_preloadArray count]");
-    }
-    
-    return [_preloadArray count] - _preloadCounter;
-}
-
 - (void) executePreload:(id<TMImageCacheControlPreloadProtocol>)aDelegete
 {
     if (preloadDelegate != nil) {
@@ -91,12 +83,12 @@
         NSString *aTagMD5 = tmStringFromMD5(object.tag);
         
         if (object.type == TMImageControl_Type_NoCache) {
-            if (0 == [self finishOnePreloadAndNotify:aTagMD5])
+            if (0 == [self _finishOnePreloadAndNotify:aTagMD5])
                 break;
         }
         
         
-        TMImageCache *cacheItem = [self createCacheItemFrom:object.url withTagMD5:aTagMD5 andType:object.type];
+        NSString *cacheItem = [self _createCacheItemFrom:object.url withTagMD5:aTagMD5 andType:object.type];
         
         if (cacheItem == nil) {
             /// 理論上不可能到這裡
@@ -105,10 +97,10 @@
             //////// 有圖的話
             ////////// 顯示
             
-            if (cacheItem.data != nil) {
+            if ([[TMGeneralDataManager sharedInstance] isHaveImageDataByTag:cacheItem]) {
                 if (object.type == TMImageControl_Type_FirstTime) {
                     /// 已經 有資料了...
-                    if (0 == [self finishOnePreloadAndNotify:aTagMD5])
+                    if (0 == [self _finishOnePreloadAndNotify:aTagMD5])
                         break;
                 }
                 else if (object.type == TMImageControl_Type_UpdateEveryTime) {
@@ -140,26 +132,23 @@
         
         [_lock unlock];
         
-        
-        
-        NSString *cacheItemTag = cacheItem.tag;
 
         __weak TMImageCacheControl *selfItem = self;
         void (^getDataFinishBlock)(NSData *aImageNSData, NSError *error) = ^(NSData *aImageNSData, NSError *error) {
             if (error == nil) {
                 UIImage *image = [UIImage imageWithData:aImageNSData];
                 if (_ImageModify) image = _ImageModify(image, nil);
-                [selfItem finishAndUpdateImage:image WithTagMD5:cacheItemTag];
+                [selfItem _finishAndUpdateImage:image WithTagMD5:cacheItem];
             } else {
                 if (_ImageModify) {
-                    [selfItem finishAndUpdateImage:_ImageModify(nil, error) WithTagMD5:cacheItemTag];
+                    [selfItem _finishAndUpdateImage:_ImageModify(nil, error) WithTagMD5:cacheItem];
                 } else {
-                    [selfItem finishAndUpdateImage:nil WithTagMD5:cacheItemTag];
+                    [selfItem _finishAndUpdateImage:nil WithTagMD5:cacheItem];
                 }
             }
         };
         
-        [self getDataFrom:object.url AndSaveIn:cacheItem toComplete:getDataFinishBlock];
+        [self _getDataFrom:object.url AndSaveIn:cacheItem toComplete:getDataFinishBlock];
     }
     
 }
@@ -172,7 +161,7 @@
     
     _TMICCPreloadItem *item = [[_TMICCPreloadItem alloc] init];
     item.url = aURL;
-    item.tag = [self tagByInputTag:aTag andInputUrl:aURL];
+    item.tag = [self _tagByInputTag:aTag andInputUrl:aURL];
     item.type = aType;
     
     [_preloadArray addObject:item];
@@ -253,7 +242,7 @@
     NSMutableDictionary *options = [[NSMutableDictionary alloc] initWithDictionary:_defaultOptions];
     [options addEntriesFromDictionary:aOptions];
     
-    NSString *aTagMD5 = tmStringFromMD5([self tagByInputTag:aTag andInputUrl:aURL]);
+    NSString *aTagMD5 = tmStringFromMD5([self _tagByInputTag:aTag andInputUrl:aURL]);
     
     
     // 先找 globle image list 中有沒有這個iv
@@ -283,7 +272,7 @@
     
     //// 設定圖片
     ////// 從cache 中拿圖 + tag
-    TMImageCache *cacheItem = [self createCacheItemFrom:aURL withTagMD5:aTagMD5 andType:aType];
+    NSString *cacheItem = [self _createCacheItemFrom:aURL withTagMD5:aTagMD5 andType:aType];
     
     if (cacheItem == nil) {
         /// 理論上不可能到這裡
@@ -292,14 +281,15 @@
         //////// 有圖的話
         ////////// 顯示
         
-        if (cacheItem.data != nil) {
+        if ([[TMGeneralDataManager sharedInstance] isHaveImageDataByTag:cacheItem]) {
             if (aType == TMImageControl_Type_FirstTime
                 || aType == TMImageControl_Type_UpdateEveryTime) {
                 
+                NSData *imageData = [[TMGeneralDataManager sharedInstance] imageCacheImageDataByTag:cacheItem];
                 if (self.ImageModify != nil) {
-                    aImageView.image = _ImageModify([UIImage imageWithData:cacheItem.data], nil);
+                    aImageView.image = _ImageModify([UIImage imageWithData:imageData], nil);
                 } else {
-                    aImageView.image = [UIImage imageWithData:cacheItem.data];
+                    aImageView.image = [UIImage imageWithData:imageData];
                 }
             }
             
@@ -334,41 +324,39 @@
     
     
     /// type (檢查type 執行type對應動作)
-    NSString *cacheItemTag = cacheItem.tag;
-    
     __weak TMImageCacheControl *selfItem = self;
     void (^getDataFinishBlock)(NSData *aImageNSData, NSError *error) = ^(NSData *aImageNSData, NSError *error) {
         if (error == nil) {
             UIImage *image = [UIImage imageWithData:aImageNSData];
             if (_ImageModify) image = _ImageModify(image, nil);
-            [selfItem finishAndUpdateImage:image WithTagMD5:cacheItemTag];
+            [selfItem _finishAndUpdateImage:image WithTagMD5:cacheItem];
         } else {
             if (_ImageModify) {
-                [selfItem finishAndUpdateImage:_ImageModify(nil, error) WithTagMD5:cacheItemTag];
+                [selfItem _finishAndUpdateImage:_ImageModify(nil, error) WithTagMD5:cacheItem];
             } else {
-                [selfItem finishAndUpdateImage:nil WithTagMD5:cacheItemTag];
+                [selfItem _finishAndUpdateImage:nil WithTagMD5:cacheItem];
             }
         }
     };
     
     
     if (aType == TMImageControl_Type_FirstTime) {
-        if (cacheItem.data == nil) {
+        if (NO == [[TMGeneralDataManager sharedInstance] isHaveImageDataByTag:cacheItem]) {
             
-            [self getDataFrom:aURL AndSaveIn:cacheItem toComplete:getDataFinishBlock];
+            [self _getDataFrom:aURL AndSaveIn:cacheItem toComplete:getDataFinishBlock];
         } else {
             //[self finishAndUpdateImage:nil WithTagMD5:cacheItemTag];
             getDataFinishBlock(nil, nil);
         }
     }
     else if (aType == TMImageControl_Type_UpdateEveryTime) {
-        [self getDataFrom:aURL AndSaveIn:cacheItem toComplete:getDataFinishBlock];
+        [self _getDataFrom:aURL AndSaveIn:cacheItem toComplete:getDataFinishBlock];
         
     } else {
         /// TMImageControl_Type_NoCache
         /// 實作上"先"使用類似 TMImageControl_Type_UpdateEveryTime 的方法
         /// 只是前面先不拿 cache Image 填入
-        [self getDataFrom:aURL AndSaveIn:cacheItem toComplete:getDataFinishBlock];
+        [self _getDataFrom:aURL AndSaveIn:cacheItem toComplete:getDataFinishBlock];
     }
     
 }
@@ -388,9 +376,9 @@
 
 - (void) setImageURL:(NSString *)aURL withTag:(NSString *)aTag andType:(TMImageControl_Type)aType toComplete:(void (^)(UIImage *aImage, NSError *error))aComplete
 {
-    NSString *aTagMD5 = tmStringFromMD5([self tagByInputTag:aTag andInputUrl:aURL]);
+    NSString *aTagMD5 = tmStringFromMD5([self _tagByInputTag:aTag andInputUrl:aURL]);
     
-    TMImageCache *cacheItem = [self createCacheItemFrom:aURL withTagMD5:aTagMD5 andType:aType];
+    NSString *cacheItem = [self _createCacheItemFrom:aURL withTagMD5:aTagMD5 andType:aType];
     
     
     void (^getDataFinishBlock)(NSData *aImageNSData, NSError *error) = ^(NSData *aImageNSData, NSError *error) {
@@ -406,24 +394,80 @@
         //////// 有圖的話
         ////////// 顯示
         
-        if (cacheItem.data != nil) {
+        if ([[TMGeneralDataManager sharedInstance] isHaveImageDataByTag:cacheItem]) {
             if (aType == TMImageControl_Type_FirstTime
                 || aType == TMImageControl_Type_UpdateEveryTime) {
-                getDataFinishBlock(cacheItem.data, nil);
+                NSData *imageData = [[TMGeneralDataManager sharedInstance] imageCacheImageDataByTag:cacheItem];
+                getDataFinishBlock(imageData, nil);
             }
         }
     }
     
     if (aType == TMImageControl_Type_UpdateEveryTime
         || aType == TMImageControl_Type_NoCache
-        || (aType == TMImageControl_Type_FirstTime && cacheItem.data == nil)) {
-        [self getDataFrom:aURL AndSaveIn:cacheItem toComplete:getDataFinishBlock];
+        || (aType == TMImageControl_Type_FirstTime && NO == [[TMGeneralDataManager sharedInstance] isHaveImageDataByTag:cacheItem])) {
+        [self _getDataFrom:aURL AndSaveIn:cacheItem toComplete:getDataFinishBlock];
     }
     
     
 }
 
-- (NSString *) tagByInputTag:(NSString *)aTag andInputUrl:(NSString *)aURL
+- (AFHTTPRequestOperation *) setImageOperationByImageURL:(NSString *)aURL withTag:(NSString *)aTag andType:(TMImageControl_Type)aType toComplete:(void (^)(UIImage *aImage, NSError *error))aComplete
+{
+    NSString *aTagMD5 = tmStringFromMD5([self _tagByInputTag:aTag andInputUrl:aURL]);
+    
+    NSString *cacheItemTag = [self _createCacheItemFrom:aURL withTagMD5:aTagMD5 andType:aType];
+    
+    
+    void (^getDataFinishBlock)(NSData *aImageNSData, NSError *error) = ^(NSData *aImageNSData, NSError *error) {
+        UIImage *resultI = [UIImage imageWithData:aImageNSData];
+        if (self.ImageModify != nil) resultI = _ImageModify(resultI, error);
+        if (aComplete) aComplete(resultI, error);
+    };
+    
+    if (cacheItemTag == nil) {
+        /// 理論上不可能到這裡
+        NSAssert(FALSE, @"there must be a item");
+    } else {
+        //////// 有圖的話
+        ////////// 顯示
+        
+        if ([[TMGeneralDataManager sharedInstance] isHaveImageDataByTag:cacheItemTag]) {
+            if (aType == TMImageControl_Type_FirstTime
+                || aType == TMImageControl_Type_UpdateEveryTime) {
+                NSData *imageData = [[TMGeneralDataManager sharedInstance] imageCacheImageDataByTag:cacheItemTag];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    getDataFinishBlock(imageData, nil);
+                });
+                return nil;
+            }
+        }
+    }
+    
+    if (aType == TMImageControl_Type_UpdateEveryTime
+        || aType == TMImageControl_Type_NoCache
+        || (aType == TMImageControl_Type_FirstTime && NO == [[TMGeneralDataManager sharedInstance] isHaveImageDataByTag:cacheItemTag])) {
+        
+        if (aURL == nil || [aURL length] == 0) {
+            
+            //[self finishAndUpdateImage:nil WithTagMD5:aItem.tag];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (aComplete) aComplete(nil, [self _errorURLisNil]);
+            });
+            return nil;
+        }
+        
+        AFHTTPRequestOperation *operation = [self _getOperationFrom:aURL AndSaveIn:cacheItemTag toComplete:getDataFinishBlock];
+        
+        return operation;
+    }
+    
+    return nil;
+}
+
+#pragma mark - private
+
+- (NSString *) _tagByInputTag:(NSString *)aTag andInputUrl:(NSString *)aURL
 {
     if (aTag == nil || [aTag length] == 0) {
         aTag = aURL;
@@ -435,7 +479,7 @@
     return aTag;
 }
 
-- (void) finishAndUpdateImage:(UIImage *)aImageData WithTagMD5:(NSString *)aTagMD5
+- (void) _finishAndUpdateImage:(UIImage *)aImageData WithTagMD5:(NSString *)aTagMD5
 {
     [_lock lock];
     
@@ -459,7 +503,7 @@
         else if ([object isKindOfClass:[NSString class]]) {
             if ([((NSString *)object) isEqualToString:_PRELOAD_TAG] ) {
                 //// preload 的部份需要通知已經下載了
-                [self finishOnePreloadAndNotify:aTagMD5];
+                [self _finishOnePreloadAndNotify:aTagMD5];
             }
         }
         
@@ -472,48 +516,78 @@
     [_lock unlock];
 }
 
-- (NSError *) errorURLisNil
+- (NSError *) _errorURLisNil
 {
     __autoreleasing NSError *error = [[NSError alloc] initWithDomain:NSStringFromClass([self class]) code:TMImageControl_Errcode_No_Downlaod_URL userInfo:nil];
     return error;
 }
 
-- (NSError *) errorServerErrorWithCode:(NSError *)aServerError andStatusCode:(NSInteger)aStatusCode
+- (NSError *) _errorServerErrorWithCode:(NSError *)aServerError andStatusCode:(NSInteger)aStatusCode
 {
     __autoreleasing NSError *error = [[NSError alloc] initWithDomain:NSStringFromClass([self class]) code:TMImageControl_Errcode_ServerError userInfo:@{TM_IMAGE_CACHE_ERR_USERINFO_SERVER_ERROR_KEY: aServerError, TM_IMAGE_CACHE_ERR_USERINFO_STATUS_CODE_KEY:[NSNumber numberWithInteger:aStatusCode]}];
     return error;
 }
 
-
-- (void) getDataFrom:(NSString *)aUrl AndSaveIn:(TMImageCache *)aItem toComplete:(void (^)(NSData *aImageNSData, NSError *error))aComplete
+- (AFHTTPRequestOperation *) _getOperationFrom:(NSString *)aUrl AndSaveIn:(NSString *)aItemTag toComplete:(void (^)(NSData *aImageNSData, NSError *error))aComplete
 {
-    if (aUrl == nil || [aUrl length] == 0) {
-        
-        //[self finishAndUpdateImage:nil WithTagMD5:aItem.tag];
-        if (aComplete) aComplete(nil, [self errorURLisNil]);
-        return;
-    }
-    
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:aUrl]];
     [request setHTTPShouldHandleCookies:NO];
     [request setHTTPShouldUsePipelining:YES];
     [request addValue:@"image/*" forHTTPHeaderField:@"Accept"];
     
-    //__unsafe_unretained TMImageCacheControl *selfItem = self;
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-        [[TMGeneralDataManager sharedInstance] imageCache:aItem setData:responseObject];
-        if (aComplete) aComplete(aItem.data, nil);
+        [[TMGeneralDataManager sharedInstance] imageCache:aItemTag setData:responseObject];
+        NSData *imageData = [[TMGeneralDataManager sharedInstance] imageCacheImageDataByTag:aItemTag];
+        if (aComplete) aComplete(imageData, nil);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        if (aComplete) aComplete(nil, [self errorServerErrorWithCode:error andStatusCode:operation.response.statusCode]);
+        if (aComplete) aComplete(nil, [self _errorServerErrorWithCode:error andStatusCode:operation.response.statusCode]);
     }];
     
+    return operation;
+}
+
+- (void) _getDataFrom:(NSString *)aUrl AndSaveIn:(NSString *)aItemTag toComplete:(void (^)(NSData *aImageNSData, NSError *error))aComplete
+{
+    if (aUrl == nil || [aUrl length] == 0) {
+        
+        //[self finishAndUpdateImage:nil WithTagMD5:aItem.tag];
+        if (aComplete) aComplete(nil, [self _errorURLisNil]);
+        return;
+    }
+    
+    AFHTTPRequestOperation *operation = [self _getOperationFrom:aUrl AndSaveIn:aItemTag toComplete:aComplete];
     [operation start];
 }
 
-- (TMImageCache *) createCacheItemFrom:(NSString *)aUrl withTagMD5:(NSString *)aTagMD5 andType:(TMImageControl_Type)aType
+- (NSString *) _createCacheItemFrom:(NSString *)aUrl withTagMD5:(NSString *)aTagMD5 andType:(TMImageControl_Type)aType
 {
-    return [[TMGeneralDataManager sharedInstance] createImageCacheFrom:aUrl withTagMD5:aTagMD5 andType:aType];
+    NSString *tag = [[TMGeneralDataManager sharedInstance] createImageCacheWithTagMD5:aTagMD5 andType:aType];
+    
+    return tag;
+}
+
+- (int) _finishOnePreloadAndNotify:(NSString *)aTagMD5
+{
+    _preloadCounter++;
+    
+    if (preloadDelegate == nil) {
+        
+    }
+    else if (_preloadCounter == [_preloadArray count]) {
+        
+        if ([preloadDelegate respondsToSelector:@selector(tmImageCacheControl:PreloadFinish:)]) {
+            [preloadDelegate tmImageCacheControl:self PreloadFinish:TMImageControl_Errcode_Success];
+        }
+        
+        preloadDelegate = nil;
+    }
+    else if (_preloadCounter > [_preloadArray count])
+    {
+        NSAssert(FALSE, @"_preloadCounter > [_preloadArray count]");
+    }
+    
+    return [_preloadArray count] - _preloadCounter;
 }
 
 - (id)init

@@ -1,12 +1,26 @@
-//
-//  TMDataManager.h
-//  TMGeneral
-//
-//  copy from XMPPFramework
-//
-//  Created by kang on 12/10/10.
-//  Copyright (c) 2012年 ThinkerMobile. All rights reserved.
-//
+/*
+ TMDataManager.h
+ 
+ Copyright (c) 2012 willsbor Kang
+ 
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+ 
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
+ 
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+ */
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
@@ -36,6 +50,10 @@
 	NSUInteger saveCount;
 	
 	dispatch_queue_t storageQueue;
+    
+    BOOL autoAllowExternalBinaryDataStorage;
+	void *storageQueueTag;
+    
 }
 
 /**
@@ -110,38 +128,29 @@
 - (NSFetchedResultsController *) createFetchResultsControllerWithEntityForName:(NSString *)aEntity
                                                                   andPredicate:(NSPredicate *)predicate
                                                                       andSorts:(NSArray *)sorts
+                                                                  andCacheName:(NSString *)aCacheName
+                                                                andSectionName:(NSString *)aSectionName;
+
+- (NSFetchedResultsController *) createFetchResultsControllerWithEntityForName:(NSString *)aEntity
+                                                                  andPredicate:(NSPredicate *)predicate
+                                                                      andSorts:(NSArray *)sorts
                                                                   andCacheName:(NSString *)aCacheName;
 
-@end
-/*
-@interface TMDataManager : NSObject
+- (NSFetchedResultsController *) createFetchResultsControllerOnMainWithEntityForName:(NSString *)aEntity
+                                                                  andPredicate:(NSPredicate *)predicate
+                                                                      andSorts:(NSArray *)sorts
+                                                                  andCacheName:(NSString *)aCacheName
+                                                                andSectionName:(NSString *)aSectionName;
 
-//// mainObject
-@property (nonatomic, readonly, strong) NSManagedObjectContext *mainObjectContext;
+- (NSFetchedResultsController *) createFetchResultsControllerOnMainWithEntityForName:(NSString *)aEntity
+                                                                  andPredicate:(NSPredicate *)predicate
+                                                                      andSorts:(NSArray *)sorts
+                                                                  andCacheName:(NSString *)aCacheName;
 
-//// Tool
-+ (NSData *) dataFromNSData:(id)aObject;
-+ (id) objectFormNSData:(NSData *)aData;
++ (void) setAppName:(NSString *)aAppName;
 
-
-//+ (void) setDefaultProjectModel:(NSString *)aProjectModel;
-//+ (TMDataManager *) defaultProjectDB;
-//+ (TMDataManager *) sharedInstance;
-
-/// function
-- (void) errorHandlerTarget:(void (^)(NSString *errorTag, NSError *error)) errorBlock;
-
-- (BOOL)save;
-
-
-/// override function
-
-- (NSString *) dataManagerBundleName;
-
-- (NSString *) dataManagerModelName;
-
-- (NSString *) dataManagerSQLiteName;
+//// overrite me If need
+- (NSString *)managedObjectModelName;
 
 @end
 
-*/

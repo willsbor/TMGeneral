@@ -1,14 +1,33 @@
-//
-//  TMViewController.m
-//  TMGeneral
-//
-//  Created by mac on 12/10/9.
-//  Copyright (c) 2012年 ThinkerMobile. All rights reserved.
-//
+/*
+ TMViewController.m
+ 
+ Copyright (c) 2012 willsbor Kang
+ 
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+ 
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
+ 
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+ */
 
 #import "TMViewController.h"
 #import "TMImageCacheControl.h"
 #import "TMKeyboardController.h"
+#import <UIKitCategoryAdditions_kang/UIAlertView+MKBlockAdditions.h>
+
+static NSString *g_defaultEngineerModePassword = @"Ncku";
 
 @interface TMViewController () <TMAPIModelProtocol, UITextViewDelegate, TMKeyboardDelegate>
 {
@@ -105,8 +124,8 @@
     TMImageCacheControl *ICC = [TMImageCacheControl defaultTMImageCacheControl];
     NSDictionary *option;
     if (aPlaceholder != nil) {
-       option = @{TM_IMAGE_CACHE_ACTIVITY_INDICATOR: @YES,
-                  TM_IMAGE_CACHE_PLACEHOLDER_IMAGE: aPlaceholder};
+        option = @{TM_IMAGE_CACHE_ACTIVITY_INDICATOR: @YES,
+                   TM_IMAGE_CACHE_PLACEHOLDER_IMAGE: aPlaceholder};
     } else {
         option = @{TM_IMAGE_CACHE_ACTIVITY_INDICATOR: @YES};
     }
@@ -178,7 +197,7 @@
 }
 
 - (NSString *) registerTextView:(UITextView *) aTargetTextView
-                     toMoveViews:(NSArray *)aMovedViews
+                    toMoveViews:(NSArray *)aMovedViews
              withMovingDistance:(float) aMovingDistance
            andModifyBySelectBar:(BOOL) aSelectBar
                       andOption:(NSDictionary *)aOptions
@@ -208,7 +227,7 @@
 }
 
 - (NSString *) registerTextView:(UITextView *) aTargetTextView
-                     toMoveViews:(NSArray *)aMovedViews
+                    toMoveViews:(NSArray *)aMovedViews
              withMovingDistance:(float) aMovingDistance
            andModifyBySelectBar:(BOOL) aSelectBar
 {
@@ -219,16 +238,16 @@
 
 #pragma mark - TMKeyboardDelegate
 /*
-- (void) keyboard:(TMKeyboardController *)aKeyControl didModifySelectHigh:(CGFloat)aKeyBoardHeight OfItem:(TMKeyboardItem *)aKeyItem
-{
-    
-}
-
-- (void) keyboard:(TMKeyboardController *)aKeyControl willModifySelectHigh:(CGFloat)aKeyBoardHeight OfItem:(TMKeyboardItem *)aKeyItem
-{
-    
-}
-*/
+ - (void) keyboard:(TMKeyboardController *)aKeyControl didModifySelectHigh:(CGFloat)aKeyBoardHeight OfItem:(TMKeyboardItem *)aKeyItem
+ {
+ 
+ }
+ 
+ - (void) keyboard:(TMKeyboardController *)aKeyControl willModifySelectHigh:(CGFloat)aKeyBoardHeight OfItem:(TMKeyboardItem *)aKeyItem
+ {
+ 
+ }
+ */
 
 #pragma mark - TMAPIModelProtocol
 
@@ -254,7 +273,7 @@
     }
 }
 
-#pragma mark - engineer 
+#pragma mark - engineer
 
 - (IBAction)enterEngineerMode1:(id)sender {
     if ([[sender class] isSubclassOfClass:[UILongPressGestureRecognizer class]]) {
@@ -277,16 +296,38 @@
 #if !(TARGET_IPHONE_SIMULATOR)
         if (_engineerMode == 1) {
             if (tapGR.state == UIGestureRecognizerStateEnded) {
-                [self activeEnterEngineerFunction];
+                [self checkPassword2EnterEngineerMode];
             }
         }
 #else
         if (tapGR.state == UIGestureRecognizerStateEnded) {
-            [self activeEnterEngineerFunction];
+            [self checkPassword2EnterEngineerMode];
         }
 #endif
     }
+    
+}
 
+- (void) checkPassword2EnterEngineerMode
+{
+    UIAlertView *alert = [UIAlertView alertViewWithTitle:@"who are you?"
+                                                 message:@""
+                                       cancelButtonTitle:@"cancel"
+                                       otherButtonTitles:@[@"enter"]
+                                               onDismiss:^(id respond, int buttonIndex) {
+                                                   NSString *pw = [((UIAlertView *)respond)textFieldAtIndex:0].text;
+                                                   if ([pw isEqualToString:g_defaultEngineerModePassword]) {
+                                                       dispatch_async(dispatch_get_main_queue(), ^{
+                                                           [self activeEnterEngineerFunction];
+                                                       });
+                                                   }
+                                               } onCancel:^(id respond) {
+                                                   
+                                               }];
+    
+    alert.alertViewStyle = UIAlertViewStyleSecureTextInput;
+    
+    [alert show];
 }
 
 - (void) activeEnterEngineerFunction
@@ -294,12 +335,17 @@
     
 }
 
++ (void) changeEngineerModePassword:(NSString *)aNewPassword
+{
+    g_defaultEngineerModePassword = [aNewPassword copy];
+}
+
 #pragma mark - life
 
 - (void) viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-
+    
     //// 離開View時  取消需要取消的api
     //// 不需要取消的則會繼續執行 但是delegate清掉
     for (TMAPIModel *object in [self.activeAPIs allValues]) {
@@ -317,7 +363,8 @@
     for (NSString *key in self.keyboardWatchList) {
         [[TMKeyboardController defaultTMKeyboardController] removeWithKey:key];
     }
-    
+    [self.keyboardWatchList removeAllObjects];
+    self.keyboardWatchList = nil;
 }
 
 - (id) initWithUniversal
@@ -407,6 +454,7 @@
         //// 移除 all url -> iv 的連結 (但是圖片還是會繼續下載到Cache中)
         [[TMImageCacheControl defaultTMImageCacheControl] removeListonImageViews:self.loadingImageViews];
         self.loadingImageViews = nil;
+        
         
         self.view = nil;
     }

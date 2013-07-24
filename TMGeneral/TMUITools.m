@@ -1,10 +1,26 @@
-//
-//  TMUITools.m
-//  TMGeneral
-//
-//  Created by mac on 12/10/16.
-//  Copyright (c) 2012年 ThinkerMobile. All rights reserved.
-//
+/*
+ TMUITools.m
+ 
+ Copyright (c) 2012 willsbor Kang
+ 
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+ 
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
+ 
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+ */
 
 #import "TMUITools.h"
 #import <QuartzCore/CoreAnimation.h>
@@ -28,15 +44,11 @@ UIImage *tmImageResizeAndCutCenter(UIImage *aOriImage, CGSize aTargetSize)
     /// Kang modify
     /// 直接把 fb近來的圖取最大的中央正方形
     
-    NSLog(@"aTargetSize = %@", NSStringFromCGSize(aTargetSize));
-    
     float realRatio = aTargetSize.width;
     realRatio /= aTargetSize.height;
-    NSLog(@"realRatio = %f", realRatio);
     
     float ratio = imageWidth;
     ratio /= imageHeight;
-    NSLog(@"ratio = %f", ratio);
     
     if (ratio > realRatio) {
         // 以高為主，切割畫面
@@ -59,8 +71,6 @@ UIImage *tmImageResizeAndCutCenter(UIImage *aOriImage, CGSize aTargetSize)
     // 裁減 UIImage
     CGRect clipRect = CGRectMake(tempImageX, tempImageY, imageWidth, imageHeight);
     
-    NSLog(@"clipRect = %@", NSStringFromCGRect(clipRect));
-    
     CGContextRef context;
     UIGraphicsBeginImageContext(CGSizeMake(tempImageWidth, tempImageHeight));
     
@@ -72,6 +82,36 @@ UIImage *tmImageResizeAndCutCenter(UIImage *aOriImage, CGSize aTargetSize)
     imgThumb = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
 
+    return imgThumb;
+}
+
+UIImage *tmImageCutCenter(UIImage *aOriImage, CGSize aTargetSize)
+{
+    if (aTargetSize.width >= aOriImage.size.width
+        && aTargetSize.height >= aOriImage.size.height) {
+        return aOriImage;
+    }
+    
+    aTargetSize.width = MIN(aTargetSize.width, aOriImage.size.width);
+    aTargetSize.height = MIN(aTargetSize.height, aOriImage.size.height);
+    
+    float tempImageX = -(aOriImage.size.width - aTargetSize.width) / 2;
+    float tempImageY = -(aOriImage.size.height - aTargetSize.height) / 2;
+    
+    // 裁減 UIImage
+    CGRect clipRect = CGRectMake(tempImageX, tempImageY, aOriImage.size.width, aOriImage.size.height);
+    
+    CGContextRef context;
+    UIGraphicsBeginImageContext(aTargetSize);
+    
+    context = UIGraphicsGetCurrentContext();
+    CGContextScaleCTM(context, 1, -1);
+    CGContextTranslateCTM(context, 0, -aTargetSize.height);
+    CGContextDrawImage(context, clipRect, aOriImage.CGImage);
+    
+    __autoreleasing UIImage *imgThumb = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
     return imgThumb;
 }
 
@@ -197,7 +237,7 @@ UIView *tmViewCreateByDatas(NSArray *aDatas, float aWidth, float aLH, NSDictiona
                         tmpL.text = cutString;
                         tmpL.backgroundColor = [UIColor clearColor];
                         tmpL.textColor = label.textColor;
-                        tmpL.textAlignment = UITextAlignmentLeft;
+                        tmpL.textAlignment = NSTextAlignmentLeft;
                         //tmpL.lineBreakMode = label.lineBreakMode;
                         //HiiirLog(@"cutString :[%@][%d/%d]", cutString, [cutString length], [label.text length]);
                         
@@ -222,7 +262,7 @@ UIView *tmViewCreateByDatas(NSArray *aDatas, float aWidth, float aLH, NSDictiona
                     
                 } else {
                     [paper addSubview:label];
-                    label.textAlignment = UITextAlignmentLeft;
+                    label.textAlignment = NSTextAlignmentLeft;
                     label.frame = CGRectMake(offset.x + markPositionX, offset.y + (aLH * (lineCount)) - _size.height, _size.width, _size.height);
                     markPositionX += _size.width;
                     
@@ -279,7 +319,7 @@ CGSize tmStringSize(NSString *aString, UIFont *aFont, float aRefWidth)
     CGSize maximumLabelSize = CGSizeMake(aRefWidth,MAXFLOAT);
     CGSize expectedLabelSize = [aString sizeWithFont:aFont
                                    constrainedToSize:maximumLabelSize
-                                       lineBreakMode:UILineBreakModeWordWrap];
+                                       lineBreakMode:NSLineBreakByWordWrapping];
     
     return expectedLabelSize;
 }
@@ -415,3 +455,26 @@ UIImage *tmImageWithColor(UIColor *color) {
     return image;
 }
 
+void tmResizeBtnSize(UIButton *aBtn, float aWidthBuffer)
+{
+    CGSize s = tmStringSize(aBtn.titleLabel.text, aBtn.titleLabel.font, MAXFLOAT);
+    CGRect f = aBtn.frame;
+    f.size.width = MAX(f.size.width, s.width + aWidthBuffer);
+    aBtn.frame = f;
+}
+
+extern void tmResizeBtnSizeRefRight(UIButton *aBtn, float aWidthBuffer)
+{
+    CGSize s = tmStringSize(aBtn.titleLabel.text, aBtn.titleLabel.font, MAXFLOAT);
+    CGRect f = aBtn.frame;
+    CGFloat w = MAX(f.size.width, s.width + aWidthBuffer);
+    f.origin.x -= (w - f.size.width);
+    f.size.width = w;
+    aBtn.frame = f;
+}
+
+void tmResetBtnBackgroundImage(UIButton *aBtn, UIEdgeInsets capInsets, UIControlState aForState)
+{
+    UIImage *image = [aBtn backgroundImageForState:aForState];
+    [aBtn setBackgroundImage:[image resizableImageWithCapInsets:capInsets] forState:aForState];
+}

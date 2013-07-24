@@ -1,6 +1,3 @@
-/*
- TMGeneral.h
- 
  Copyright (c) 2012 willsbor Kang
  
  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -20,27 +17,3 @@
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
- */
-
-#import <TMGeneral/TMImageCacheControl.h>
-#import <TMGeneral/TMViewController.h>
-#import <TMGeneral/TMTableViewController.h>
-
-#import <TMGeneral/TMDataManager.h>
-#import <TMGeneral/TMGeneralDataManager.h>
-#import <TMGeneral/TMApiData.h>
-#import <TMGeneral/TMImageCache.h>
-
-#import <TMGeneral/TMAPIDownloadModel.h>
-#import <TMGeneral/TMAPIModel.h>
-#import <TMGeneral/TMAPIWebModel.h>
-
-#import <TMGeneral/TMKeyboardController.h>
-#import <TMGeneral/TMTools.h>
-#import <TMGeneral/TMUITools.h>
-
-#import <TMGeneral/TMGlobalModel.h>
-
-#import <TMGeneral/GTMBase64.h>
-#import <TMGeneral/GTMDefines.h>
-#import <TMGeneral/GTMStringEncoding.h>

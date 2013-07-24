@@ -1,10 +1,26 @@
-//
-//  TMImageCacheControl.h
-//  TMGeneral
-//
-//  Created by mac on 12/10/14.
-//  Copyright (c) 2012年 ThinkerMobile. All rights reserved.
-//
+/*
+ TMImageCacheControl.h
+ 
+ Copyright (c) 2012 willsbor Kang
+ 
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+ 
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
+ 
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+ */
 
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
@@ -35,6 +51,7 @@ typedef enum
 typedef UIImage* (^TMICImageModify)(UIImage *, NSError *);
 
 @class TMImageCacheControl;
+@class AFHTTPRequestOperation;
 @protocol TMImageCacheControlPreloadProtocol <NSObject>
 
 @optional
@@ -63,6 +80,8 @@ typedef UIImage* (^TMICImageModify)(UIImage *, NSError *);
              withTag:(NSString *)aTag
              andType:(TMImageControl_Type)aType
           andOptions:(NSDictionary *)aOptions;
+
+- (AFHTTPRequestOperation *) setImageOperationByImageURL:(NSString *)aURL withTag:(NSString *)aTag andType:(TMImageControl_Type)aType toComplete:(void (^)(UIImage *aImage, NSError *error))aComplete;
 
 /**
  * 下面為擷取一個網址的圖片，結果會引到block，但是存取中的重複讀取(time issue) 尚未做最佳化與處理

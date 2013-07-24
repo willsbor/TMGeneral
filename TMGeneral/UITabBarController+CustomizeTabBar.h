@@ -1,5 +1,5 @@
 /*
- TMGeneral.h
+ UITabBarController+CustomizeTabBar.h
  
  Copyright (c) 2012 willsbor Kang
  
@@ -22,25 +22,28 @@
  THE SOFTWARE.
  */
 
-#import <TMGeneral/TMImageCacheControl.h>
-#import <TMGeneral/TMViewController.h>
-#import <TMGeneral/TMTableViewController.h>
 
-#import <TMGeneral/TMDataManager.h>
-#import <TMGeneral/TMGeneralDataManager.h>
-#import <TMGeneral/TMApiData.h>
-#import <TMGeneral/TMImageCache.h>
+#import <UIKit/UIKit.h>
 
-#import <TMGeneral/TMAPIDownloadModel.h>
-#import <TMGeneral/TMAPIModel.h>
-#import <TMGeneral/TMAPIWebModel.h>
+//#define CUSTOMIZE_TABBAR_VIEW_BASE_TAG_VALUE  65534
 
-#import <TMGeneral/TMKeyboardController.h>
-#import <TMGeneral/TMTools.h>
-#import <TMGeneral/TMUITools.h>
+@interface UITabBarController (CustomizeTabBar)
 
-#import <TMGeneral/TMGlobalModel.h>
+@property (nonatomic, readonly) UIView *customTabView;
+@property (nonatomic, readonly) NSArray *customButtonArrays;
 
-#import <TMGeneral/GTMBase64.h>
-#import <TMGeneral/GTMDefines.h>
-#import <TMGeneral/GTMStringEncoding.h>
+/**
+ * @brief 客製化tabbar  輸入要使用的 view + button
+ *
+ * tabbar 會至底靠齊
+ *
+ * @param aView 欲使用的UIView
+ * @see - (void) loadCustomTab:(UIView *)aView AtCenter:(CGPoint)aCenter;
+*/
+- (void) loadCustomTab:(UIView *)aView AndButtons:(NSArray *)aButtons;
+
+- (void) loadDefaultPositionCustomTab:(UIView *)aView AndButtons:(NSArray *)aButtons;
+
+- (void) customTabbarHidden:(BOOL)aHidden animation:(BOOL)animation;
+
+@end

@@ -1,15 +1,29 @@
-//
-//  TMAPIModel.h
-//  TMGeneral
-//
-//  Created by mac on 12/10/10.
-//  Copyright (c) 2012年 ThinkerMobile. All rights reserved.
-//
+/*
+ TMAPIModel.h
+ 
+ Copyright (c) 2012 willsbor Kang
+ 
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+ 
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
+ 
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+ */
 
 #import <Foundation/Foundation.h>
-
-#define TMAPIMODEL_DEFAULT_RETRY_DELAY_TIME   5.0  /// sec
-#define TMAPIMODEL_DEFAULT_CHECK_API_DURATION   30.0 ///< sec
+#import "TMApiData+Plus.h"
 
 typedef enum
 {
@@ -21,43 +35,14 @@ typedef enum
 
 typedef enum
 {
-    TMAPI_Mode_Leave_With_Cancel,
-    TMAPI_Mode_Leave_Without_Cancel,
-} TMAPI_Mode;
-
-typedef enum
-{
-    TMAPI_State_Init,
-    TMAPI_State_Doing,
-    TMAPI_State_Finished,
-    TMAPI_State_Pending,  ///< retry : 中途的狀態
-    TMAPI_State_Failed,   ///< retry 到最後失敗
-    TMAPI_State_Stop,   ///< 被系統強制換狀態
-} TMAPI_State;
-
-typedef enum
-{
-    TMAPI_Type_General,
-    TMAPI_Type_Web_Api,
-} TMAPI_Type;
-
-typedef enum
-{
-    TMAPI_Cache_Type_None,
-    TMAPI_Cache_Type_ThisActive,
-    TMAPI_Cache_Type_EveryActive,
-} TMAPI_Cache_Type;
-
-typedef enum
-{
     TMAPI_Thread_Type_Main,           ///<  第一次執行時，會做 synchronous，如果retry 則會做 Asynchronous
     TMAPI_Thread_Type_MainThread,
-    TMAPI_Thread_Type_SubThread, 
-//    TMAPI_Thread_Type_Background,   ///< 跟UIApplication 有關 先不放裡面
+    TMAPI_Thread_Type_SubThread,
+    //    TMAPI_Thread_Type_Background,   ///< 跟UIApplication 有關 先不放裡面
 } TMAPI_Thread_Type;
 
 @class TMAPIModel;
-@class TMApiData;
+//@class TMApiData;
 @protocol TMAPIModelProtocol <NSObject>
 
 @optional
@@ -72,8 +57,9 @@ typedef enum
  */
 @interface TMAPIModel : NSObject
 {
-    @protected
-    TMApiData *_actionItem;
+@protected
+    //TMApiData *_actionItem;
+    NSString *_actionItem;  ///< identify
 }
 /**
  * 如果用這個方法修改Diction內的資料可能無法正確更新到DB中
@@ -84,10 +70,10 @@ typedef enum
 @property (nonatomic, unsafe_unretained)   id<TMAPIModelProtocol> delegate;
 @property (nonatomic)           int errcode;
 @property (nonatomic, strong)   NSString *key;
-@property (nonatomic          ) TMAPI_Thread_Type thread;   
+@property (nonatomic          ) TMAPI_Thread_Type thread;
 
 //// Data
-@property (nonatomic, readonly) TMApiData *actionItem;
+@property (nonatomic, readonly) NSString *actionItem;
 @property (nonatomic, readonly) TMAPI_Mode  mode;
 @property (nonatomic, readonly) TMAPI_State state;
 @property (nonatomic)           TMAPI_Cache_Type cacheType;
@@ -95,17 +81,39 @@ typedef enum
 @property (nonatomic)           double      retryDelayTime;
 
 
++ (void) switchAPIDataStateFromInvalidDoing2Pending;
++ (void) switchAPIDataStateFromInvalid2Stop;
+
++ (void) startCheckCacheAPI;
++ (void) stopCheckCacheAPI;
+
++ (void) removeAllFinishAPIData;
+
 //// public
 
-- (id) initFromAction:(TMApiData *)aAction;
+/**
+ * initial object by special tag
+ * \param aAction special tag
+ */
+- (id) initFromAction:(NSString *)aAction;
 
+/**
+ * initial object by customize input content
+ * \param aInput customize input content
+ */
 - (id) initWithInput:(NSDictionary *)aInput;
 
+/**
+ * start to execute the api object, start to execute main function
+ * \param aDelegate set the delegate for respone
+ */
 - (void) startWithDelegate:(id<TMAPIModelProtocol>)aDelegate;
 
-- (BOOL) checkRetry;
-
-- (BOOL) retry;
+/**
+ * check the retry times and to do retry function or final function
+ *
+ */
+- (void) checkRetryAndDoRetryOrFinal;
 
 /// overwite
 - (void) main;

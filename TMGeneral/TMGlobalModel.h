@@ -1,10 +1,26 @@
-//
-//  TMGlobalModel.h
-//  TMGeneral
-//
-//  Created by mac on 12/10/19.
-//  Copyright (c) 2012年 ThinkerMobile. All rights reserved.
-//
+/*
+ TMGlobalModel.h
+ 
+ Copyright (c) 2012 willsbor Kang
+ 
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+ 
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
+ 
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+ */
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
@@ -45,12 +61,17 @@ typedef enum {
 
 + (void) setWaitingViewBaseView:(UIView *)aView;
 + (void) setWaitingViewAnimationDirection:(TMGlobal_WaitingView_Animation_Direction)aDirection;
++ (void) setWaitingViewWidthMargin:(CGFloat)aWidthMargin;
 - (void) cleanWaitingViewForLang;
 - (BOOL) isWaitingViewDisplay;
 - (void) waitingViewHidden;
 - (void) waitingViewShowAtPoint:(CGPoint)aPoint withText:(NSString *)aText;
 ///   aHiddenTime < =0 is show all the time
 - (void) waitingViewShowAtPoint:(CGPoint)aPoint withText:(NSString *)aText withDelayHidden:(NSTimeInterval)aHiddenTime;
+
+- (void) waitingViewShowAtPoint:(CGPoint)aPoint withText:(NSString *)aText withBtnAction:(void (^)(void))aAction;
+///   aHiddenTime < =0 is show all the time
+- (void) waitingViewShowAtPoint:(CGPoint)aPoint withText:(NSString *)aText withDelayHidden:(NSTimeInterval)aHiddenTime withBtnAction:(void (^)(void))aAction;
 
 /**
  * 設定 檢查一個flag 如果為nil or NO 則會執行 action 然後 將flag設定成 YES;
