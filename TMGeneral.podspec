@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "TMGeneral"
-  s.version      = "1.11.2"
+  s.version      = "1.11.3"
   s.summary      = "Thinker Mobile for Project General Tools."
   s.homepage     = "http://www.thinkermobile.com/"
   s.license      = 'MIT'
