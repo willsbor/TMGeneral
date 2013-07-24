@@ -335,6 +335,11 @@ static NSString *g_defaultEngineerModePassword = @"Ncku";
     
 }
 
++ (void) changeEngineerModePassword:(NSString *)aNewPassword
+{
+    g_defaultEngineerModePassword = [aNewPassword copy];
+}
+
 #pragma mark - life
 
 - (void) viewWillDisappear:(BOOL)animated

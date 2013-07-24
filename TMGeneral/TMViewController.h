@@ -84,4 +84,5 @@
 - (IBAction)enterEngineerMode1:(id)sender;
 - (IBAction)enterEngineerMode2:(id)sender;
 - (void) activeEnterEngineerFunction;
++ (void) changeEngineerModePassword:(NSString *)aNewPassword;
 @end
