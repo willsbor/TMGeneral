@@ -336,6 +336,14 @@ void tmModifyLabelSizeByFontSize(UILabel *aText, float aMaxFontSize, float aMinF
     } while (s.height > aText.frame.size.height && fsize > aMinFontSize);
 }
 
+extern void tmLabelSizeFitTextSize(UILabel *aText, float aRefWidth)
+{
+    CGSize s = tmStringSize(aText.text, aText.font, MAXFLOAT);
+    CGRect f = aText.frame;
+    f.size = s;
+    aText.frame = f;
+}
+
 void tmBringUIViewBehindAtY(UIView *aSecond, UIView *aRefView, float aOffset)
 {
     CGRect newFrame = aSecond.frame;
