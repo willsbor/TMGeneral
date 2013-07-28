@@ -338,7 +338,7 @@ void tmModifyLabelSizeByFontSize(UILabel *aText, float aMaxFontSize, float aMinF
 
 extern void tmLabelSizeFitTextSize(UILabel *aText, float aRefWidth)
 {
-    CGSize s = tmStringSize(aText.text, aText.font, MAXFLOAT);
+    CGSize s = tmStringSize(aText.text, aText.font, aRefWidth);
     CGRect f = aText.frame;
     f.size = s;
     aText.frame = f;
