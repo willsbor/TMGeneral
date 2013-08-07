@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "TMGeneral"
-  s.version      = "1.11.9"
+  s.version      = "1.12.0"
   s.summary      = "Thinker Mobile for Project General Tools."
   s.homepage     = "http://www.thinkermobile.com/"
   s.license      = 'MIT'
@@ -13,6 +13,6 @@ Pod::Spec.new do |s|
   s.framework  = 'CoreData'
   s.requires_arc = true
   s.dependency 'AFNetworking',  '1.3.1'
-  s.dependency 'AFDownloadRequestOperation',   '0.0.1'
+  s.dependency 'AFDownloadRequestOperation_kang',   '0.0.2'
   s.dependency 'UIKitCategoryAdditions_kang'
 end
