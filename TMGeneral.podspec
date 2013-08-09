@@ -1,11 +1,11 @@
 Pod::Spec.new do |s|
   s.name         = "TMGeneral"
   s.version      = "1.12.0"
-  s.summary      = "Thinker Mobile for Project General Tools."
-  s.homepage     = "http://www.thinkermobile.com/"
+  s.summary      = "A UI general tool. include UI tool, Data Model, control function."
+  s.homepage     = "https://github.com/willsbor/TMGeneral"
   s.license      = 'MIT'
   s.author       = { "willsbor Kang" => "kang@thinkermobile.com" }
-  s.source       = { :git => "git@bitbucket.org:thinkermobile/tmgeneral.git", :tag => "#{s.version}" }
+  s.source       = { :git => "https://github.com/willsbor/TMGeneral.git", :tag => "#{s.version}" }
   s.platform     = :ios, '5.0'
   s.ios.deployment_target = '5.0'
   s.source_files = 'TMGeneral', 'TMGeneralResource', 'TMGeneral/model', 'TMGeneral/ModelManager', 'TMGeneral/Vender'
