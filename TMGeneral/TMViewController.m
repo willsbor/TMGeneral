@@ -25,11 +25,10 @@
 #import "TMViewController.h"
 #import "TMImageCacheControl.h"
 #import "TMKeyboardController.h"
-#import <UIKitCategoryAdditions_kang/UIAlertView+MKBlockAdditions.h>
 
 static NSString *g_defaultEngineerModePassword = @"Ncku";
 
-@interface TMViewController () <TMAPIModelProtocol, UITextViewDelegate, TMKeyboardDelegate>
+@interface TMViewController () <TMAPIModelProtocol, UITextViewDelegate, TMKeyboardDelegate, UIAlertViewDelegate>
 {
     int _engineerMode;
 }
@@ -309,22 +308,21 @@ static NSString *g_defaultEngineerModePassword = @"Ncku";
     
 }
 
+- (void) alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 1) {
+        NSString *pw = [alertView textFieldAtIndex:0].text;
+        if ([pw isEqualToString:g_defaultEngineerModePassword]) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self activeEnterEngineerFunction];
+            });
+        }
+    }
+}
+
 - (void) checkPassword2EnterEngineerMode
 {
-    UIAlertView *alert = [UIAlertView alertViewWithTitle:@"who are you?"
-                                                 message:@""
-                                       cancelButtonTitle:@"cancel"
-                                       otherButtonTitles:@[@"enter"]
-                                               onDismiss:^(id respond, int buttonIndex) {
-                                                   NSString *pw = [((UIAlertView *)respond)textFieldAtIndex:0].text;
-                                                   if ([pw isEqualToString:g_defaultEngineerModePassword]) {
-                                                       dispatch_async(dispatch_get_main_queue(), ^{
-                                                           [self activeEnterEngineerFunction];
-                                                       });
-                                                   }
-                                               } onCancel:^(id respond) {
-                                                   
-                                               }];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"who are you?" message:@"" delegate:self cancelButtonTitle:@"cancel" otherButtonTitles:@"enter", nil];
     
     alert.alertViewStyle = UIAlertViewStyleSecureTextInput;
     
