@@ -34,11 +34,12 @@ static NSString *g_defaultEngineerModePassword = @"Ncku";
     int _engineerMode;
 }
 @property (nonatomic, strong) NSMutableArray *loadingImageViews;
-@property (nonatomic, strong) NSMutableArray *keyboardWatchList;
+
 
 @end
 
 @implementation TMViewController
+@synthesize keyboardWatchList = _keyboardWatchList;
 
 #pragma mark - static
 
@@ -364,7 +365,7 @@ static NSString *g_defaultEngineerModePassword = @"Ncku";
         [[TMKeyboardController defaultTMKeyboardController] removeWithKey:key];
     }
     [self.keyboardWatchList removeAllObjects];
-    self.keyboardWatchList = nil;
+    _keyboardWatchList = nil;
 }
 
 - (id) initWithUniversal

@@ -128,7 +128,9 @@ typedef enum
     }];
     
     
-    [_operation setProgressiveDownloadProgressBlock:^(NSInteger bytesRead, long long totalBytesRead, long long totalBytesExpected, long long totalBytesReadForFile, long long totalBytesExpectedToReadForFile) {
+    //[_operation setProgressiveDownloadProgressBlock:^(NSInteger bytesRead, long long totalBytesRead, long long totalBytesExpected, long long totalBytesReadForFile, long long totalBytesExpectedToReadForFile) {
+    
+    [_operation setProgressiveDownloadProgressBlock:^(AFDownloadRequestOperation *operation, NSInteger bytesRead, long long totalBytesRead, long long totalBytesExpected, long long totalBytesReadForFile, long long totalBytesExpectedToReadForFile)  {
         //NSLog(@"Operation%i: bytesRead: %d", 1, bytesRead);
         //NSLog(@"Operation%i: totalBytesRead: %lld", 1, totalBytesRead);
         //NSLog(@"Operation%i: totalBytesExpected: %lld", 1, totalBytesExpected);

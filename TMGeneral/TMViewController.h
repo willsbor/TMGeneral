@@ -30,6 +30,7 @@
 
 @property (nonatomic, strong) NSMutableDictionary *activeAPIs;
 @property (nonatomic, strong) NSArray *touchHiddenKeyBoardsByViews;
+@property (nonatomic, readonly) NSMutableArray *keyboardWatchList;
 
 //// view
 - (id) initWithUniversal;
