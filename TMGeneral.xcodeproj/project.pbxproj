@@ -97,6 +97,10 @@
 		AB098893171FE4760060E191 /* TMUIToolTest.m in Sources */ = {isa = PBXBuildFile; fileRef = AB098892171FE4760060E191 /* TMUIToolTest.m */; };
 		AB098894171FE7110060E191 /* 1041314117.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AB09888F171FE4350060E191 /* 1041314117.jpg */; };
 		AB0988B4172178EF0060E191 /* TMImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = AB0988B3172178EF0060E191 /* TMImageCache.m */; };
+		AB45DEF017CE225300B68C6E /* TMRotateNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB45DEEF17CE225300B68C6E /* TMRotateNavigationController.m */; };
+		AB45DEF117CE225C00B68C6E /* TMRotateNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB45DEEF17CE225300B68C6E /* TMRotateNavigationController.m */; };
+		AB45DEF217CE225D00B68C6E /* TMRotateNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB45DEEF17CE225300B68C6E /* TMRotateNavigationController.m */; };
+		AB45DEF317CE225E00B68C6E /* TMRotateNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB45DEEF17CE225300B68C6E /* TMRotateNavigationController.m */; };
 		AB4D7B251658B0F300B5A2C3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB4D7B241658B0F300B5A2C3 /* Foundation.framework */; };
 		AB4D7B2A1658B0F300B5A2C3 /* TMGeneral.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AB4D7B291658B0F300B5A2C3 /* TMGeneral.h */; };
 		AB4D7B371658B13200B5A2C3 /* TMApiData.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4D7B341658B13200B5A2C3 /* TMApiData.m */; };
@@ -223,6 +227,8 @@
 		AB0988B2172178EF0060E191 /* TMImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMImageCache.h; sourceTree = "<group>"; };
 		AB0988B3172178EF0060E191 /* TMImageCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMImageCache.m; sourceTree = "<group>"; };
 		AB0988E5172657D00060E191 /* TMGeneralDataModel 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "TMGeneralDataModel 2.xcdatamodel"; sourceTree = "<group>"; };
+		AB45DEEE17CE225300B68C6E /* TMRotateNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMRotateNavigationController.h; sourceTree = "<group>"; };
+		AB45DEEF17CE225300B68C6E /* TMRotateNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMRotateNavigationController.m; sourceTree = "<group>"; };
 		AB4D7B211658B0F300B5A2C3 /* libTMGeneral.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libTMGeneral.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB4D7B241658B0F300B5A2C3 /* Foundation.framework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		AB4D7B281658B0F300B5A2C3 /* TMGeneral-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TMGeneral-Prefix.pch"; sourceTree = "<group>"; };
@@ -479,6 +485,8 @@
 				AB4D7B291658B0F300B5A2C3 /* TMGeneral.h */,
 				AB4D7B461658B3B700B5A2C3 /* TMImageCacheControl.h */,
 				AB4D7B471658B3B700B5A2C3 /* TMImageCacheControl.m */,
+				AB45DEEE17CE225300B68C6E /* TMRotateNavigationController.h */,
+				AB45DEEF17CE225300B68C6E /* TMRotateNavigationController.m */,
 				AB4D7B4E1658B3B700B5A2C3 /* TMViewController.h */,
 				AB4D7B4F1658B3B700B5A2C3 /* TMViewController.m */,
 				ABE6227216A9A5CE0096C5A8 /* TMTableViewController.h */,
@@ -813,6 +821,7 @@
 				AB092956168219A60039704D /* TMImageCacheControl.m in Sources */,
 				ABE621AB16A682E70096C5A8 /* GTMBase64.m in Sources */,
 				ABE621AD16A682EC0096C5A8 /* GTMStringEncoding.m in Sources */,
+				AB45DEF117CE225C00B68C6E /* TMRotateNavigationController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -840,6 +849,7 @@
 				AB5B0A621744A599002800E0 /* ImageTestViewController.m in Sources */,
 				AB932F4A17895A5B00FB33E2 /* TMApiData+Plus.m in Sources */,
 				AB82E3CC17962D1E00B44D9B /* UITabBarController+CustomizeTabBar.m in Sources */,
+				AB45DEF217CE225D00B68C6E /* TMRotateNavigationController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -870,6 +880,7 @@
 				AB098788171C3C340060E191 /* GTMStringEncoding.m in Sources */,
 				AB098893171FE4760060E191 /* TMUIToolTest.m in Sources */,
 				AB932F4B17895A5B00FB33E2 /* TMApiData+Plus.m in Sources */,
+				AB45DEF317CE225E00B68C6E /* TMRotateNavigationController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -896,6 +907,7 @@
 				AB0988B4172178EF0060E191 /* TMImageCache.m in Sources */,
 				AB932F4917895A5B00FB33E2 /* TMApiData+Plus.m in Sources */,
 				AB82E3CB17962D1E00B44D9B /* UITabBarController+CustomizeTabBar.m in Sources */,
+				AB45DEF017CE225300B68C6E /* TMRotateNavigationController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
