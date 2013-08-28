@@ -25,6 +25,7 @@
 #import <TMGeneral/TMImageCacheControl.h>
 #import <TMGeneral/TMViewController.h>
 #import <TMGeneral/TMTableViewController.h>
+#import <TMGeneral/TMRotateNavigationController.h>
 
 #import <TMGeneral/TMDataManager.h>
 #import <TMGeneral/TMGeneralDataManager.h>
