@@ -33,7 +33,7 @@ static NSString *g_defaultEngineerModePassword = @"Ncku";
     int _engineerMode;
 }
 @property (nonatomic, strong) NSMutableArray *loadingImageViews;
-
+@property (nonatomic, strong) UIAlertView *engineerAlert;
 
 @end
 
@@ -310,23 +310,27 @@ static NSString *g_defaultEngineerModePassword = @"Ncku";
 
 - (void) alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
-    if (buttonIndex == 1) {
-        NSString *pw = [alertView textFieldAtIndex:0].text;
-        if ([pw isEqualToString:g_defaultEngineerModePassword]) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self activeEnterEngineerFunction];
-            });
+    if (alertView == self.engineerAlert) {
+        if (buttonIndex == 1) {
+            NSString *pw = [alertView textFieldAtIndex:0].text;
+            if ([pw isEqualToString:g_defaultEngineerModePassword]) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self activeEnterEngineerFunction];
+                });
+            }
         }
+        
+        self.engineerAlert = nil;
     }
+    
 }
 
 - (void) checkPassword2EnterEngineerMode
 {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"who are you?" message:@"" delegate:self cancelButtonTitle:@"cancel" otherButtonTitles:@"enter", nil];
+    self.engineerAlert = [[UIAlertView alloc] initWithTitle:@"who are you?" message:@"" delegate:self cancelButtonTitle:@"cancel" otherButtonTitles:@"enter", nil];
+    self.engineerAlert.alertViewStyle = UIAlertViewStyleSecureTextInput;
     
-    alert.alertViewStyle = UIAlertViewStyleSecureTextInput;
-    
-    [alert show];
+    [self.engineerAlert show];
 }
 
 - (void) activeEnterEngineerFunction
