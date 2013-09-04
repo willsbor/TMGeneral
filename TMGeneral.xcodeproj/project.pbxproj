@@ -48,7 +48,6 @@
 		AB098758171C3A560060E191 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB4D7B241658B0F300B5A2C3 /* Foundation.framework */; };
 		AB098760171C3A560060E191 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AB09875E171C3A560060E191 /* InfoPlist.strings */; };
 		AB098763171C3A560060E191 /* TMGeneralAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AB098762171C3A560060E191 /* TMGeneralAppTests.m */; };
-		AB09876F171C3B650060E191 /* GlobalModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AB09876A171C3B650060E191 /* GlobalModel.m */; };
 		AB098770171C3B650060E191 /* TMAPIWebModelTest.m in Sources */ = {isa = PBXBuildFile; fileRef = AB09876B171C3B650060E191 /* TMAPIWebModelTest.m */; };
 		AB098771171C3B650060E191 /* TMGeneralDataManagerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = AB09876C171C3B650060E191 /* TMGeneralDataManagerTest.m */; };
 		AB098772171C3B650060E191 /* TMImageCacheControlTest.m in Sources */ = {isa = PBXBuildFile; fileRef = AB09876D171C3B650060E191 /* TMImageCacheControlTest.m */; };
@@ -97,6 +96,10 @@
 		AB098893171FE4760060E191 /* TMUIToolTest.m in Sources */ = {isa = PBXBuildFile; fileRef = AB098892171FE4760060E191 /* TMUIToolTest.m */; };
 		AB098894171FE7110060E191 /* 1041314117.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AB09888F171FE4350060E191 /* 1041314117.jpg */; };
 		AB0988B4172178EF0060E191 /* TMImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = AB0988B3172178EF0060E191 /* TMImageCache.m */; };
+		AB0CD25717D7685B0094AE1D /* UITabBarController+CustomizeTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = AB82E3CA17962D1E00B44D9B /* UITabBarController+CustomizeTabBar.m */; };
+		AB0CD25817D768600094AE1D /* TMTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ABE6227316A9A5CE0096C5A8 /* TMTableViewController.m */; };
+		AB0CD25917D768700094AE1D /* TMImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = AB0988B3172178EF0060E191 /* TMImageCache.m */; };
+		AB0CD25A17D76EA20094AE1D /* GlobalModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AB09876A171C3B650060E191 /* GlobalModel.m */; };
 		AB45DEF017CE225300B68C6E /* TMRotateNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB45DEEF17CE225300B68C6E /* TMRotateNavigationController.m */; };
 		AB45DEF117CE225C00B68C6E /* TMRotateNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB45DEEF17CE225300B68C6E /* TMRotateNavigationController.m */; };
 		AB45DEF217CE225D00B68C6E /* TMRotateNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB45DEEF17CE225300B68C6E /* TMRotateNavigationController.m */; };
@@ -858,7 +861,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				AB098763171C3A560060E191 /* TMGeneralAppTests.m in Sources */,
-				AB09876F171C3B650060E191 /* GlobalModel.m in Sources */,
 				AB098770171C3B650060E191 /* TMAPIWebModelTest.m in Sources */,
 				AB098771171C3B650060E191 /* TMGeneralDataManagerTest.m in Sources */,
 				AB098772171C3B650060E191 /* TMImageCacheControlTest.m in Sources */,
@@ -881,6 +883,10 @@
 				AB098893171FE4760060E191 /* TMUIToolTest.m in Sources */,
 				AB932F4B17895A5B00FB33E2 /* TMApiData+Plus.m in Sources */,
 				AB45DEF317CE225E00B68C6E /* TMRotateNavigationController.m in Sources */,
+				AB0CD25717D7685B0094AE1D /* UITabBarController+CustomizeTabBar.m in Sources */,
+				AB0CD25817D768600094AE1D /* TMTableViewController.m in Sources */,
+				AB0CD25917D768700094AE1D /* TMImageCache.m in Sources */,
+				AB0CD25A17D76EA20094AE1D /* GlobalModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1032,7 +1038,15 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TMGeneralApp/TMGeneralApp-Prefix.pch";
-				HEADER_SEARCH_PATHS = "${PODS_HEADERS_SEARCH_PATHS}";
+				HEADER_SEARCH_PATHS = (
+					"\"${PODS_ROOT}/Headers\"",
+					"\"${PODS_ROOT}/Headers/AFDownloadRequestOperation_kang\"",
+					"\"${PODS_ROOT}/Headers/AFNetworking\"",
+					"\"${PODS_ROOT}/Headers/GPUImage\"",
+					"\"${PODS_ROOT}/Headers/OCHamcrest\"",
+					"\"${PODS_ROOT}/Headers/OCMock\"",
+					"$(inherited)",
+				);
 				INFOPLIST_FILE = "TMGeneralApp/TMGeneralApp-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1051,7 +1065,15 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TMGeneralApp/TMGeneralApp-Prefix.pch";
-				HEADER_SEARCH_PATHS = "${PODS_HEADERS_SEARCH_PATHS}";
+				HEADER_SEARCH_PATHS = (
+					"\"${PODS_ROOT}/Headers\"",
+					"\"${PODS_ROOT}/Headers/AFDownloadRequestOperation_kang\"",
+					"\"${PODS_ROOT}/Headers/AFNetworking\"",
+					"\"${PODS_ROOT}/Headers/GPUImage\"",
+					"\"${PODS_ROOT}/Headers/OCHamcrest\"",
+					"\"${PODS_ROOT}/Headers/OCMock\"",
+					"$(inherited)",
+				);
 				INFOPLIST_FILE = "TMGeneralApp/TMGeneralApp-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
@@ -1070,14 +1092,24 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TMGeneralApp/TMGeneralApp-Prefix.pch";
-				HEADER_SEARCH_PATHS = "${PODS_HEADERS_SEARCH_PATHS}";
+				HEADER_SEARCH_PATHS = (
+					"\"${PODS_ROOT}/Headers\"",
+					"\"${PODS_ROOT}/Headers/AFDownloadRequestOperation_kang\"",
+					"\"${PODS_ROOT}/Headers/AFNetworking\"",
+					"\"${PODS_ROOT}/Headers/GPUImage\"",
+					"\"${PODS_ROOT}/Headers/OCHamcrest\"",
+					"\"${PODS_ROOT}/Headers/OCMock\"",
+					"$(inherited)",
+				);
 				INFOPLIST_FILE = "TMGeneralAppTests/TMGeneralAppTests-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
@@ -1094,14 +1126,24 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TMGeneralApp/TMGeneralApp-Prefix.pch";
-				HEADER_SEARCH_PATHS = "${PODS_HEADERS_SEARCH_PATHS}";
+				HEADER_SEARCH_PATHS = (
+					"\"${PODS_ROOT}/Headers\"",
+					"\"${PODS_ROOT}/Headers/AFDownloadRequestOperation_kang\"",
+					"\"${PODS_ROOT}/Headers/AFNetworking\"",
+					"\"${PODS_ROOT}/Headers/GPUImage\"",
+					"\"${PODS_ROOT}/Headers/OCHamcrest\"",
+					"\"${PODS_ROOT}/Headers/OCMock\"",
+					"$(inherited)",
+				);
 				INFOPLIST_FILE = "TMGeneralAppTests/TMGeneralAppTests-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
@@ -1162,7 +1204,6 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TMGeneral/TMGeneral-Prefix.pch";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -1177,7 +1218,6 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TMGeneral/TMGeneral-Prefix.pch";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};

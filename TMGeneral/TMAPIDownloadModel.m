@@ -26,7 +26,7 @@
 #import <AFNetworking/AFNetworking.h>
 #import "TMApiData.h"
 #import "TMTools.h"
-#import "AFDownloadRequestOperation.h"
+#import <AFDownloadRequestOperation_kang/AFDownloadRequestOperation.h>
 #import "TMGeneralDataManager.h"
 
 #define EFFECT_TEMP_FILE     [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory,   NSUserDomainMask, YES) objectAtIndex:0] stringByAppendingPathComponent:@"download"]
