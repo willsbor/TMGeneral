@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "TMGeneral"
-  s.version      = "1.14.3"
+  s.version      = "1.14.4"
   s.summary      = "A UI general tool. include UI tool, Data Model, control function."
   s.homepage     = "https://github.com/willsbor/TMGeneral"
   s.license      = 'MIT'
@@ -12,6 +12,6 @@ Pod::Spec.new do |s|
   s.resources    = 'TMGeneral/Model/*.xcdatamodeld'
   s.framework  = 'CoreData'
   s.requires_arc = true
-  s.dependency 'AFNetworking',  '1.3.1'
-  s.dependency 'AFDownloadRequestOperation_kang',   '0.0.2'
+  s.dependency 'AFNetworking',  '~> 1.3.1'
+  s.dependency 'AFDownloadRequestOperation_kang',   '~> 0.0.2'
 end

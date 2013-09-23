@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<testsuite errors="0" failures="0" hostname="server.local" name="TMGeneralDataManagerTest" tests="9" time="1.0" timestamp="Mon Sep 23 11:05:31 +0800 2013"><testcase classname='TMGeneralDataManagerTest' name='testCreateTMApiData' time='0.001' />
+<testcase classname='TMGeneralDataManagerTest' name='testGetImageData' time='0.052' />
+<testcase classname='TMGeneralDataManagerTest' name='testCreateImageCache' time='0.0' />
+<testcase classname='TMGeneralDataManagerTest' name='testSaveDataInImageCache' time='0.001' />
+<testcase classname='TMGeneralDataManagerTest' name='testHaveImageData' time='0.001' />
+<testcase classname='TMGeneralDataManagerTest' name='testChangeFunction2' time='0.001' />
+<testcase classname='TMGeneralDataManagerTest' name='testActiveApiAndThenDeleteFromDBAndCancel' time='1.004' />
+<testcase classname='TMGeneralDataManagerTest' name='testReturnObject' time='0.002' />
+<testcase classname='TMGeneralDataManagerTest' name='testChangeFunction' time='0.001' />
+</testsuite>
