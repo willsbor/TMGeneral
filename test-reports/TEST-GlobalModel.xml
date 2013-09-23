@@ -1,6 +1,0 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<testsuite errors="0" failures="0" hostname="server.local" name="GlobalModel" tests="4" time="0.0" timestamp="Mon Sep 23 11:05:30 +0800 2013"><testcase classname='GlobalModel' name='testSetDefaultAppMode' time='0.0' />
-<testcase classname='GlobalModel' name='testModeDictionary' time='0.003' />
-<testcase classname='GlobalModel' name='testSetAppMode' time='0.001' />
-<testcase classname='GlobalModel' name='testGetAppMode' time='0.001' />
-</testsuite>

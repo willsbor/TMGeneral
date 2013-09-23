@@ -1,3 +1,0 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<testsuite errors="0" failures="0" hostname="server.local" name="TMUIToolTest" tests="1" time="0.0" timestamp="Mon Sep 23 11:05:36 +0800 2013"><testcase classname='TMUIToolTest' name='testImageCutCenterNormal' time='0.004' />
-</testsuite>

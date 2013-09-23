@@ -1,4 +1,0 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<testsuite errors="0" failures="0" hostname="server.local" name="TMToolTest" tests="2" time="0.0" timestamp="Mon Sep 23 11:05:36 +0800 2013"><testcase classname='TMToolTest' name='testNSDataFormateByC' time='0.0' />
-<testcase classname='TMToolTest' name='testNSDataFormateByCWithInputFormate' time='0.0' />
-</testsuite>

@@ -16,4 +16,7 @@ profile
 Pods/*
 Podfile.lock
 
+test-reports/*
+test-reports
+
 .DS_Store

@@ -1,9 +1,0 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<testsuite errors="0" failures="0" hostname="server.local" name="TMImageCacheControlTest" tests="7" time="5.0" timestamp="Mon Sep 23 11:05:36 +0800 2013"><testcase classname='TMImageCacheControlTest' name='testNormal' time='0.001' />
-<testcase classname='TMImageCacheControlTest' name='testServerErrcode403' time='2.001' />
-<testcase classname='TMImageCacheControlTest' name='testEveryTimeUpdate' time='1.006' />
-<testcase classname='TMImageCacheControlTest' name='testSetImageToBlock' time='0.503' />
-<testcase classname='TMImageCacheControlTest' name='testServerErrcode403withModify' time='0.502' />
-<testcase classname='TMImageCacheControlTest' name='testPreloadFunction' time='0.501' />
-<testcase classname='TMImageCacheControlTest' name='testImageInDB' time='0.504' />
-</testsuite>
