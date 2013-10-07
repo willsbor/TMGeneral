@@ -82,6 +82,8 @@
              withMovingDistance:(float) aMovingDistance
            andModifyBySelectBar:(BOOL) aSelectBar ;
 
+- (void) alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex;
+
 - (IBAction)enterEngineerMode1:(id)sender;
 - (IBAction)enterEngineerMode2:(id)sender;
 - (void) activeEnterEngineerFunction;

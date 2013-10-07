@@ -269,10 +269,28 @@ static CGFloat g_waitingWidthMargin = 0;
         newf = f;
     }
     
-    //if (self.waitingView.alpha == 0) {
+    ///iOS 7
+    if ([self isEqualOrGreaterThan7]) {
+        switch (g_waitingDirection) {
+            default:
+            case TMGlobal_WaitingView_Animation_Direction_L2R:
+                newf.origin.y -= 10;
+                break;
+            case TMGlobal_WaitingView_Animation_Direction_R2L:
+                newf.origin.y -= 10;
+                break;
+            case TMGlobal_WaitingView_Animation_Direction_D2U:
+                newf.origin.y -= 20;
+                break;
+            case TMGlobal_WaitingView_Animation_Direction_U2D:
+                newf.origin.y += 20;
+                break;
+        }
+        
+    }
+    
     self.waitingView.transform = CGAffineTransformMakeTranslation(0, 0);
     self.waitingView.frame = newf;
-    //}
     
     CGFloat nextx, nexty;
     switch (g_waitingDirection) {
@@ -479,6 +497,21 @@ static CGFloat g_waitingWidthMargin = 0;
     NSAssert(nowMode < [array count], @"now mode is out of range");
     
     return [array objectAtIndex:nowMode];
+}
+
+- (BOOL) isEqualOrGreaterThan7
+{
+    static BOOL isVersion = NO;
+    
+    static dispatch_once_t pred;
+    dispatch_once(&pred, ^{
+        NSString *reqSysVer = @"7.0";
+        NSString *currSysVer = [[UIDevice currentDevice] systemVersion];
+        if ([currSysVer compare:reqSysVer options:NSNumericSearch] != NSOrderedAscending)
+            isVersion = YES;
+    });
+    
+    return isVersion;
 }
 
 

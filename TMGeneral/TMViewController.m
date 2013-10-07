@@ -25,16 +25,15 @@
 #import "TMViewController.h"
 #import "TMImageCacheControl.h"
 #import "TMKeyboardController.h"
-#import <UIKitCategoryAdditions_kang/UIAlertView+MKBlockAdditions.h>
 
 static NSString *g_defaultEngineerModePassword = @"Ncku";
 
-@interface TMViewController () <TMAPIModelProtocol, UITextViewDelegate, TMKeyboardDelegate>
+@interface TMViewController () <TMAPIModelProtocol, UITextViewDelegate, TMKeyboardDelegate, UIAlertViewDelegate>
 {
     int _engineerMode;
 }
 @property (nonatomic, strong) NSMutableArray *loadingImageViews;
-
+@property (nonatomic, strong) UIAlertView *engineerAlert;
 
 @end
 
@@ -309,26 +308,29 @@ static NSString *g_defaultEngineerModePassword = @"Ncku";
     
 }
 
+- (void) alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    if (alertView == self.engineerAlert) {
+        if (buttonIndex == 1) {
+            NSString *pw = [alertView textFieldAtIndex:0].text;
+            if ([pw isEqualToString:g_defaultEngineerModePassword]) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self activeEnterEngineerFunction];
+                });
+            }
+        }
+        
+        self.engineerAlert = nil;
+    }
+    
+}
+
 - (void) checkPassword2EnterEngineerMode
 {
-    UIAlertView *alert = [UIAlertView alertViewWithTitle:@"who are you?"
-                                                 message:@""
-                                       cancelButtonTitle:@"cancel"
-                                       otherButtonTitles:@[@"enter"]
-                                               onDismiss:^(id respond, int buttonIndex) {
-                                                   NSString *pw = [((UIAlertView *)respond)textFieldAtIndex:0].text;
-                                                   if ([pw isEqualToString:g_defaultEngineerModePassword]) {
-                                                       dispatch_async(dispatch_get_main_queue(), ^{
-                                                           [self activeEnterEngineerFunction];
-                                                       });
-                                                   }
-                                               } onCancel:^(id respond) {
-                                                   
-                                               }];
+    self.engineerAlert = [[UIAlertView alloc] initWithTitle:@"who are you?" message:@"" delegate:self cancelButtonTitle:@"cancel" otherButtonTitles:@"enter", nil];
+    self.engineerAlert.alertViewStyle = UIAlertViewStyleSecureTextInput;
     
-    alert.alertViewStyle = UIAlertViewStyleSecureTextInput;
-    
-    [alert show];
+    [self.engineerAlert show];
 }
 
 - (void) activeEnterEngineerFunction
