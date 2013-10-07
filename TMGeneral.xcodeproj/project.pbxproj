@@ -131,6 +131,8 @@
 		AB5B0A641744A87D002800E0 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB5B0A631744A87D002800E0 /* CoreImage.framework */; };
 		AB82E3CB17962D1E00B44D9B /* UITabBarController+CustomizeTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = AB82E3CA17962D1E00B44D9B /* UITabBarController+CustomizeTabBar.m */; };
 		AB82E3CC17962D1E00B44D9B /* UITabBarController+CustomizeTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = AB82E3CA17962D1E00B44D9B /* UITabBarController+CustomizeTabBar.m */; };
+		AB8A484218026C5300D89592 /* TMAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB8A484118026C5300D89592 /* TMAlertViewController.m */; };
+		AB8A484318026C5300D89592 /* TMAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB8A484118026C5300D89592 /* TMAlertViewController.m */; };
 		AB932F4917895A5B00FB33E2 /* TMApiData+Plus.m in Sources */ = {isa = PBXBuildFile; fileRef = AB932F4817895A5B00FB33E2 /* TMApiData+Plus.m */; };
 		AB932F4A17895A5B00FB33E2 /* TMApiData+Plus.m in Sources */ = {isa = PBXBuildFile; fileRef = AB932F4817895A5B00FB33E2 /* TMApiData+Plus.m */; };
 		AB932F4B17895A5B00FB33E2 /* TMApiData+Plus.m in Sources */ = {isa = PBXBuildFile; fileRef = AB932F4817895A5B00FB33E2 /* TMApiData+Plus.m */; };
@@ -264,6 +266,8 @@
 		AB5B0A631744A87D002800E0 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		AB82E3C917962D1E00B44D9B /* UITabBarController+CustomizeTabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITabBarController+CustomizeTabBar.h"; sourceTree = "<group>"; };
 		AB82E3CA17962D1E00B44D9B /* UITabBarController+CustomizeTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITabBarController+CustomizeTabBar.m"; sourceTree = "<group>"; };
+		AB8A484018026C5300D89592 /* TMAlertViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMAlertViewController.h; sourceTree = "<group>"; };
+		AB8A484118026C5300D89592 /* TMAlertViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMAlertViewController.m; sourceTree = "<group>"; };
 		AB932F4717895A5B00FB33E2 /* TMApiData+Plus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TMApiData+Plus.h"; sourceTree = "<group>"; };
 		AB932F4817895A5B00FB33E2 /* TMApiData+Plus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "TMApiData+Plus.m"; sourceTree = "<group>"; };
 		AB932F5E178DBD4600FB33E2 /* TMGeneralResource.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TMGeneralResource.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -496,6 +500,8 @@
 				ABE6227316A9A5CE0096C5A8 /* TMTableViewController.m */,
 				AB82E3C917962D1E00B44D9B /* UITabBarController+CustomizeTabBar.h */,
 				AB82E3CA17962D1E00B44D9B /* UITabBarController+CustomizeTabBar.m */,
+				AB8A484018026C5300D89592 /* TMAlertViewController.h */,
+				AB8A484118026C5300D89592 /* TMAlertViewController.m */,
 				AB4D7B271658B0F300B5A2C3 /* Supporting Files */,
 			);
 			path = TMGeneral;
@@ -832,6 +838,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB8A484318026C5300D89592 /* TMAlertViewController.m in Sources */,
 				AB098745171C3A560060E191 /* main.m in Sources */,
 				AB098749171C3A560060E191 /* AppDelegate.m in Sources */,
 				AB09877D171C3C100060E191 /* TMApiData.m in Sources */,
@@ -903,6 +910,7 @@
 				AB4D7B571658B3B700B5A2C3 /* TMKeyboardController.m in Sources */,
 				AB4D7B581658B3B700B5A2C3 /* TMTools.m in Sources */,
 				AB4D7B591658B3B700B5A2C3 /* TMUITools.m in Sources */,
+				AB8A484218026C5300D89592 /* TMAlertViewController.m in Sources */,
 				AB4D7B5A1658B3B700B5A2C3 /* TMViewController.m in Sources */,
 				AB0928FA1681C1FB0039704D /* TMDataManager.m in Sources */,
 				AB0929011681C4E30039704D /* TMGeneralDataManager.m in Sources */,
