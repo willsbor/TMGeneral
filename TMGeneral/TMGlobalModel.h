@@ -84,7 +84,7 @@ typedef enum {
 - (void) clearOneTimeTag:(NSString *)aDefineName;
 
 /**
- * 設定 檢查一個flag 如果為nil or NO 則會執行 action 
+ * 設定 檢查一個flag 如果為nil or NO 則會執行 action
  */
 - (void) checkOneTimeForTag:(NSString *)aDefineName withAction:(void (^)(void))aAction;
 
@@ -115,5 +115,7 @@ typedef enum {
 - (void) setModeDictionary:(NSDictionary *)aModeDic;
 
 - (id) objectOfClass:(NSString *)aClassName;
+
+- (BOOL) isEqualOrGreaterThan7;
 
 @end
