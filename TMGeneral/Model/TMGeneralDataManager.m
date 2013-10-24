@@ -46,7 +46,7 @@ static TMGeneralDataManager *sharedInstance;
                                                     inManagedObjectContext:manaedObjectContext];
         
         _actionItem.objectName = NSStringFromClass([self class]);   ///< 返回執行時要啟動的 object
-        NSLog(@"TMAPIModel save in DB and target class [inside] : %@", _actionItem.objectName);
+        //NSLog(@"TMAPIModel save in DB and target class [inside] : %@", _actionItem.objectName);
         _actionItem.createTime = _actionItem.lastActionTime = [NSDate date];
         _actionItem.identify = tmStringFromMD5([NSString stringWithFormat:@"%f", [_actionItem.createTime timeIntervalSince1970]]);
         

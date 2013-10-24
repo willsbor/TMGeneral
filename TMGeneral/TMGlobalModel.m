@@ -29,8 +29,8 @@
 #import "TMTools.h"
 
 const NSString *TMGlobalAppModeRelease = @"TMG_AppMode_Release";
-const NSString *TMGlobalAppModeTest = @"TMG_AppMode_Test";
-const NSString *TMGlobalAppModeDevelop = @"TMG_AppMode_Develop";
+const NSString *TMGlobalAppModeTest = @"TMG_AppMode_T
+Mode_Develop";
 const NSString *TMGlobalAppModeCustome1 = @"TMG_AppMode_Custome_1";
 const NSString *TMGlobalAppModeCustome2 = @"TMG_AppMode_Custome_2";
 const NSString *TMGlobalAppModeCustome3 = @"TMG_AppMode_Custome_3";

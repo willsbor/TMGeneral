@@ -425,7 +425,7 @@ static NSMutableArray *g_apiIdentifyList = nil;
             apidata.content = [TMDataManager dataFromNSData:aInput];
             
             apidata.objectName = NSStringFromClass([self class]);   ///< 返回執行時要啟動的 object
-            NSLog(@"TMAPIModel save in DB and target class [outside] : %@", apidata.objectName);
+            //NSLog(@"TMAPIModel save in DB and target class [outside] : %@", apidata.objectName);
         }];
         
     }
