@@ -156,9 +156,9 @@ static int32_t g_alertShowCount = 0;
         //LOG_GENERAL(1, @"alert self frame = %@", NSStringFromCGRect(self.view.frame));
         
         self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        CGRect f = self.view.frame;
-        f.origin.y = (vc.view.frame.origin.y == 20) ? 0 : 20;
-        self.view.frame = f;
+        //CGRect f = self.view.frame;
+        //f.origin.y = (vc.view.frame.origin.y == 20) ? 0 : 20;
+        //self.view.frame = f;
         
         if (g_alertShowCount == 0) {  ///< 應該都會在mainthread上面
             if (self.grayBackgroundView) {
