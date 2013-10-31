@@ -130,7 +130,7 @@ static int32_t g_alertShowCount = 0;
         }];
     };
     
-    return _showAnimation;
+    return _hideAnimation;
 }
 
 - (void) show
