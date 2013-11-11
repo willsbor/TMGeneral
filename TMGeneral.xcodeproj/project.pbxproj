@@ -141,6 +141,7 @@
 		AB932F70178DBDFA00FB33E2 /* x.png in Resources */ = {isa = PBXBuildFile; fileRef = AB932F6E178DBDFA00FB33E2 /* x.png */; };
 		AB932F71178DBDFA00FB33E2 /* x@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AB932F6F178DBDFA00FB33E2 /* x@2x.png */; };
 		AB932F72178DBEE100FB33E2 /* TMGeneralResource.bundle in Resources */ = {isa = PBXBuildFile; fileRef = AB932F5E178DBD4600FB33E2 /* TMGeneralResource.bundle */; };
+		ABB2ED16182FEE9200278291 /* TMDataManagerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB2ED15182FEE9200278291 /* TMDataManagerTest.m */; };
 		ABE621AB16A682E70096C5A8 /* GTMBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = ABFE8F87168803DF00649E88 /* GTMBase64.m */; };
 		ABE621AD16A682EC0096C5A8 /* GTMStringEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = ABFE8F841688034700649E88 /* GTMStringEncoding.m */; };
 		ABE6227416A9A5CE0096C5A8 /* TMTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ABE6227316A9A5CE0096C5A8 /* TMTableViewController.m */; };
@@ -276,6 +277,7 @@
 		AB932F66178DBD4600FB33E2 /* TMGeneralResource-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TMGeneralResource-Prefix.pch"; sourceTree = "<group>"; };
 		AB932F6E178DBDFA00FB33E2 /* x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = x.png; sourceTree = "<group>"; };
 		AB932F6F178DBDFA00FB33E2 /* x@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "x@2x.png"; sourceTree = "<group>"; };
+		ABB2ED15182FEE9200278291 /* TMDataManagerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMDataManagerTest.m; sourceTree = "<group>"; };
 		ABE6227216A9A5CE0096C5A8 /* TMTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMTableViewController.h; sourceTree = "<group>"; };
 		ABE6227316A9A5CE0096C5A8 /* TMTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMTableViewController.m; sourceTree = "<group>"; };
 		ABFE8F831688034700649E88 /* GTMStringEncoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMStringEncoding.h; sourceTree = "<group>"; };
@@ -414,8 +416,9 @@
 		AB09875B171C3A560060E191 /* TMGeneralAppTests */ = {
 			isa = PBXGroup;
 			children = (
-				AB09888F171FE4350060E191 /* 1041314117.jpg */,
+				AB3C577018306B7F00E34D37 /* TestDB */,
 				AB09876A171C3B650060E191 /* GlobalModel.m */,
+				ABB2ED15182FEE9200278291 /* TMDataManagerTest.m */,
 				AB09876B171C3B650060E191 /* TMAPIWebModelTest.m */,
 				AB09876C171C3B650060E191 /* TMGeneralDataManagerTest.m */,
 				AB09876D171C3B650060E191 /* TMImageCacheControlTest.m */,
@@ -434,6 +437,14 @@
 				AB09875E171C3A560060E191 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		AB3C577018306B7F00E34D37 /* TestDB */ = {
+			isa = PBXGroup;
+			children = (
+				AB09888F171FE4350060E191 /* 1041314117.jpg */,
+			);
+			name = TestDB;
 			sourceTree = "<group>";
 		};
 		AB4D7B161658B0F300B5A2C3 = {
@@ -871,6 +882,7 @@
 				AB098770171C3B650060E191 /* TMAPIWebModelTest.m in Sources */,
 				AB098771171C3B650060E191 /* TMGeneralDataManagerTest.m in Sources */,
 				AB098772171C3B650060E191 /* TMImageCacheControlTest.m in Sources */,
+				ABB2ED16182FEE9200278291 /* TMDataManagerTest.m in Sources */,
 				AB098773171C3B650060E191 /* TMToolTest.m in Sources */,
 				AB098776171C3BFB0060E191 /* TMImageCacheControl.m in Sources */,
 				AB098777171C3BFF0060E191 /* TMViewController.m in Sources */,

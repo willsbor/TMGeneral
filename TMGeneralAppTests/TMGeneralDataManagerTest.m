@@ -36,6 +36,7 @@
 - (TMImageCache *) _imageCacheByTag:(NSString *)aTagMD5;
 @end
 
+/*
 @interface TMGeneralDataManager (UTest)
 
 @end
@@ -66,27 +67,73 @@
 }
 
 @end
-
+*/
 
 @interface TMGeneralDataManagerTest : SenTestCase
 {
     NSDate *asyncWaitUntil;
+    
+    IMP imp_old_shareInstance;
+    IMP imp_old_managedObjectModel;
 }
 @end
 
 @implementation TMGeneralDataManagerTest
+
+static dispatch_once_t onceToken;
++ (TMGeneralDataManager *)sharedInstance_override
+{
+    static TMGeneralDataManager *sharedInstance = nil;
+	dispatch_once(&onceToken, ^{
+		
+		sharedInstance = [[TMGeneralDataManager alloc] initWithInMemoryStore];
+        [sharedInstance setSaveThreshold:10]; ///for test
+	});
+	
+	return sharedInstance;
+}
+
+- (NSManagedObjectModel *)managedObjectModel_override
+{
+    NSManagedObjectModel *mom = [NSManagedObjectModel mergedModelFromBundles:[NSBundle allBundles]];
+    return mom;
+}
 
 - (void)setUp
 {
     [super setUp];
     
     // Set-up code here.
+    
+    Method origMethod = class_getClassMethod([TMGeneralDataManager class], @selector(sharedInstance));
+	Method newMethod = class_getClassMethod([self class], @selector(sharedInstance_override));
+	
+    imp_old_shareInstance = method_getImplementation(origMethod);
+    IMP imp_new = method_getImplementation(newMethod);
+    
+	method_setImplementation(origMethod, imp_new);
+    
+    origMethod = class_getInstanceMethod([TMGeneralDataManager class], @selector(managedObjectModel));
+	newMethod = class_getInstanceMethod([self class], @selector(managedObjectModel_override));
+    
+    imp_old_managedObjectModel = method_getImplementation(origMethod);
+    imp_new = method_getImplementation(newMethod);
+    
+    method_setImplementation(origMethod, imp_new);
+    
 }
 
 - (void)tearDown
 {
     // Tear-down code here.
     
+    Method origMethod = class_getClassMethod([TMGeneralDataManager class], @selector(sharedInstance));
+    method_setImplementation(origMethod, imp_old_shareInstance);
+    
+    origMethod = class_getInstanceMethod([TMGeneralDataManager class], @selector(managedObjectModel));
+    method_setImplementation(origMethod, imp_old_managedObjectModel);
+    
+    onceToken = nil;
     [super tearDown];
 }
 
