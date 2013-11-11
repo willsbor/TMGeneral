@@ -265,4 +265,11 @@
  **/
 - (void)scheduleBlock:(dispatch_block_t)block;
 
+#pragma mark - protected function
+
+- (id) _deqOneItem:(NSString *)aClassName ByPred:(NSPredicate *)aPred;
+- (id) _createOneItem:(NSString *)aClassName;
+- (id) _getOneItem:(NSString *)aClassName ByPred:(NSPredicate *)aPred;
+- (NSArray *) _getAllItems:(NSString *)aClassName ByPred:(NSPredicate *)aPred;
+
 @end

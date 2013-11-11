@@ -266,6 +266,7 @@ static NSMutableArray *g_apiIdentifyList = nil;
     [myLock lock];
     
     if (_delegate != nil) {
+#warning error sometime to be error
         if ([_delegate respondsToSelector:@selector(apiModel:finishWithErrcode:AndParam:)] ) {
             [_delegate apiModel:self finishWithErrcode:_errcode AndParam:_outputParam];
         }

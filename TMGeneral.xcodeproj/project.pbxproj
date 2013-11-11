@@ -100,6 +100,14 @@
 		AB0CD25817D768600094AE1D /* TMTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ABE6227316A9A5CE0096C5A8 /* TMTableViewController.m */; };
 		AB0CD25917D768700094AE1D /* TMImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = AB0988B3172178EF0060E191 /* TMImageCache.m */; };
 		AB0CD25A17D76EA20094AE1D /* GlobalModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AB09876A171C3B650060E191 /* GlobalModel.m */; };
+		AB3C5773183071C000E34D37 /* TMTestDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AB3C5771183071C000E34D37 /* TMTestDataModel.xcdatamodeld */; };
+		AB3C57791830752400E34D37 /* TMTestDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AB3C57781830752400E34D37 /* TMTestDataModel.m */; };
+		AB3C577C1830B00700E34D37 /* Willsbor.m in Sources */ = {isa = PBXBuildFile; fileRef = AB3C577B1830B00700E34D37 /* Willsbor.m */; };
+		AB3C577F1830B00700E34D37 /* TestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AB3C577E1830B00700E34D37 /* TestModel.m */; };
+		AB3C57801830B26600E34D37 /* TestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AB3C577E1830B00700E34D37 /* TestModel.m */; };
+		AB3C57811830B26B00E34D37 /* TMTestDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AB3C5771183071C000E34D37 /* TMTestDataModel.xcdatamodeld */; };
+		AB3C57821830B26F00E34D37 /* Willsbor.m in Sources */ = {isa = PBXBuildFile; fileRef = AB3C577B1830B00700E34D37 /* Willsbor.m */; };
+		AB3C57831830B27300E34D37 /* TMTestDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AB3C57781830752400E34D37 /* TMTestDataModel.m */; };
 		AB45DEF017CE225300B68C6E /* TMRotateNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB45DEEF17CE225300B68C6E /* TMRotateNavigationController.m */; };
 		AB45DEF117CE225C00B68C6E /* TMRotateNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB45DEEF17CE225300B68C6E /* TMRotateNavigationController.m */; };
 		AB45DEF217CE225D00B68C6E /* TMRotateNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB45DEEF17CE225300B68C6E /* TMRotateNavigationController.m */; };
@@ -233,6 +241,13 @@
 		AB0988B2172178EF0060E191 /* TMImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMImageCache.h; sourceTree = "<group>"; };
 		AB0988B3172178EF0060E191 /* TMImageCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMImageCache.m; sourceTree = "<group>"; };
 		AB0988E5172657D00060E191 /* TMGeneralDataModel 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "TMGeneralDataModel 2.xcdatamodel"; sourceTree = "<group>"; };
+		AB3C5772183071C000E34D37 /* TMTestDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TMTestDataModel.xcdatamodel; sourceTree = "<group>"; };
+		AB3C57771830752400E34D37 /* TMTestDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMTestDataModel.h; sourceTree = "<group>"; };
+		AB3C57781830752400E34D37 /* TMTestDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMTestDataModel.m; sourceTree = "<group>"; };
+		AB3C577A1830B00700E34D37 /* Willsbor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Willsbor.h; sourceTree = "<group>"; };
+		AB3C577B1830B00700E34D37 /* Willsbor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Willsbor.m; sourceTree = "<group>"; };
+		AB3C577D1830B00700E34D37 /* TestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestModel.h; sourceTree = "<group>"; };
+		AB3C577E1830B00700E34D37 /* TestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestModel.m; sourceTree = "<group>"; };
 		AB45DEEE17CE225300B68C6E /* TMRotateNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMRotateNavigationController.h; sourceTree = "<group>"; };
 		AB45DEEF17CE225300B68C6E /* TMRotateNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMRotateNavigationController.m; sourceTree = "<group>"; };
 		AB4D7B211658B0F300B5A2C3 /* libTMGeneral.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libTMGeneral.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -443,6 +458,13 @@
 			isa = PBXGroup;
 			children = (
 				AB09888F171FE4350060E191 /* 1041314117.jpg */,
+				AB3C5771183071C000E34D37 /* TMTestDataModel.xcdatamodeld */,
+				AB3C577D1830B00700E34D37 /* TestModel.h */,
+				AB3C577E1830B00700E34D37 /* TestModel.m */,
+				AB3C577A1830B00700E34D37 /* Willsbor.h */,
+				AB3C577B1830B00700E34D37 /* Willsbor.m */,
+				AB3C57771830752400E34D37 /* TMTestDataModel.h */,
+				AB3C57781830752400E34D37 /* TMTestDataModel.m */,
 			);
 			name = TestDB;
 			sourceTree = "<group>";
@@ -849,15 +871,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB3C57811830B26B00E34D37 /* TMTestDataModel.xcdatamodeld in Sources */,
+				AB3C57821830B26F00E34D37 /* Willsbor.m in Sources */,
 				AB8A484318026C5300D89592 /* TMAlertViewController.m in Sources */,
 				AB098745171C3A560060E191 /* main.m in Sources */,
 				AB098749171C3A560060E191 /* AppDelegate.m in Sources */,
+				AB3C57801830B26600E34D37 /* TestModel.m in Sources */,
 				AB09877D171C3C100060E191 /* TMApiData.m in Sources */,
 				AB09878D171C3E3C0060E191 /* TMGeneralDataModel.xcdatamodeld in Sources */,
 				AB09878E171C3E400060E191 /* TMGeneralDataManager.m in Sources */,
 				AB098794171C3E860060E191 /* TMImageCacheControl.m in Sources */,
 				AB098795171C3E860060E191 /* TMViewController.m in Sources */,
 				AB098796171C3E8B0060E191 /* TMAPIDownloadModel.m in Sources */,
+				AB3C57831830B27300E34D37 /* TMTestDataModel.m in Sources */,
 				AB098797171C3E8B0060E191 /* TMAPIModel.m in Sources */,
 				AB098798171C3E8B0060E191 /* TMAPIWebModel.m in Sources */,
 				AB098799171C3E930060E191 /* TMKeyboardController.m in Sources */,
@@ -891,13 +917,17 @@
 				AB09877B171C3C0F0060E191 /* TMApiData.m in Sources */,
 				AB09877F171C3C1C0060E191 /* TMAPIDownloadModel.m in Sources */,
 				AB098780171C3C1C0060E191 /* TMAPIModel.m in Sources */,
+				AB3C5773183071C000E34D37 /* TMTestDataModel.xcdatamodeld in Sources */,
 				AB098781171C3C1C0060E191 /* TMAPIWebModel.m in Sources */,
 				AB098782171C3C240060E191 /* TMKeyboardController.m in Sources */,
 				AB098783171C3C240060E191 /* TMTools.m in Sources */,
 				AB098784171C3C240060E191 /* TMUITools.m in Sources */,
 				AB098785171C3C290060E191 /* TMGlobalModel.m in Sources */,
+				AB3C577C1830B00700E34D37 /* Willsbor.m in Sources */,
 				AB098786171C3C2E0060E191 /* TMDataManager.m in Sources */,
 				AB098787171C3C340060E191 /* GTMBase64.m in Sources */,
+				AB3C57791830752400E34D37 /* TMTestDataModel.m in Sources */,
+				AB3C577F1830B00700E34D37 /* TestModel.m in Sources */,
 				AB098788171C3C340060E191 /* GTMStringEncoding.m in Sources */,
 				AB098893171FE4760060E191 /* TMUIToolTest.m in Sources */,
 				AB932F4B17895A5B00FB33E2 /* TMApiData+Plus.m in Sources */,
@@ -1355,6 +1385,16 @@
 			);
 			currentVersion = AB0988E5172657D00060E191 /* TMGeneralDataModel 2.xcdatamodel */;
 			path = TMGeneralDataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+		AB3C5771183071C000E34D37 /* TMTestDataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				AB3C5772183071C000E34D37 /* TMTestDataModel.xcdatamodel */,
+			);
+			currentVersion = AB3C5772183071C000E34D37 /* TMTestDataModel.xcdatamodel */;
+			path = TMTestDataModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

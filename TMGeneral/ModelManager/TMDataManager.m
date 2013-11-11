@@ -356,13 +356,6 @@ static NSMutableSet *databaseFileNames;
     
 	storageQueueTag = &storageQueueTag;
 	dispatch_queue_set_specific(storageQueue, storageQueueTag, storageQueueTag, NULL);
-    
-	//myJidCache = [[NSMutableDictionary alloc] init];
-    
-	/*[[NSNotificationCenter defaultCenter] addObserver:self
-	                                         selector:@selector(updateJidCache:)
-	                                             name:XMPPStreamDidChangeMyJIDNotification
-	                                           object:nil];*/
 }
 
 - (id)init
@@ -911,6 +904,65 @@ static NSMutableSet *databaseFileNames;
 	}});
 }
 
+
+#pragma mark - protected function
+
+- (id) _deqOneItem:(NSString *)aClassName ByPred:(NSPredicate *)aPred
+{
+    id item = [self _getOneItem:aClassName ByPred:aPred];
+    
+    if (item == nil) {
+        item = [self _createOneItem:aClassName];
+    }
+    
+    return item;
+}
+
+- (id) _createOneItem:(NSString *)aClassName
+{
+    NSManagedObjectContext *manaedObjectContext = self.managedObjectContext;
+    return [NSEntityDescription insertNewObjectForEntityForName:aClassName
+                                         inManagedObjectContext:manaedObjectContext];
+}
+
+- (id) _getOneItem:(NSString *)aClassName ByPred:(NSPredicate *)aPred
+{
+    NSManagedObjectContext *manaedObjectContext = self.managedObjectContext;
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entry = [NSEntityDescription entityForName:aClassName inManagedObjectContext:manaedObjectContext];
+    [request setEntity:entry];
+    [request setPredicate:aPred];
+    
+    NSArray *result = [manaedObjectContext executeFetchRequest:request error:nil];
+    
+    if (result == nil || [result count] == 0) {
+        return nil;
+    }
+    else if ([result count] == 1)
+    {
+        return [result objectAtIndex:0];
+    }
+    else {
+        NSAssert(false, @"it shoule only one item");
+        
+        return nil;
+    }
+}
+
+- (NSArray *) _getAllItems:(NSString *)aClassName ByPred:(NSPredicate *)aPred
+{
+    NSManagedObjectContext *manaedObjectContext = self.managedObjectContext;
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entry = [NSEntityDescription entityForName:aClassName
+                                             inManagedObjectContext:manaedObjectContext];
+    [request setEntity:entry];
+    [request setPredicate:aPred];
+    
+    NSArray *result = [manaedObjectContext executeFetchRequest:request error:nil];
+    
+    return result;
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark Memory Management
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -928,6 +980,48 @@ static NSMutableSet *databaseFileNames;
 	if (storageQueue)
 		dispatch_release(storageQueue);
 #endif
+}
+
+- (void) closeMOCandPSCComplete:(void (^)(void))aComplete
+{
+    dispatch_group_t group = dispatch_group_create();
+    
+    dispatch_group_async(group, storageQueue, ^{
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            persistentStoreCoordinator = nil;
+            mainThreadManagedObjectContext = nil;
+            managedObjectContext = nil;
+            managedObjectModel = nil;
+
+            aComplete();
+        });
+    });
+}
+
+- (void) closeMOCandPSCWtihDeleteDataBaseFileComplete:(void (^)(void))aComplete
+{
+    
+    NSString *docsPath = [self persistentStoreDirectory];
+    NSString *storePath = [docsPath stringByAppendingPathComponent:databaseFileName];
+
+    if (!databaseFileName) {
+        /// in memory, no db file need be removed.
+        storePath = nil;
+    }
+    
+    [self closeMOCandPSCComplete:^{
+        if (storePath) {
+            NSURL *storeUrl = [NSURL fileURLWithPath:storePath];
+            
+            NSError *error;
+            [[NSFileManager defaultManager] removeItemAtURL:storeUrl error:&error];
+            if (error) {
+                NSLog(@"remove DB file failed = %@", error);
+            }
+        }
+        
+        aComplete();
+    }];
 }
 
 @end

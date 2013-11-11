@@ -25,17 +25,9 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-//extern NSString * const DataManagerDidSaveFailedTag;
-//extern NSString * const DataManagerCreateDirectoryFailedTag;
-//extern NSString * const DataManagerFatalErrorCreatePersistentStoreTag;
-//extern NSString * const DataManagerDidSaveNotification;
-//extern NSString * const DataManagerDidSaveFailedNotification;
-
 @interface TMDataManager : NSObject {
 @private
-	
-	//NSMutableDictionary *myJidCache;
-	
+
 	int32_t pendingRequests;
 	
 	NSManagedObjectModel *managedObjectModel;
@@ -148,6 +140,10 @@
                                                                   andCacheName:(NSString *)aCacheName;
 
 + (void) setAppName:(NSString *)aAppName;
+
+
+- (void) closeMOCandPSCComplete:(void (^)(void))aComplete;
+- (void) closeMOCandPSCWtihDeleteDataBaseFileComplete:(void (^)(void))aComplete;
 
 //// overrite me If need
 - (NSString *)managedObjectModelName;
