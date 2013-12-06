@@ -499,7 +499,7 @@ static CGFloat g_waitingWidthMargin = 0;
     return [array objectAtIndex:nowMode];
 }
 
-- (BOOL) isEqualOrGreaterThan7
++ (BOOL) isEqualOrGreaterThan7
 {
     static BOOL isVersion = NO;
     

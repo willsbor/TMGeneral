@@ -25,6 +25,7 @@
 #import "TMViewController.h"
 #import "TMImageCacheControl.h"
 #import "TMKeyboardController.h"
+#import "TMGlobalModel.h"
 
 static NSString *g_defaultEngineerModePassword = @"Ncku";
 
@@ -49,6 +50,34 @@ static NSString *g_defaultEngineerModePassword = @"Ncku";
 ///////////// 顯示 placeholder
 
 #pragma mark - public
+
+- (id) checkOnlyOneObjectResultController:(NSFetchedResultsController *)aResultController
+{
+    if (aResultController.sections
+        && [aResultController.sections count] > 0
+        && [aResultController.sections[0] numberOfObjects] > 0) {
+        NSManagedObject *nowObject = [aResultController objectAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+        
+        return nowObject;
+    }
+    
+    return nil;
+}
+
+- (void) modifyTable:(UIView *)aTable
+{
+    if ([TMGlobalModel isEqualOrGreaterThan7]) {
+        CGRect f = aTable.frame;
+        f = CGRectOffset(f, 0, -10);
+        f = CGRectInset(f, 0, -10);
+        aTable.frame = f;
+    }
+    else {
+        //CGRect f = aTable.frame;
+        //f = CGRectOffset(f, 0, -20);
+        // aTable.frame = f;
+    }
+}
 
 - (void) resultAPI:(TMAPIModel *)aModel withKey:(NSString *)aKey finishWithErrcode:(int)aErrcode AndParam:(NSDictionary *)aParam
 {

@@ -57,6 +57,8 @@ typedef enum {
 @property (nonatomic, strong) NSString *appversion;
 @property (nonatomic, strong) NSString *apiVersion;
 
++ (BOOL) isEqualOrGreaterThan7;
+
 - (void) updateDatas:(NSDictionary *) aJSONDic;
 
 + (void) setWaitingViewBaseView:(UIView *)aView;
@@ -115,7 +117,5 @@ typedef enum {
 - (void) setModeDictionary:(NSDictionary *)aModeDic;
 
 - (id) objectOfClass:(NSString *)aClassName;
-
-- (BOOL) isEqualOrGreaterThan7;
 
 @end

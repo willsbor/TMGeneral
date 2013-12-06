@@ -88,4 +88,17 @@
 - (IBAction)enterEngineerMode2:(id)sender;
 - (void) activeEnterEngineerFunction;
 + (void) changeEngineerModePassword:(NSString *)aNewPassword;
+
+/**
+ * @brief 當resultcontroller用拿來拿取單一物件時，確認該物件存在與否
+ */
+- (id) checkOnlyOneObjectResultController:(NSFetchedResultsController *)aResultController;
+
+/**
+ * @brief iOS 6 & iOS 7 TableView會有下一20pixels的問題  (TBD)
+ */
+- (void) modifyTable:(UIView *)aTable;
+
+
+
 @end
