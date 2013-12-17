@@ -1011,6 +1011,39 @@ static NSMutableSet *databaseFileNames;
 #endif
 }
 
+#pragma mark - public function
+
+- (NSDictionary *) objectValuesFor:(NSString *)aClassName WithKeys:(NSArray *)aKeys andPredicate:(NSPredicate *)pred
+{
+    NSMutableDictionary *result = [[NSMutableDictionary alloc] init];
+    [self executeBlock:^{
+        NSManagedObject *object = [self _getOneItem:aClassName ByPred:pred];
+        
+        for (NSString *key in aKeys) {
+            id value = [object valueForKey:key];
+            if (value) {
+                result[key] = value;
+            }
+        }
+    }];
+    
+    return result;
+}
+
+- (BOOL) isNoneFor:(NSString *)aClassName andPredicate:(NSPredicate *)pred
+{
+    __block BOOL isNone = YES;
+    [self executeBlock:^{
+        NSArray *datas = [self _getAllItems:aClassName ByPred:pred];
+        
+        if ([datas count] > 0) {
+            isNone = NO;
+        }
+    }];
+    
+    return isNone;
+}
+
 - (void) closeMOCandPSCComplete:(void (^)(void))aComplete
 {
     dispatch_group_t group = dispatch_group_create();

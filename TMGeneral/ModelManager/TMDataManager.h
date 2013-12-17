@@ -141,6 +141,8 @@
 
 + (void) setAppName:(NSString *)aAppName;
 
+- (NSDictionary *) objectValuesFor:(NSString *)aClassName WithKeys:(NSArray *)aKeys andPredicate:(NSPredicate *)pred;
+- (BOOL) isNoneFor:(NSString *)aClassName andPredicate:(NSPredicate *)pred;
 
 - (void) closeMOCandPSCComplete:(void (^)(void))aComplete;
 - (void) closeMOCandPSCWtihDeleteDataBaseFileComplete:(void (^)(void))aComplete;

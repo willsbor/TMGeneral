@@ -240,4 +240,64 @@
     }];
 }
 
+- (void) testObjectValuesFunction
+{
+    NSDate *nowDate = [NSDate date];
+
+    [[TMTestDataModel sharedInstance] executeBlock:^{
+        Willsbor *test = [[TMTestDataModel sharedInstance] _createOneItem:@"Willsbor"];
+        test.create_time = nowDate;
+        test.name = @"testCreateOneItem";
+        test.identify = @(123);
+        
+        test = [[TMTestDataModel sharedInstance] _createOneItem:@"Willsbor"];
+        test.create_time = nowDate;
+        test.name = @"testCreateOneItem2";
+        test.identify = @(124);
+        
+        [[TMTestDataModel sharedInstance] save];
+    }];
+    
+    
+    NSDictionary *valuse = [[TMTestDataModel sharedInstance] objectValuesFor:@"Willsbor" WithKeys:@[@"create_time", @"name"] andPredicate:([NSPredicate predicateWithFormat:@"identify == %@", @(123)])];
+    
+    STAssertEqualObjects(valuse[@"create_time"], nowDate, nil);
+    STAssertEqualObjects(valuse[@"name"], @"testCreateOneItem", nil);
+    STAssertNil(valuse[@"identify"], nil);
+    
+    valuse = [[TMTestDataModel sharedInstance] objectValuesFor:@"Willsbor" WithKeys:@[@"create_time", @"name", @"identify"] andPredicate:([NSPredicate predicateWithFormat:@"identify == %@", @(124)])];
+    
+    STAssertEqualObjects(valuse[@"create_time"], nowDate, nil);
+    STAssertEqualObjects(valuse[@"name"], @"testCreateOneItem2", nil);
+    STAssertEqualObjects(valuse[@"identify"], @(124), nil);
+}
+
+- (void) testisNoneForFunction
+{
+    NSDate *nowDate = [NSDate date];
+    
+    [[TMTestDataModel sharedInstance] executeBlock:^{
+        Willsbor *test = [[TMTestDataModel sharedInstance] _createOneItem:@"Willsbor"];
+        test.create_time = nowDate;
+        test.name = @"testCreateOneItem";
+        test.identify = @(123);
+        
+        test = [[TMTestDataModel sharedInstance] _createOneItem:@"Willsbor"];
+        test.create_time = nowDate;
+        test.name = @"testCreateOneItem2";
+        test.identify = @(124);
+        
+        [[TMTestDataModel sharedInstance] save];
+    }];
+    
+    BOOL isNone = [[TMTestDataModel sharedInstance] isNoneFor:@"Willsbor" andPredicate:nil];
+    STAssertFalse(isNone, nil);
+    
+    isNone = [[TMTestDataModel sharedInstance] isNoneFor:@"Willsbor" andPredicate:[NSPredicate predicateWithFormat:@"identify == %@", @(222)]];
+    STAssertTrue(isNone, nil);
+    
+    isNone = [[TMTestDataModel sharedInstance] isNoneFor:@"Willsbor" andPredicate:[NSPredicate predicateWithFormat:@"identify == %@", @(123)]];
+    STAssertFalse(isNone, nil);
+}
+
 @end
