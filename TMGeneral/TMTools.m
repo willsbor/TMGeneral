@@ -32,11 +32,76 @@
 #import "GTMStringEncoding.h"
 
 static NSMutableDictionary *gCacheDataFormatters;
+static dispatch_once_t pred5;
+static dispatch_once_t pred6;
+static dispatch_once_t pred7;
 
-void removeToolsCaches()
+void tmCleanToolsCaches()
 {
     gCacheDataFormatters = nil;
+    pred5 = pred6 = pred7 = 0;
 }
+
+void tmActionIfEqualOrGreaterThen5(void (^yesAction)(void) , void (^noAction)(void))
+{
+    static BOOL isVersion = NO;
+    
+    dispatch_once(&pred5, ^{
+        NSString *reqSysVer = @"5.0";
+        NSString *currSysVer = [[UIDevice currentDevice] systemVersion];
+        if ([currSysVer compare:reqSysVer options:NSNumericSearch] != NSOrderedAscending)
+            isVersion = YES;
+    });
+    
+    
+    if (isVersion) {
+        if (yesAction) yesAction();
+    }
+    else {
+        if (noAction) noAction();
+    }
+}
+
+void tmActionIfEqualOrGreaterThen6(void (^yesAction)(void) , void (^noAction)(void))
+{
+    static BOOL isVersion = NO;
+    
+    dispatch_once(&pred6, ^{
+        NSString *reqSysVer = @"6.0";
+        NSString *currSysVer = [[UIDevice currentDevice] systemVersion];
+        if ([currSysVer compare:reqSysVer options:NSNumericSearch] != NSOrderedAscending)
+            isVersion = YES;
+    });
+    
+    
+    if (isVersion) {
+        if (yesAction) yesAction();
+    }
+    else {
+        if (noAction) noAction();
+    }
+}
+
+void tmActionIfEqualOrGreaterThen7(void (^yesAction)(void) , void (^noAction)(void))
+{
+    static BOOL isVersion = NO;
+    
+    dispatch_once(&pred7, ^{
+        NSString *reqSysVer = @"7.0";
+        NSString *currSysVer = [[UIDevice currentDevice] systemVersion];
+        if ([currSysVer compare:reqSysVer options:NSNumericSearch] != NSOrderedAscending)
+            isVersion = YES;
+    });
+    
+    
+    if (isVersion) {
+        if (yesAction) yesAction();
+    }
+    else {
+        if (noAction) noAction();
+    }
+}
+
 
 NSString *tmStringFromMD5(NSString *aString)
 {
@@ -59,7 +124,7 @@ NSString *tmStringFromMD5(NSString *aString)
 
 NSString *tmStringNSDate(NSDate *aDate, NSString *aFormat)
 {
-    if (gCacheDataFormatters == nil) {
+    if (!gCacheDataFormatters) {
         gCacheDataFormatters = [[NSMutableDictionary alloc] init];
     }
     
@@ -80,7 +145,7 @@ NSString *tmStringNSDate(NSDate *aDate, NSString *aFormat)
 
 NSDate *tmNSDateString(NSString *aDateString, NSString *aFormat)
 {
-    if (gCacheDataFormatters == nil) {
+    if (!gCacheDataFormatters) {
         gCacheDataFormatters = [[NSMutableDictionary alloc] init];
     }
     

@@ -27,6 +27,10 @@
 #ifndef __TMTOOL_H__
 #define __TMTOOL_H__
 
+extern void tmActionIfEqualOrGreaterThen5(void (^yesAction)(void) , void (^noAction)(void));
+extern void tmActionIfEqualOrGreaterThen6(void (^yesAction)(void) , void (^noAction)(void));
+extern void tmActionIfEqualOrGreaterThen7(void (^yesAction)(void) , void (^noAction)(void));
+
 extern NSString *tmStringFromMD5(NSString *aString);
 extern NSString *tmGetIPAddress();
 
@@ -39,6 +43,6 @@ extern NSString *tmStringRemindTimeWithNSDate(NSDate *aDate);
 
 extern NSString *tmGoogleSign(NSString *aURL, NSString* aKey, NSString *aClientID);
 
-extern void removeToolsCaches();
+extern void tmCleanToolsCaches();
 
 #endif
