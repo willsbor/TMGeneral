@@ -907,6 +907,35 @@ static NSMutableSet *databaseFileNames;
 
 #pragma mark - protected function
 
+- (void) _removeAObject:(NSManagedObject *)aObject
+{
+    NSDictionary *relations = [aObject.entity relationshipsByName];
+    for (NSString *key in [relations allKeys]) {
+        NSRelationshipDescription *relation = relations[key];
+        //NSLog(@"Debug: key = %@ (%@)", key, [relation class]);
+        id value = [aObject valueForKey:key];
+        if ([relation isToMany]) {
+            for (NSManagedObject *p in [value allObjects]) {
+                [self _removeAObject:p];
+            }
+        }
+        else {
+            [self.managedObjectContext deleteObject:value];
+        }
+    }
+    
+    [self.managedObjectContext deleteObject:aObject];
+}
+
+- (void) _removeObjects:(NSString *)aClassName ByPred:(NSPredicate *)aPred
+{
+    NSArray *package = [self _getAllItems:aClassName ByPred:aPred];
+    
+    for (NSManagedObject *p in package) {
+        [self _removeAObject:p];
+    }
+}
+
 - (id) _deqOneItem:(NSString *)aClassName ByPred:(NSPredicate *)aPred
 {
     id item = [self _getOneItem:aClassName ByPred:aPred];

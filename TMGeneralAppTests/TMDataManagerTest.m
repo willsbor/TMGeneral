@@ -17,6 +17,10 @@
 #import "TestModel.h"
 #import "Willsbor.h"
 
+#import "TestModel2+Plus.h"
+#import "TestModel3.h"
+#import "TestModel4.h"
+
 @interface TMDataManagerTest : SenTestCase
 {
     NSDate *asyncWaitUntil;
@@ -189,5 +193,51 @@
     }];
 }
 
+- (void) testRemoveObjectFunciton
+{
+    NSDate *nowDate = [NSDate date];
+    [[TMTestDataModel sharedInstance] executeBlock:^{
+        TestModel2 *test2 = [[TMTestDataModel sharedInstance] _createOneItem:@"TestModel2"];
+        
+        test2.createDate = nowDate;
+        test2.tag = @"test2";
+        
+        TestModel3 *test3 = [[TMTestDataModel sharedInstance] _createOneItem:@"TestModel3"];
+        test3.tag = @"test3-1";
+        [test2 addModel3sObject:test3];
+        test3 = [[TMTestDataModel sharedInstance] _createOneItem:@"TestModel3"];
+        test3.tag = @"test3-2";
+        [test2 addModel3sObject:test3];
+        test3 = [[TMTestDataModel sharedInstance] _createOneItem:@"TestModel3"];
+        test3.tag = @"test3-3";
+        [test2 addModel3sObject:test3];
+        test3 = [[TMTestDataModel sharedInstance] _createOneItem:@"TestModel3"];
+        test3.tag = @"test3-3";
+        [test2 addModel3sObject:test3];
+        
+        TestModel4 *test4 = [[TMTestDataModel sharedInstance] _createOneItem:@"TestModel4"];
+        test4.tag = @"test4-1";
+        [test2 addModel4sObject:test4];
+        test4 = [[TMTestDataModel sharedInstance] _createOneItem:@"TestModel4"];
+        test4.tag = @"test4-2";
+        [test2 addModel4sObject:test4];
+        test4 = [[TMTestDataModel sharedInstance] _createOneItem:@"TestModel4"];
+        test4.tag = @"test4-3";
+        [test2 addModel4sObject:test4];
+        
+        STAssertEqualsWithAccuracy([test2.model3s count], (NSUInteger)4, 0, nil);
+        STAssertEqualsWithAccuracy([test2.model4s count], (NSUInteger)3, 0, nil);
+        
+        [[TMTestDataModel sharedInstance] _removeObjects:@"TestModel2" ByPred:nil];
+        
+        STAssertFalse([test2 isFault], nil);
+        STAssertTrue([test2 isDeleted], nil);
+        [[TMTestDataModel sharedInstance] save];
+        STAssertTrue([test2 isFault], nil);
+        
+        test2 = [[TMTestDataModel sharedInstance] _getOneItem:@"TestModel2" ByPred:nil];
+        STAssertNil(test2, nil);
+    }];
+}
 
 @end

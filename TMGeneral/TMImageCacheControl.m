@@ -44,6 +44,7 @@
     NSMutableDictionary *_imageViewList;
     NSMutableDictionary *_imageView2ActivyList;
     NSMutableDictionary *_activeList;
+    NSMutableDictionary *_activeBlockList;
     
     NSLock *_lock;
     

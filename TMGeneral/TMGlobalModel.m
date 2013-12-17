@@ -270,7 +270,7 @@ static CGFloat g_waitingWidthMargin = 0;
     }
     
     ///iOS 7
-    if ([self isEqualOrGreaterThan7]) {
+    if ([[self class] isEqualOrGreaterThan7]) {
         switch (g_waitingDirection) {
             default:
             case TMGlobal_WaitingView_Animation_Direction_L2R:

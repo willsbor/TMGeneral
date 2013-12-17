@@ -267,6 +267,19 @@
 
 #pragma mark - protected function
 
+/**
+ * 刪除單一物件，且遞迴刪除relation 相關的物件
+ * Warnning 如果子物件有被其他參照，要保留，目前沒有檢查機制，會被delete掉
+ */
+- (void) _removeAObject:(NSManagedObject *)aObject;
+
+/**
+ * 搜尋條件下的物件 然後刪除 且會遞迴刪除relation 相關的物件
+ * Warnning 如果子物件有被其他參照，要保留，目前沒有檢查機制，會被delete掉
+ * @param aClassName the object Class name
+ * @param aPred the condition
+ */
+- (void) _removeObjects:(NSString *)aClassName ByPred:(NSPredicate *)aPred;
 - (id) _deqOneItem:(NSString *)aClassName ByPred:(NSPredicate *)aPred;
 - (id) _createOneItem:(NSString *)aClassName;
 - (id) _getOneItem:(NSString *)aClassName ByPred:(NSPredicate *)aPred;

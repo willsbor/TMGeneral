@@ -4,6 +4,20 @@
         <attribute name="createDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="tag" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
+    <entity name="TestModel2" representedClassName="TestModel2" syncable="YES">
+        <attribute name="createDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="tag" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="model3s" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TestModel3" inverseName="model2" inverseEntity="TestModel3" syncable="YES"/>
+        <relationship name="model4s" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="TestModel4" inverseName="model2" inverseEntity="TestModel4" syncable="YES"/>
+    </entity>
+    <entity name="TestModel3" representedClassName="TestModel3" syncable="YES">
+        <attribute name="tag" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="model2" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TestModel2" inverseName="model3s" inverseEntity="TestModel2" syncable="YES"/>
+    </entity>
+    <entity name="TestModel4" representedClassName="TestModel4" syncable="YES">
+        <attribute name="tag" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="model2" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TestModel2" inverseName="model4s" inverseEntity="TestModel2" syncable="YES"/>
+    </entity>
     <entity name="Willsbor" representedClassName="Willsbor" syncable="YES">
         <attribute name="create_time" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="identify" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
@@ -11,6 +25,9 @@
     </entity>
     <elements>
         <element name="TestModel" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="TestModel2" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="TestModel3" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="TestModel4" positionX="0" positionY="0" width="0" height="0"/>
         <element name="Willsbor" positionX="0" positionY="0" width="0" height="0"/>
     </elements>
 </model>
