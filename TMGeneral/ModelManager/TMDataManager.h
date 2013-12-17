@@ -114,7 +114,14 @@
 @property (strong, readonly) NSManagedObjectContext *mainThreadManagedObjectContext;
 
 //// Tool
+/**
+ * 將 NSDictionary or NSArray 轉換成 NSData
+ */
 + (NSData *) dataFromNSData:(id)aObject;
+
+/**
+ * 將 NSData 轉換成 NSDictionary or NSArray
+ */
 + (id) objectFormNSData:(NSData *)aData;
 
 - (NSFetchedResultsController *) createFetchResultsControllerWithEntityForName:(NSString *)aEntity
@@ -139,15 +146,43 @@
                                                                       andSorts:(NSArray *)sorts
                                                                   andCacheName:(NSString *)aCacheName;
 
+/**
+ * 設定這次專案產生的檔案，所屬的資料夾的名稱
+ */
 + (void) setAppName:(NSString *)aAppName;
 
+/**
+ * 依照給予的keys 拿取單一物件內參數，用一個 dictionary 回傳
+ * Warning 一次只能拿一個物件
+ * @param aClassName 物件類別
+ * @param aKeys 要拿取的參數 string array
+ * @param pred 判斷物件的條件
+ * @return 物件資料
+ */
 - (NSDictionary *) objectValuesFor:(NSString *)aClassName WithKeys:(NSArray *)aKeys andPredicate:(NSPredicate *)pred;
+
+/**
+ * 回傳資料庫中是否能找到符合條件該物件
+ * @param aClassName 物件類別
+ * @param pred 判斷物件的條件
+ */
 - (BOOL) isNoneFor:(NSString *)aClassName andPredicate:(NSPredicate *)pred;
 
+/**
+ * release data manager相關的參數
+ */
 - (void) closeMOCandPSCComplete:(void (^)(void))aComplete;
+
+/**
+ * release data manager相關的參數 並且刪除該產生出來的 sqlite 的檔案 (如果是 NSSQLiteStoreType )
+ */
 - (void) closeMOCandPSCWtihDeleteDataBaseFileComplete:(void (^)(void))aComplete;
 
-//// overrite me If need
+/**
+ * 專案中的 DataManager 對應到 xcoredatamodel的檔案名稱
+ *
+ * overrite me If need
+ */
 - (NSString *)managedObjectModelName;
 
 @end
