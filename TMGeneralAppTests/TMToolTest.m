@@ -64,4 +64,28 @@
     STAssertEqualObjects(formate, @"2012.12.31 - 16:00:00+0800", @"default formate wrong");
 }
 
+- (void) testString2NSDate
+{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy.MM.dd HH:mm:ss"];
+
+    NSDate *target = [formatter dateFromString:@"2013.01.01 00:00:00"];
+    
+    NSDate *result = tmNSDateString(@"2013.01.01 00:00:00", @"yyyy.MM.dd HH:mm:ss");
+    
+    STAssertEqualObjects(target, result, nil);
+}
+
+- (void) testString2NSDateWithNil
+{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy.MM.dd HH:mm"];
+    
+    NSDate *target = [formatter dateFromString:@"2013.01.01 00:10"];
+    
+    NSDate *result = tmNSDateString(@"2013.01.01 00:10", nil);
+    
+    STAssertEqualObjects(target, result, nil);
+}
+
 @end

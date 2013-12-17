@@ -344,6 +344,30 @@ void tmLabelSizeFitTextSize(UILabel *aText, float aRefWidth)
     aText.frame = f;
 }
 
+/**
+ *  讓  UILabel 大小fit text的寬度
+ */
+void tmLabelSizeFitTextSizeWidth(UILabel *aText, float aRefWidth)
+{
+    CGSize s = tmStringSize(aText.text, aText.font, aRefWidth);
+    CGRect f = aText.frame;
+    f.size.width = s.width;
+    f.size.height = MAX(f.size.height, s.height);
+    aText.frame = f;
+}
+
+/**
+ *  讓  UILabel 大小fit text的高度
+ */
+void tmLabelSizeFitTextSizeHeight(UILabel *aText, float aRefWidth)
+{
+    CGSize s = tmStringSize(aText.text, aText.font, aRefWidth);
+    CGRect f = aText.frame;
+    f.size.width = MAX(f.size.width, s.width);
+    f.size.height = s.height;
+    aText.frame = f;
+}
+
 void tmBringUIViewBehindAtY(UIView *aSecond, UIView *aRefView, float aOffset)
 {
     CGRect newFrame = aSecond.frame;

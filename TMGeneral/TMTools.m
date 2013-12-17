@@ -31,6 +31,13 @@
 #import <CommonCrypto/CommonHMAC.h>
 #import "GTMStringEncoding.h"
 
+static NSMutableDictionary *gCacheDataFormatters;
+
+void removeToolsCaches()
+{
+    gCacheDataFormatters = nil;
+}
+
 NSString *tmStringFromMD5(NSString *aString)
 {
     
@@ -52,14 +59,44 @@ NSString *tmStringFromMD5(NSString *aString)
 
 NSString *tmStringNSDate(NSDate *aDate, NSString *aFormat)
 {
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    if (gCacheDataFormatters == nil) {
+        gCacheDataFormatters = [[NSMutableDictionary alloc] init];
+    }
+    
     if (aFormat == nil) {
-        [formatter setDateFormat:@"yyyy.MM.dd HH:mm"];
-    } else
+        aFormat = @"yyyy.MM.dd HH:mm";
+    }
+    
+    NSDateFormatter *formatter = gCacheDataFormatters[aFormat];
+    if (formatter == nil) {
+        formatter = [[NSDateFormatter alloc] init];
         [formatter setDateFormat:aFormat];
+        gCacheDataFormatters[aFormat] = formatter;
+    }
     
     NSString *__autoreleasing resultString = [formatter stringFromDate:aDate];
     return resultString;
+}
+
+NSDate *tmNSDateString(NSString *aDateString, NSString *aFormat)
+{
+    if (gCacheDataFormatters == nil) {
+        gCacheDataFormatters = [[NSMutableDictionary alloc] init];
+    }
+    
+    if (aFormat == nil) {
+        aFormat = @"yyyy.MM.dd HH:mm";
+    }
+    
+    NSDateFormatter *formatter = gCacheDataFormatters[aFormat];
+    if (formatter == nil) {
+        formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:aFormat];
+        gCacheDataFormatters[aFormat] = formatter;
+    }
+    
+    NSDate *__autoreleasing resultDate = [formatter dateFromString:aDateString];
+    return resultDate;
 }
 
 NSString *tmStringNSDateByC(NSDate *aDate, const char *aFormat) {

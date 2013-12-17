@@ -77,6 +77,18 @@ extern void tmModifyLabelSizeByFontSize(UILabel *aText, float aMaxFontSize, floa
  */
 extern void tmLabelSizeFitTextSize(UILabel *aText, float aRefWidth);
 
+/**
+ *  讓  UILabel 大小fit text的寬度
+ *  寬度則是如果需要計算過後的高度大於Label的高度才會設定
+ */
+extern void tmLabelSizeFitTextSizeWidth(UILabel *aText, float aRefWidth);
+
+/**
+ *  讓  UILabel 大小fit text的高度
+ *  寬度則是如果需要計算過後的寬度大於Label的寬度才會設定
+ */
+extern void tmLabelSizeFitTextSizeHeight(UILabel *aText, float aRefWidth);
+
 extern void tmBringUIViewBehindAtY(UIView *aSecond, UIView *aRefView, float aOffset);
 
 extern void tmBringUIViewBehindAtX(UIView *aSecond, UIView *aRefView, float aOffset);

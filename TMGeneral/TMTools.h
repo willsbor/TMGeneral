@@ -31,10 +31,14 @@ extern NSString *tmStringFromMD5(NSString *aString);
 extern NSString *tmGetIPAddress();
 
 extern NSString *tmStringNSDate(NSDate *aDate, NSString *aFormat);
+extern NSDate *tmNSDateString(NSString *aDateString, NSString *aFormat);
+
 extern NSString *tmStringNSDateByC(NSDate *aDate, const char *aFormat);
 
 extern NSString *tmStringRemindTimeWithNSDate(NSDate *aDate);
 
 extern NSString *tmGoogleSign(NSString *aURL, NSString* aKey, NSString *aClientID);
+
+extern void removeToolsCaches();
 
 #endif
