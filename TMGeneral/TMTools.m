@@ -51,6 +51,8 @@ void tmActionIfEqualOrGreaterThen5(void (^yesAction)(void) , void (^noAction)(vo
         NSString *currSysVer = [[UIDevice currentDevice] systemVersion];
         if ([currSysVer compare:reqSysVer options:NSNumericSearch] != NSOrderedAscending)
             isVersion = YES;
+        else
+            isVersion = NO;
     });
     
     
@@ -71,6 +73,8 @@ void tmActionIfEqualOrGreaterThen6(void (^yesAction)(void) , void (^noAction)(vo
         NSString *currSysVer = [[UIDevice currentDevice] systemVersion];
         if ([currSysVer compare:reqSysVer options:NSNumericSearch] != NSOrderedAscending)
             isVersion = YES;
+        else
+            isVersion = NO;
     });
     
     
@@ -91,6 +95,8 @@ void tmActionIfEqualOrGreaterThen7(void (^yesAction)(void) , void (^noAction)(vo
         NSString *currSysVer = [[UIDevice currentDevice] systemVersion];
         if ([currSysVer compare:reqSysVer options:NSNumericSearch] != NSOrderedAscending)
             isVersion = YES;
+        else
+            isVersion = NO;
     });
     
     

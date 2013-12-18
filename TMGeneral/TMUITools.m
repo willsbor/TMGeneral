@@ -23,6 +23,7 @@
  */
 
 #import "TMUITools.h"
+#import "TMTools.h"
 #import <QuartzCore/CoreAnimation.h>
 
 UIImage *tmImageResizeAndCutCenter(UIImage *aOriImage, CGSize aTargetSize)
@@ -316,11 +317,28 @@ UIView *tmViewCreateByDatas(NSArray *aDatas, float aWidth, float aLH, NSDictiona
 
 CGSize tmStringSize(NSString *aString, UIFont *aFont, float aRefWidth)
 {
-    CGSize maximumLabelSize = CGSizeMake(aRefWidth,MAXFLOAT);
-    CGSize expectedLabelSize = [aString sizeWithFont:aFont
-                                   constrainedToSize:maximumLabelSize
-                                       lineBreakMode:NSLineBreakByWordWrapping];
+    __block CGSize expectedLabelSize;
     
+    if ([aString respondsToSelector:@selector(boundingRectWithSize:options:attributes:context:)]) {
+        //expectedLabelSize = [aString sizeWithAttributes:@{NSFontAttributeName:aFont}];
+
+        
+         CGSize maximumLabelSize = CGSizeMake(aRefWidth,MAXFLOAT);
+         NSStringDrawingOptions options = NSStringDrawingUsesLineFragmentOrigin;
+         
+         CGRect newRect = [aString boundingRectWithSize:maximumLabelSize
+                                                options:options
+                                             attributes:@{NSFontAttributeName: aFont}
+                                                context:nil];
+         
+         expectedLabelSize = newRect.size;
+    }
+    else {
+        CGSize maximumLabelSize = CGSizeMake(aRefWidth,MAXFLOAT);
+        expectedLabelSize = [aString sizeWithFont:aFont
+                                constrainedToSize:maximumLabelSize
+                                    lineBreakMode:NSLineBreakByWordWrapping];
+    }
     return expectedLabelSize;
 }
 
