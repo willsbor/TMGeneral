@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "TMGeneral"
-  s.version      = "1.17.5"
+  s.version      = "1.18.0"
   s.summary      = "A UI general tool. include UI tool, Data Model, control function."
   s.homepage     = "https://github.com/willsbor/TMGeneral"
   s.license      = 'MIT'
