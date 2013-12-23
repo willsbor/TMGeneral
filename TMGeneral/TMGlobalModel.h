@@ -30,6 +30,10 @@
 #define TMGLOBAL_MODEL_KVO_APP_VERSION      @"_appversion"
 #define TMGLOBAL_MODEL_KVO_API_VERSION    @"_apiVersion"
 
+#define TMGLOBAL_MODEL_WAITINGVIEW_ALERT_TEXT_TAG 24632
+#define TMGLOBAL_MODEL_WAITINGVIEW_ALERT_ACTIVITY_INDICATOR_TAG 3233
+#define TMGLOBAL_MODEL_WAITINGVIEW_ALERT_ACTION_BUTTON_TAG 24633
+
 typedef enum {
     TMGlobal_WaitingView_Animation_Direction_L2R,
     TMGlobal_WaitingView_Animation_Direction_R2L,
@@ -56,6 +60,15 @@ typedef enum {
 
 @property (nonatomic, strong) NSString *appversion;
 @property (nonatomic, strong) NSString *apiVersion;
+
+/**
+ * 客制化 waiting view 
+ * 請包涵
+ #define TMGLOBAL_MODEL_WAITINGVIEW_ALERT_TEXT_TAG 24632
+ #define TMGLOBAL_MODEL_WAITINGVIEW_ALERT_ACTIVITY_INDICATOR_TAG 3233
+ #define TMGLOBAL_MODEL_WAITINGVIEW_ALERT_ACTION_BUTTON_TAG 24633
+ */
+@property (nonatomic, strong) UIView *waitingView;
 
 + (BOOL) isEqualOrGreaterThan7;
 
