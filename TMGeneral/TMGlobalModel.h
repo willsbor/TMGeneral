@@ -89,6 +89,11 @@ typedef enum {
 - (void) waitingViewShowAtPoint:(CGPoint)aPoint withText:(NSString *)aText withDelayHidden:(NSTimeInterval)aHiddenTime withBtnAction:(void (^)(void))aAction;
 
 /**
+ * 修改新的文字的方法 overwrite if need
+ */
+- (CGRect) waitingViewModifyText:(NSString *)aText;
+
+/**
  * 設定 檢查一個flag 如果為nil or NO 則會執行 action 然後 將flag設定成 YES;
  */
 - (void) setOneTimeForTag:(NSString *)aDefineName withAction:(void (^)(void))aAction;
