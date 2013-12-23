@@ -41,7 +41,6 @@ const NSString *TMGlobalAppModeCustome3 = @"TMG_AppMode_Custome_3";
     
 }
 @property (nonatomic, strong) NSDictionary *appModeValueMap;
-@property (nonatomic, strong) UIView *waitingView;
 @property (nonatomic, strong) NSTimer *waitingViewCloseTimer;
 @property (nonatomic, copy) void (^waitingViewAction)(void);
 @end
@@ -175,7 +174,7 @@ static CGFloat g_waitingWidthMargin = 0;
         [self.waitingView.layer setBorderColor: [[UIColor grayColor] CGColor]];
         
         pV = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:(UIActivityIndicatorViewStyleWhite)];
-        pV.tag = 3233;
+        pV.tag = TMGLOBAL_MODEL_WAITINGVIEW_ALERT_ACTIVITY_INDICATOR_TAG;
         [pV startAnimating];
         [self.waitingView addSubview:pV];
         CGRect f = pV.frame;
@@ -188,11 +187,11 @@ static CGFloat g_waitingWidthMargin = 0;
         text.backgroundColor = [UIColor clearColor];
         text.textColor = [UIColor whiteColor];
         text.font = font;
-        text.tag = 24632;
+        text.tag = TMGLOBAL_MODEL_WAITINGVIEW_ALERT_TEXT_TAG;
         [self.waitingView addSubview:text];
         
         actionBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
-        actionBtn.tag = 24633;
+        actionBtn.tag = TMGLOBAL_MODEL_WAITINGVIEW_ALERT_ACTION_BUTTON_TAG;
         actionBtn.frame = CGRectMake(text.frame.origin.x + text.frame.size.width, 0, actionBtnWidth, actionBtnHeight);
         UIImage *image = [UIImage imageWithContentsOfFile:[[self frameworkBundle] pathForResource:@"x" ofType:@"png"]];
         [actionBtn setImage:image forState:(UIControlStateNormal)];
@@ -203,9 +202,9 @@ static CGFloat g_waitingWidthMargin = 0;
         
         self.waitingView.alpha = 0.0;
     } else {
-        text = (UILabel *)[self.waitingView viewWithTag:24632];
-        pV = (UIActivityIndicatorView *)[self.waitingView viewWithTag:3233];
-        actionBtn = (UIButton *)[self.waitingView viewWithTag:24633];
+        text = (UILabel *)[self.waitingView viewWithTag:TMGLOBAL_MODEL_WAITINGVIEW_ALERT_TEXT_TAG];
+        pV = (UIActivityIndicatorView *)[self.waitingView viewWithTag:TMGLOBAL_MODEL_WAITINGVIEW_ALERT_ACTIVITY_INDICATOR_TAG];
+        actionBtn = (UIButton *)[self.waitingView viewWithTag:TMGLOBAL_MODEL_WAITINGVIEW_ALERT_ACTION_BUTTON_TAG];
     }
     
     [self.waitingViewCloseTimer invalidate];
