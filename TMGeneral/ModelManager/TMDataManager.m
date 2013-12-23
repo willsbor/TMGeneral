@@ -352,7 +352,8 @@ static NSMutableSet *databaseFileNames;
 {
 	saveThreshold = 500;
     
-	storageQueue = dispatch_queue_create(class_getName([self class]), NULL);
+	//storageQueue = dispatch_queue_create(class_getName([self class]), NULL);
+    storageQueue = dispatch_get_main_queue();
     
 	storageQueueTag = &storageQueueTag;
 	dispatch_queue_set_specific(storageQueue, storageQueueTag, storageQueueTag, NULL);
@@ -859,7 +860,7 @@ static NSMutableSet *databaseFileNames;
 	// If you remove the assert statement below, you are destroying the sole purpose for this class,
 	// which is to optimize the disk IO by buffering save operations.
 	//
-	NSAssert(!dispatch_get_specific(storageQueueTag), @"Invoked on incorrect queue");
+    //	NSAssert(!dispatch_get_specific(storageQueueTag), @"Invoked on incorrect queue");
 	//
 	// For a full discussion of this method, please see XMPPCoreDataStorageProtocol.h
 	//
@@ -867,19 +868,19 @@ static NSMutableSet *databaseFileNames;
 	//          ^
     
 	OSAtomicIncrement32(&pendingRequests);
-	dispatch_sync(storageQueue, ^{ @autoreleasepool {
+    //	dispatch_sync(storageQueue, ^{ @autoreleasepool {
+    
+    block();
+    
+    // Since this is a synchronous request, we want to return as quickly as possible.
+    // So we delay the maybeSave operation til later.
+    
+    dispatch_async(storageQueue, ^{ @autoreleasepool {
         
-		block();
-        
-		// Since this is a synchronous request, we want to return as quickly as possible.
-		// So we delay the maybeSave operation til later.
-        
-		dispatch_async(storageQueue, ^{ @autoreleasepool {
-            
-			[self maybeSave:OSAtomicDecrement32(&pendingRequests)];
-		}});
-        
-	}});
+        [self maybeSave:OSAtomicDecrement32(&pendingRequests)];
+    }});
+    
+    //	}});
 }
 
 - (void)scheduleBlock:(dispatch_block_t)block
@@ -889,7 +890,7 @@ static NSMutableSet *databaseFileNames;
 	// If you remove the assert statement below, you are destroying the sole purpose for this class,
 	// which is to optimize the disk IO by buffering save operations.
 	//
-	NSAssert(!dispatch_get_specific(storageQueueTag), @"Invoked on incorrect queue");
+    //	NSAssert(!dispatch_get_specific(storageQueueTag), @"Invoked on incorrect queue");
 	//
 	// For a full discussion of this method, please see XMPPCoreDataStorageProtocol.h
 	//
@@ -1005,10 +1006,6 @@ static NSMutableSet *databaseFileNames;
 		[[self class] unregisterDatabaseFileName:databaseFileName];
 	}
     
-#if !OS_OBJECT_USE_OBJC
-	if (storageQueue)
-		dispatch_release(storageQueue);
-#endif
 }
 
 #pragma mark - public function
@@ -1049,14 +1046,14 @@ static NSMutableSet *databaseFileNames;
     dispatch_group_t group = dispatch_group_create();
     
     dispatch_group_async(group, storageQueue, ^{
-        dispatch_sync(dispatch_get_main_queue(), ^{
+    //    dispatch_sync(dispatch_get_main_queue(), ^{
             persistentStoreCoordinator = nil;
             mainThreadManagedObjectContext = nil;
             managedObjectContext = nil;
             managedObjectModel = nil;
 
             aComplete();
-        });
+    //    });
     });
 }
 
