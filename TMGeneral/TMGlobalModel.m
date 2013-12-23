@@ -131,83 +131,89 @@ static CGFloat g_waitingWidthMargin = 0;
     if (_waitingViewAction) _waitingViewAction();
 }
 
-- (void) waitingViewShowAtPoint:(CGPoint)aPoint withText:(NSString *)aText withDelayHidden:(NSTimeInterval)aHiddenTime withBtnAction:(void (^)(void))aAction
+- (UIView *) waitingView
+{
+    if (_waitingView) {
+        [g_baseView addSubview:_waitingView];
+        return _waitingView;
+    }
+    
+    static CGFloat defaultActivityIndWidth = 20.0;   /*activityIndicator 要預留的寬度*/
+    static CGFloat cBuffer = 5.0;
+    static CGFloat tBuffer = 4.0;  ///< 我也忘了這是什麼
+    static CGFloat upBottomBuffer = 8;
+    static CGFloat actionBtnWidth = 30.0;
+    static CGFloat actionBtnHeight = 30.0;
+
+    
+    CGSize screenSize = [[ UIScreen mainScreen ] bounds ].size;
+    UIFont *font = [UIFont systemFontOfSize:12.0];
+    CGSize textSize = tmStringSize(@" ", font, screenSize.width - g_waitingWidthMargin
+                                   - (defaultActivityIndWidth + cBuffer * 3 + tBuffer));
+    
+    
+    _waitingView = [[UIView alloc] initWithFrame:CGRectMake(0, screenSize.height - 60, 130, textSize.height + upBottomBuffer + upBottomBuffer)];
+    _waitingView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.5];
+    [_waitingView.layer setCornerRadius:4.0f];
+    [_waitingView.layer setMasksToBounds:YES];
+    [_waitingView.layer setBorderWidth:1.0f];
+    [_waitingView.layer setBorderColor: [[UIColor grayColor] CGColor]];
+    
+    UIActivityIndicatorView *pV = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:(UIActivityIndicatorViewStyleWhite)];
+    pV.tag = TMGLOBAL_MODEL_WAITINGVIEW_ALERT_ACTIVITY_INDICATOR_TAG;
+    [pV startAnimating];
+    [_waitingView addSubview:pV];
+    CGRect f = pV.frame;
+    f.origin.x = cBuffer;
+    f.origin.y = (_waitingView.frame.size.height - f.size.height) / 2;
+    pV.frame = f;
+    
+    UILabel *text = [[UILabel alloc] initWithFrame:CGRectMake(pV.frame.size.width + 10, 0, 100, textSize.height + upBottomBuffer + upBottomBuffer)];
+    text.numberOfLines = 0;
+    text.backgroundColor = [UIColor clearColor];
+    text.textColor = [UIColor whiteColor];
+    text.font = font;
+    text.tag = TMGLOBAL_MODEL_WAITINGVIEW_ALERT_TEXT_TAG;
+    [_waitingView addSubview:text];
+    
+    UIButton *actionBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
+    actionBtn.tag = TMGLOBAL_MODEL_WAITINGVIEW_ALERT_ACTION_BUTTON_TAG;
+    actionBtn.frame = CGRectMake(text.frame.origin.x + text.frame.size.width, 0, actionBtnWidth, actionBtnHeight);
+    UIImage *image = [UIImage imageWithContentsOfFile:[[self frameworkBundle] pathForResource:@"x" ofType:@"png"]];
+    [actionBtn setImage:image forState:(UIControlStateNormal)];
+    [actionBtn addTarget:self action:@selector(clickActionBtn:) forControlEvents:(UIControlEventTouchUpInside)];
+    [_waitingView addSubview:actionBtn];
+    
+    [g_baseView addSubview:_waitingView];
+    
+    _waitingView.alpha = 0.0;
+    
+    return _waitingView;
+}
+
+- (CGRect) waitingViewModifyText:(NSString *)aText
 {
     static CGFloat upBottomBuffer = 8;
     static CGFloat defaultActivityIndWidth = 20.0;   /*activityIndicator 要預留的寬度*/
     static CGFloat cBuffer = 5.0;
     static CGFloat tBuffer = 4.0;  ///< 我也忘了這是什麼
     static CGFloat actionBtnWidth = 30.0;
-    static CGFloat actionBtnHeight = 30.0;
     static CGFloat actionBtnImgWidth = 19.0;
-    //static CGFloat actionBtnImgHeight = 19.0;
-    
-    if (g_baseView == nil) {
-        return;
-    }
-    
-    self.waitingViewAction = aAction;
     
     CGSize screenSize = [[ UIScreen mainScreen ] bounds ].size;
     UIFont *font = [UIFont systemFontOfSize:12.0];
     CGSize textSize = tmStringSize(aText, font, screenSize.width - g_waitingWidthMargin
                                    - (defaultActivityIndWidth + cBuffer * 3 + tBuffer));
     
+    
     UIActivityIndicatorView *pV;
     UILabel *text;
     UIButton *actionBtn;
-    if (self.waitingView == nil) {
-        if (aText == nil) {
-            aText = @" ";
-        }
-        if (aPoint.x == -3333 && aPoint.y == -3333)
-        {
-            aPoint.x = 0;
-            aPoint.y = 240;
-        }
-        
-        self.waitingView = [[UIView alloc] initWithFrame:CGRectMake(0, screenSize.height - 60, 130, textSize.height + upBottomBuffer + upBottomBuffer)];
-        self.waitingView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.5];
-        [self.waitingView.layer setCornerRadius:4.0f];
-        [self.waitingView.layer setMasksToBounds:YES];
-        [self.waitingView.layer setBorderWidth:1.0f];
-        [self.waitingView.layer setBorderColor: [[UIColor grayColor] CGColor]];
-        
-        pV = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:(UIActivityIndicatorViewStyleWhite)];
-        pV.tag = TMGLOBAL_MODEL_WAITINGVIEW_ALERT_ACTIVITY_INDICATOR_TAG;
-        [pV startAnimating];
-        [self.waitingView addSubview:pV];
-        CGRect f = pV.frame;
-        f.origin.x = cBuffer;
-        f.origin.y = (self.waitingView.frame.size.height - f.size.height) / 2;
-        pV.frame = f;
-        
-        text = [[UILabel alloc] initWithFrame:CGRectMake(pV.frame.size.width + 10, 0, 100, textSize.height + upBottomBuffer + upBottomBuffer)];
-        text.numberOfLines = 0;
-        text.backgroundColor = [UIColor clearColor];
-        text.textColor = [UIColor whiteColor];
-        text.font = font;
-        text.tag = TMGLOBAL_MODEL_WAITINGVIEW_ALERT_TEXT_TAG;
-        [self.waitingView addSubview:text];
-        
-        actionBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
-        actionBtn.tag = TMGLOBAL_MODEL_WAITINGVIEW_ALERT_ACTION_BUTTON_TAG;
-        actionBtn.frame = CGRectMake(text.frame.origin.x + text.frame.size.width, 0, actionBtnWidth, actionBtnHeight);
-        UIImage *image = [UIImage imageWithContentsOfFile:[[self frameworkBundle] pathForResource:@"x" ofType:@"png"]];
-        [actionBtn setImage:image forState:(UIControlStateNormal)];
-        [actionBtn addTarget:self action:@selector(clickActionBtn:) forControlEvents:(UIControlEventTouchUpInside)];
-        [self.waitingView addSubview:actionBtn];
-        
-        [g_baseView addSubview:self.waitingView];
-        
-        self.waitingView.alpha = 0.0;
-    } else {
+    if (self.waitingView) {
         text = (UILabel *)[self.waitingView viewWithTag:TMGLOBAL_MODEL_WAITINGVIEW_ALERT_TEXT_TAG];
         pV = (UIActivityIndicatorView *)[self.waitingView viewWithTag:TMGLOBAL_MODEL_WAITINGVIEW_ALERT_ACTIVITY_INDICATOR_TAG];
         actionBtn = (UIButton *)[self.waitingView viewWithTag:TMGLOBAL_MODEL_WAITINGVIEW_ALERT_ACTION_BUTTON_TAG];
     }
-    
-    [self.waitingViewCloseTimer invalidate];
     
     CGRect newf;
     if (aText != nil) {
@@ -240,6 +246,21 @@ static CGFloat g_waitingWidthMargin = 0;
             actionBtn.alpha = 0.0;
         }
     }
+    
+    return newf;
+}
+
+- (void) waitingViewShowAtPoint:(CGPoint)aPoint withText:(NSString *)aText withDelayHidden:(NSTimeInterval)aHiddenTime withBtnAction:(void (^)(void))aAction
+{
+    if (g_baseView == nil) {
+        return;
+    }
+    
+    self.waitingViewAction = aAction;
+    
+    [self.waitingViewCloseTimer invalidate];
+    
+    CGRect newf = [self waitingViewModifyText:aText];
     
     if (!(aPoint.x == -3333 && aPoint.y == -3333)) {
         CGRect f = newf;
