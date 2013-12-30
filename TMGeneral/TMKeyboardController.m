@@ -148,7 +148,6 @@
     
     NSString *string = [[UITextInputMode currentInputMode] primaryLanguage];
     
-    //HiiirLog(@"[UITextInputMode currentInputMode].primaryLanguage = %@", string);
     //NSRange range = [string rangeOfString:@"0x46de50"];
     if ([string isEqualToString:@"zh-Hant"] == YES
         || [string isEqualToString:@"zh-Hans"] == YES) {

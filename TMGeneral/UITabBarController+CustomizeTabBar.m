@@ -68,15 +68,12 @@ static char UITABBAR_BUTTONS_IDENTIFER;
             CGRect f = view.frame;
             f.size.height = 0;
             view.frame = f;
-			//break;
 		}
         if ([[NSString stringWithFormat:@"%@", [view class]] isEqualToString:@"UITransitionView"] == YES) {
-           // view.frame = CGRectMake(0, 0, 320, 411 + 49);
             CGRect f = view.frame;
             f.size.height += 49.0;
             view.frame = f;
         }
-        //HiiirLog(@"%@ %f, %f, %f ,%f", [view class], view.frame.origin.x, view.frame.origin.y, view.frame.size.width, view.frame.size.height);
 	}
 }
 

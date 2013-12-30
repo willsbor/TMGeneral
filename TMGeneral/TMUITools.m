@@ -148,16 +148,8 @@ UIImage *tmImageRotateByOwnOrientationFrom(UIImage *aOriImage)
             break;
     }
     
-    //CGAffineTransform t = CGAffineTransformMakeRotation(angleRadians);
-    //rotatedViewBox.transform = t;
-    //CGSize rotatedSize = rotatedViewBox.frame.size;
-    
-    //[rotatedViewBox release];
-    //HiiirLog(@"rotatedSize %f,%f", rotatedSize.width, rotatedSize.height);
     UIGraphicsBeginImageContext(rotatedSize);
     CGContextRef bitmap = UIGraphicsGetCurrentContext();
-    //CGContextScaleCTM(bitmap, 1, -1);
-    //CGContextRotateCTM(bitmap, -angleRadians);
     CGContextTranslateCTM(bitmap, rotatedSize.width/2, rotatedSize.height/2);
     CGContextRotateCTM(bitmap, angleRadians);
     
@@ -239,9 +231,7 @@ UIView *tmViewCreateByDatas(NSArray *aDatas, float aWidth, float aLH, NSDictiona
                         tmpL.backgroundColor = [UIColor clearColor];
                         tmpL.textColor = label.textColor;
                         tmpL.textAlignment = NSTextAlignmentLeft;
-                        //tmpL.lineBreakMode = label.lineBreakMode;
-                        //HiiirLog(@"cutString :[%@][%d/%d]", cutString, [cutString length], [label.text length]);
-                        
+
                         [paper addSubview:tmpL];
                         tmpL.frame = CGRectMake(offset.x + markPositionX, offset.y + (aLH * (lineCount)) - _r_size.height, _r_size.width, _r_size.height);
                         markPositionX += _r_size.width;

@@ -202,8 +202,6 @@ NSString *tmStringRemindTimeWithNSDate(NSDate *aDate)
     
     NSDateComponents *breakdownInfo = [sysCalendar components:unitFlags fromDate:aDate  toDate:date1  options:0];
     
-    //HiiirLog(@"Break down: %dmin %dhours %ddays %dmoths",[breakdownInfo minute], [breakdownInfo hour], [breakdownInfo day], [breakdownInfo month]);
-    
     NSString *__autoreleasing resultString = nil;
     if ([breakdownInfo year] != 0) {
         resultString = tmStringNSDate(aDate, @"yyyy.MM.dd HH:mm");
