@@ -53,7 +53,7 @@
     GPUImagePicture *stillImageSource = [[GPUImagePicture alloc] initWithImage:inputImage];
     
     // Linear downsampling
-    GPUImageGaussianBlurFilter *passthroughFilter = [[GPUImageGaussianBlurFilter alloc] init];
+    GPUImageGaussianBlurPositionFilter *passthroughFilter = [[GPUImageGaussianBlurPositionFilter alloc] init];
     passthroughFilter.blurSize = 10.0;
     [stillImageSource addTarget:passthroughFilter];
     [stillImageSource processImage];
