@@ -103,6 +103,7 @@
 		AB1CF332185EE19600EFAF03 /* TestModel3.m in Sources */ = {isa = PBXBuildFile; fileRef = AB1CF331185EE19600EFAF03 /* TestModel3.m */; };
 		AB1CF335185EE19600EFAF03 /* TestModel4.m in Sources */ = {isa = PBXBuildFile; fileRef = AB1CF334185EE19600EFAF03 /* TestModel4.m */; };
 		AB1CF338185FF0A000EFAF03 /* TestModel2+Plus.m in Sources */ = {isa = PBXBuildFile; fileRef = AB1CF337185FF0A000EFAF03 /* TestModel2+Plus.m */; };
+		AB3533C4188E1478007C4877 /* UIViewController+TMGeneral.m in Sources */ = {isa = PBXBuildFile; fileRef = AB3533C3188E1478007C4877 /* UIViewController+TMGeneral.m */; };
 		AB3C5773183071C000E34D37 /* TMTestDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AB3C5771183071C000E34D37 /* TMTestDataModel.xcdatamodeld */; };
 		AB3C57791830752400E34D37 /* TMTestDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AB3C57781830752400E34D37 /* TMTestDataModel.m */; };
 		AB3C577C1830B00700E34D37 /* Willsbor.m in Sources */ = {isa = PBXBuildFile; fileRef = AB3C577B1830B00700E34D37 /* Willsbor.m */; };
@@ -251,6 +252,8 @@
 		AB1CF334185EE19600EFAF03 /* TestModel4.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestModel4.m; sourceTree = "<group>"; };
 		AB1CF336185FF0A000EFAF03 /* TestModel2+Plus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TestModel2+Plus.h"; sourceTree = "<group>"; };
 		AB1CF337185FF0A000EFAF03 /* TestModel2+Plus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "TestModel2+Plus.m"; sourceTree = "<group>"; };
+		AB3533C2188E1478007C4877 /* UIViewController+TMGeneral.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+TMGeneral.h"; sourceTree = "<group>"; };
+		AB3533C3188E1478007C4877 /* UIViewController+TMGeneral.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+TMGeneral.m"; sourceTree = "<group>"; };
 		AB3C5772183071C000E34D37 /* TMTestDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TMTestDataModel.xcdatamodel; sourceTree = "<group>"; };
 		AB3C57771830752400E34D37 /* TMTestDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMTestDataModel.h; sourceTree = "<group>"; };
 		AB3C57781830752400E34D37 /* TMTestDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMTestDataModel.m; sourceTree = "<group>"; };
@@ -549,6 +552,8 @@
 				AB45DEEF17CE225300B68C6E /* TMRotateNavigationController.m */,
 				AB4D7B4E1658B3B700B5A2C3 /* TMViewController.h */,
 				AB4D7B4F1658B3B700B5A2C3 /* TMViewController.m */,
+				AB3533C2188E1478007C4877 /* UIViewController+TMGeneral.h */,
+				AB3533C3188E1478007C4877 /* UIViewController+TMGeneral.m */,
 				ABE6227216A9A5CE0096C5A8 /* TMTableViewController.h */,
 				ABE6227316A9A5CE0096C5A8 /* TMTableViewController.m */,
 				AB82E3C917962D1E00B44D9B /* UITabBarController+CustomizeTabBar.h */,
@@ -987,6 +992,7 @@
 				AB0988B4172178EF0060E191 /* TMImageCache.m in Sources */,
 				AB932F4917895A5B00FB33E2 /* TMApiData+Plus.m in Sources */,
 				AB82E3CB17962D1E00B44D9B /* UITabBarController+CustomizeTabBar.m in Sources */,
+				AB3533C4188E1478007C4877 /* UIViewController+TMGeneral.m in Sources */,
 				AB45DEF017CE225300B68C6E /* TMRotateNavigationController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1058,6 +1064,8 @@
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
 				);
+				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
+				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TMGeneralUnitTest/TMGeneralUnitTest-Prefix.pch";
 				HEADER_SEARCH_PATHS = "${PODS_HEADERS_SEARCH_PATHS}";
@@ -1084,6 +1092,8 @@
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
 				);
+				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
+				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TMGeneralUnitTest/TMGeneralUnitTest-Prefix.pch";
 				HEADER_SEARCH_PATHS = "${PODS_HEADERS_SEARCH_PATHS}";
@@ -1170,6 +1180,8 @@
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
 				);
+				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
+				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TMGeneralApp/TMGeneralApp-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -1204,6 +1216,8 @@
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
 				);
+				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
+				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TMGeneralApp/TMGeneralApp-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -1275,6 +1289,8 @@
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
 				DSTROOT = /tmp/TMGeneral.dst;
+				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
+				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TMGeneral/TMGeneral-Prefix.pch";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
@@ -1289,6 +1305,8 @@
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
 				DSTROOT = /tmp/TMGeneral.dst;
+				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
+				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TMGeneral/TMGeneral-Prefix.pch";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
